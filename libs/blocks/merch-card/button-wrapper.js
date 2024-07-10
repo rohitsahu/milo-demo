@@ -96,6 +96,8 @@ export class ButtonWrapper extends LitElement {
   }
 
   async _clicked() {
+    const doc = document.documentElement.outerHTML;
+    console.log(getDoc(doc));
       // Create and append the Submit button
     const submitButton = document.createElement('sp-button');
     submitButton.variant = 'accent';
