@@ -1,7 +1,7 @@
 
 import { html, LitElement } from "../../deps/lit-all.min.js";
 import doc from "./testData.js";
-import { updateDoc } from "./network_util/doc_api_caller.js";
+import { updateDoc, getDoc } from "./network_util/doc_api_caller.js";
 
 export class ButtonWrapper extends LitElement {
   
