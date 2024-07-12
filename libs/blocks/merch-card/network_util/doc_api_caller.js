@@ -99,7 +99,7 @@ const accessToken = 'eyJ0eXAiOiJKV1QiLCJub25jZSI6IjA5TzA3RUNQaXFDWkViQTVHNkwxVW1
 
 export const updateDocument = async (newDocumentContent) => {
     try {
-        const endpoint = "https://graph.microsoft.com/v1.0/me/drive/items/01MYGN7U2U66FD5US75RHLF2W7HPOVPRNJ/content";
+        const endpoint = "https//localhost:3000/users/drive/update";
         //const response = await fetch(`https://graph.microsoft.com/v1.0/sites/${siteId}/drive/items/${documentId}/content`, {
          
         const response = await fetch(endpoint, {
