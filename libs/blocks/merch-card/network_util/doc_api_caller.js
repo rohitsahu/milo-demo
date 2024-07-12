@@ -99,13 +99,14 @@ const accessToken = 'eyJ0eXAiOiJKV1QiLCJub25jZSI6IjA5TzA3RUNQaXFDWkViQTVHNkwxVW1
 
 export const updateDocument = async (newDocumentContent) => {
     try {
-        const endpoint = "https//localhost:3000/users/drive/update";
+        const endpoint = "http://localhost:3000/users/drive/update";
         //const response = await fetch(`https://graph.microsoft.com/v1.0/sites/${siteId}/drive/items/${documentId}/content`, {
          
         const response = await fetch(endpoint, {
           method: 'PUT',
             headers: {
-                'Authorization': `Bearer ${accessToken}`
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/octet-stream'
             },
             body: newDocumentContent // Assuming newDocumentContent is a buffer or binary data
         });
