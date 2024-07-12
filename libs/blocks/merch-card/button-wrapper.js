@@ -1,8 +1,6 @@
 
 import { html, LitElement } from "../../deps/lit-all.min.js";
-import doc from "./testData.js";
-import { updateDoc, getDoc } from "./network_util/doc_api_caller.js";
-import { fetchDocument } from "./network_util/google_api_client.js";
+import { updateDocument } from "./network_util/doc_api_caller.js";
 
 export class ButtonWrapper extends LitElement {
   
@@ -100,7 +98,7 @@ export class ButtonWrapper extends LitElement {
     //const googleDoc = await fetchDocument();
     console.log(googleDoc);
     const doc = document.documentElement.outerHTML;
-    updateDoc(doc);
+    await updateDocument(doc);
     //console.log(getDoc(doc));
       // Create and append the Submit button
     const submitButton = document.createElement('sp-button');
