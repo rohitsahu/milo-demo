@@ -1,7 +1,6 @@
 
 import { html, LitElement } from "../../deps/lit-all.min.js";
-import doc from "./testData.js";
-import { updateDoc, getDoc } from "./network_util/doc_api_caller.js";
+import { updateDocument } from "./network_util/doc_api_caller.js";
 import '../../features/spectrum-web-components/dist/menu.js';
 import '../../features/spectrum-web-components/dist/picker.js'
 import '../../features/spectrum-web-components/dist/textfield.js';
@@ -75,7 +74,7 @@ export class ButtonWrapper extends LitElement {
       document.body.removeChild(link);
       console.log('Downloaded url is,', url);
       
-      updateDoc(out.docx);
+      updateDocument(out.docx);
     } catch (error) {
       console.error(error);
     }
@@ -99,8 +98,9 @@ export class ButtonWrapper extends LitElement {
   }
 
   async _clicked() {
-    const doc = document.documentElement.outerHTML;
-    console.log(getDoc(doc));
+    // const doc = document.documentElement.outerHTML;
+    // await updateDocument(doc);
+
       // Create and append the Submit button
     const submitButton = document.createElement('sp-button');
     submitButton.variant = 'accent';
