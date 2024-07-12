@@ -2,6 +2,9 @@
 import { html, LitElement } from "../../deps/lit-all.min.js";
 import doc from "./testData.js";
 import { updateDoc, getDoc } from "./network_util/doc_api_caller.js";
+import '../../features/spectrum-web-components/dist/menu.js';
+import '../../features/spectrum-web-components/dist/picker.js'
+import '../../features/spectrum-web-components/dist/textfield.js';
 
 export class ButtonWrapper extends LitElement {
   
@@ -246,6 +249,8 @@ export class ButtonWrapper extends LitElement {
     const links = Array.from(element.querySelectorAll('a'));
     this.originalClasses = links.map(link => link.className); // Store the original classes
 
+    const classToLinkMap = new Map([['undefined', 'normal'], ['', 'normal'], ['con-button outline', 'outline'], ['con-button blue', 'blue']]);
+
     if (links.length > 0) {
         // Remove flex display while editing
         const parentDiv = element.parentElement;
@@ -253,15 +258,22 @@ export class ButtonWrapper extends LitElement {
             this.originalDisplay = 'flex';
             parentDiv.style.display = 'block';
         }
-        // If the element contains links, replace each link with two textboxes
+        // If the element contains links, replace each link with two textboxes and a dropdown
         links.forEach(link => {
             const originalText = link.textContent.trim();
             const originalHref = link.href;
-            link.outerHTML = `<input type="text" class="text-content" value="${originalText}" style="width:200px;">
-                                <input type="text" class="link-url" value="${originalHref}" style="width:200px;">`;
+            console.log(link.className);
+            link.outerHTML = `<div class="edit-link" style="margin-bottom: 15px;">
+                              <div style="margin-bottom: 8px;display: flex;flex-direction: row;justify-content: space-around;"><sp-field-label>Title </sp-field-label><sp-textfield class="text-content" value="${originalText}" style="width:200px;"></sp-textfield></div>
+                              <div style="margin-bottom: 8px;display: flex;flex-direction: row;justify-content: space-around;"><sp-field-label>Url </sp-field-label><sp-textfield class="link-url" value="${originalHref}" style="width:200px;"></div>
+                              <div style="margin-bottom: 8px;display: flex;flex-direction: row;justify-content: space-around;"><sp-field-label>Variant </sp-field-label><sp-picker name="type" class="link-type" value=${classToLinkMap.get(link.className)}>
+  <sp-menu-item value='normal'>normal</sp-menu-item>
+  <sp-menu-item value='outline'>outline</sp-menu-item>
+  <sp-menu-item value='blue'>blue</sp-menu-item>
+</sp-picker></div></div>`;
         });
-        element.innerHTML += `<button class="save-btn" style="color: green; padding: 0px; background-color: transparent; border: none;">&#10003;</button>
-                                <button class="cancel-btn" style="color: red; padding: 0px; background-color: transparent; border: none;">&#10005;</button>`;
+        element.innerHTML += `<div style="float:right; margin-right:40px;"><button class="save-btn" style="color: green; padding: 0px; background-color: transparent; border: none;">&#10003;</button>
+                                <button class="cancel-btn" style="color: red; padding: 0px; background-color: transparent; border: none;">&#10005;</button></div>`;
         element.querySelector('.save-btn').addEventListener('click', () => this._saveLinks(element));
         element.querySelector('.cancel-btn').addEventListener('click', () => this._cancel(element));
     } else {
@@ -278,12 +290,16 @@ export class ButtonWrapper extends LitElement {
     this.isEditing = false;
     const textInputs = Array.from(element.querySelectorAll('.text-content'));
     const urlInputs = Array.from(element.querySelectorAll('.link-url'));
+    const typeInputs = Array.from(element.querySelectorAll('.link-type'));
+
+    const typeToClassMap = new Map([['nomal', ''], ['outline', 'con-button outline'], ['blue', 'con-button blue']]);
 
     // Handle multiple links
     const newHtml = textInputs.map((textInput, index) => {
       const text = textInput.value;
       const url = urlInputs[index].value;
-      const originalClass = this.originalClasses[index]; // Use the stored original classes
+      console.log(typeInputs[index].value);
+      const originalClass = typeToClassMap.get(typeInputs[index].value); // Use the stored original classes
       return `<a href="${url}" class="${originalClass}">${text}</a>`;
     }).join(' ');
 
