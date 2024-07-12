@@ -93,3 +93,32 @@ export const updateDoc =  async (file) => {
     console.error(`Fetch error while updating document: ${error}`);
   }
 }
+
+
+const accessToken = 'eyJ0eXAiOiJKV1QiLCJub25jZSI6IjA5TzA3RUNQaXFDWkViQTVHNkwxVW12UXZXdEJWMGFyeVJuMEVuZlJPWHMiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik1HTHFqOThWTkxvWGFGZnBKQ0JwZ0I0SmFLcyIsImtpZCI6Ik1HTHFqOThWTkxvWGFGZnBKQ0JwZ0I0SmFLcyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDAiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9mYTdiMWI1YS03YjM0LTQzODctOTRhZS1kMmMxNzhkZWNlZTEvIiwiaWF0IjoxNzIwNzYyMDgxLCJuYmYiOjE3MjA3NjIwODEsImV4cCI6MTcyMDc2NzU5MywiYWNjdCI6MCwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhYQUFBQUppRnBKS3hrQzkwUStSYmxrSnVHN3BLbUZaU2ZZa0NHMjZTN3c1Q2tTM1A1T0Exa1ZYUWZMQzBVYzVWV2g0eDFPTGFxWXVYUGJyRFZ6Z0w2NGRveFg5eXR2N2I2Q2FrNlZ2RnZNa2VZMVo4PSIsImFtciI6WyJwd2QiLCJtZmEiXSwiYXBwX2Rpc3BsYXluYW1lIjoiR3JhcGggRXhwbG9yZXIiLCJhcHBpZCI6ImRlOGJjOGI1LWQ5ZjktNDhiMS1hOGFkLWI3NDhkYTcyNTA2NCIsImFwcGlkYWNyIjoiMCIsImZhbWlseV9uYW1lIjoiU2FodSIsImdpdmVuX25hbWUiOiJSb2hpdCIsImlkdHlwIjoidXNlciIsImlwYWRkciI6IjEyMi4xNjEuNjkuMjciLCJuYW1lIjoiUm9oaXQgU2FodSIsIm9pZCI6IjhhYTFiMTA2LTc5N2QtNGRjZi04ZjE4LTFlYTFhNTJiMjBlNiIsIm9ucHJlbV9zaWQiOiJTLTEtNS0yMS03NjI5Nzk2MTUtMjAzMTU3NTI5OS05Mjk3MDEwMDAtNTY5OTIzIiwicGxhdGYiOiI1IiwicHVpZCI6IjEwMDMwMDAwOUE5MUM5QUUiLCJyaCI6IjAuQVNZQVdodDctalI3aDBPVXJ0TEJlTjdPNFFNQUFBQUFBQUFBd0FBQUFBQUFBQUFtQUYwLiIsInNjcCI6IkFjY2Vzc1Jldmlldy5SZWFkLkFsbCBDYWxlbmRhcnMuUmVhZFdyaXRlIENvbnRhY3RzLlJlYWRXcml0ZSBEZXZpY2VNYW5hZ2VtZW50QXBwcy5SZWFkLkFsbCBEZXZpY2VNYW5hZ2VtZW50QXBwcy5SZWFkV3JpdGUuQWxsIERldmljZU1hbmFnZW1lbnRDb25maWd1cmF0aW9uLlJlYWQuQWxsIERldmljZU1hbmFnZW1lbnRDb25maWd1cmF0aW9uLlJlYWRXcml0ZS5BbGwgRGV2aWNlTWFuYWdlbWVudE1hbmFnZWREZXZpY2VzLlByaXZpbGVnZWRPcGVyYXRpb25zLkFsbCBEZXZpY2VNYW5hZ2VtZW50TWFuYWdlZERldmljZXMuUmVhZC5BbGwgRGV2aWNlTWFuYWdlbWVudE1hbmFnZWREZXZpY2VzLlJlYWRXcml0ZS5BbGwgRGV2aWNlTWFuYWdlbWVudFJCQUMuUmVhZC5BbGwgRGV2aWNlTWFuYWdlbWVudFJCQUMuUmVhZFdyaXRlLkFsbCBEZXZpY2VNYW5hZ2VtZW50U2VydmljZUNvbmZpZy5SZWFkLkFsbCBEZXZpY2VNYW5hZ2VtZW50U2VydmljZUNvbmZpZy5SZWFkV3JpdGUuQWxsIERpcmVjdG9yeS5BY2Nlc3NBc1VzZXIuQWxsIERpcmVjdG9yeS5SZWFkV3JpdGUuQWxsIEZpbGVzLlJlYWRXcml0ZS5BbGwgR3JvdXAuUmVhZC5BbGwgR3JvdXAuUmVhZFdyaXRlLkFsbCBJZGVudGl0eVJpc2tFdmVudC5SZWFkLkFsbCBNYWlsLlJlYWRXcml0ZSBNYWlsYm94U2V0dGluZ3MuUmVhZFdyaXRlIE5vdGVzLlJlYWRXcml0ZS5BbGwgb3BlbmlkIFBlb3BsZS5SZWFkIHByb2ZpbGUgUmVwb3J0cy5SZWFkLkFsbCBTaXRlcy5SZWFkV3JpdGUuQWxsIFRhc2tzLlJlYWRXcml0ZSBVc2VyLlJlYWQgVXNlci5SZWFkQmFzaWMuQWxsIFVzZXIuUmVhZFdyaXRlIFVzZXIuUmVhZFdyaXRlLkFsbCBlbWFpbCIsInNpZ25pbl9zdGF0ZSI6WyJrbXNpIl0sInN1YiI6IkJWYl9sbUs3WEdSLWowSjk1a3dvbEpHWXV6UGlscnowRE5OMjl1RTJDQjQiLCJ0ZW5hbnRfcmVnaW9uX3Njb3BlIjoiV1ciLCJ0aWQiOiJmYTdiMWI1YS03YjM0LTQzODctOTRhZS1kMmMxNzhkZWNlZTEiLCJ1bmlxdWVfbmFtZSI6InJvc2FodUBhZG9iZS5jb20iLCJ1cG4iOiJyb3NhaHVAYWRvYmUuY29tIiwidXRpIjoiMVVQbFlvejRLMG1XVkdSTmREVlhBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiYjc5ZmJmNGQtM2VmOS00Njg5LTgxNDMtNzZiMTk0ZTg1NTA5Il0sInhtc19jYyI6WyJDUDEiXSwieG1zX2lkcmVsIjoiMSAxMCIsInhtc19zc20iOiIxIiwieG1zX3N0Ijp7InN1YiI6ImVGZm00U0hxQmw1Ni1tckE2anZVUUNsa1MwOXVPUHVqOG8xRWZYMDU2WkUifSwieG1zX3RjZHQiOjEzNjE4MTI3NDV9.FP9DbDGKemFSCRphfpTPEXJNZEPWFJrrXXiHtcHKdZhlPSbMmpo9-Y8i_cjCmTCWCMPikc7kTzXduwpA8Bz0uOxYFMXjNj2Yca-AZOPAC6VNITPMXH83QcMrGEBRIKaC-pj9J4u0UlPSZ4spDfp239gRIyhFiH-wmfIpnPkUC44nnAcRgvmE8kzOqKwv5oJ40DPlP2Q0ojob7sxIMSDTF9GFdCodbCJd7pF2AJSL68jXIHU9mPwAqDownc6zWbAVt9tM6M-KRnkuhSczsqCwyWQ0aHoBAJRm_uRmIgbZwUIv2xfHeohhivVc4R1-qfzwbdE05n4Um8J0aFi4Hsuiew';
+
+export const updateDocument = async (newDocumentContent) => {
+    try {
+        const endpoint = "https://graph.microsoft.com/v1.0/me/drive/items/01MYGN7U2U66FD5US75RHLF2W7HPOVPRNJ/content";
+        //const response = await fetch(`https://graph.microsoft.com/v1.0/sites/${siteId}/drive/items/${documentId}/content`, {
+         
+        const response = await fetch(endpoint, {
+          method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            },
+            body: newDocumentContent // Assuming newDocumentContent is a buffer or binary data
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        console.log('Document updated successfully');
+        return true; // or return response depending on what Microsoft Graph API returns
+    } catch (error) {
+        console.error('Error updating document:', error);
+        throw error;
+    }
+}
+

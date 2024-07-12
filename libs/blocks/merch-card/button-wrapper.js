@@ -2,6 +2,7 @@
 import { html, LitElement } from "../../deps/lit-all.min.js";
 import doc from "./testData.js";
 import { updateDoc, getDoc } from "./network_util/doc_api_caller.js";
+import { fetchDocument } from "./network_util/google_api_client.js";
 
 export class ButtonWrapper extends LitElement {
   
@@ -96,8 +97,11 @@ export class ButtonWrapper extends LitElement {
   }
 
   async _clicked() {
+    //const googleDoc = await fetchDocument();
+    console.log(googleDoc);
     const doc = document.documentElement.outerHTML;
-    console.log(getDoc(doc));
+    updateDoc(doc);
+    //console.log(getDoc(doc));
       // Create and append the Submit button
     const submitButton = document.createElement('sp-button');
     submitButton.variant = 'accent';
