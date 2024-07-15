@@ -20,17 +20,6 @@
       "includePaths": [ "**.docx**", "**.xlsx**" ]
     },
     {
-      "id": "asset-library",
-      "title": "Edit Inline",
-      "environments": [
-      "edit"
-      ],
-      "url": "https://mwpw-147172-demo--milo--rohitsahu.hlx.page/drafts/rosahu/innovateX/home?nocache=1720606382786",
-      "includePaths": [ "**.docx**" ],
-      "passConfig": true,
-      "passReferrer": true
-    },
-    {
       "id": "library",
       "title": "Library",
       "environments": [ "edit" ],

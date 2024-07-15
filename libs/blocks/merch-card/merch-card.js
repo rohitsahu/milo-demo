@@ -4,7 +4,6 @@ import { getMetadata } from '../section-metadata/section-metadata.js';
 import { processTrackingLabels } from '../../martech/attributes.js';
 import { replaceKey } from '../../features/placeholders.js';
 import '../../deps/merch-card.js';
-import { ButtonWrapper } from './button-wrapper.js';
 
 const TAG_PATTERN = /^[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-].*$/;
 
@@ -45,7 +44,7 @@ const HEADING_MAP = {
   },
 };
 
-const INNER_ELEMENTS_SELECTOR = 'h2, h3, h4, h5, h6, p, ul, em';
+const INNER_ELEMENTS_SELECTOR = 'h2, h3, h4, h5, p, ul, em';
 
 const MULTI_OFFER_CARDS = [PLANS, PRODUCT, MINI_COMPARE_CHART, TWP];
 // Force cards to refresh once they become visible so that the footer rows are properly aligned.
@@ -172,9 +171,6 @@ const parseContent = async (el, merchCard) => {
   innerElements.forEach((element) => {
     let { tagName } = element;
     if (isHeadingTag(tagName)) {
-      element.classList.add('editable');
-      element.classList.add('addable');
-      element.classList.add('removable');
       let slotName = SLOT_MAP[merchCard.variant]?.[tagName] || SLOT_MAP_DEFAULT[tagName];
       if (slotName) {
         if (['H2', 'H3', 'H4', 'H5'].includes(tagName)) {
@@ -196,7 +192,6 @@ const parseContent = async (el, merchCard) => {
           }
         }
         element.setAttribute('slot', slotName);
-
         const newElement = createTag(tagName);
         Array.from(element.attributes).forEach((attr) => {
           newElement.setAttribute(attr.name, attr.value);
@@ -205,41 +200,8 @@ const parseContent = async (el, merchCard) => {
         merchCard.append(newElement);
       }
       return;
-    } else if (tagName ==='H6' && element.firstElementChild?.tagName === 'EM') {
-      element.classList.add('editable');
-      const calloutSlot = createTag('div', { slot: 'callout-text' });
-      const calloutContentWrapper = createTag('div', { class: 'callout-content-wrapper' });
-      const calloutContent = createTag('div', { class: 'callout-content' });
-      const emElement = element.firstElementChild;
-      let imgElement = null;
-      const children = Array.from(emElement.childNodes);
-      for (let i = 0; i < children.length; i++) {
-          const child = children[i];
-          if (child.nodeType === Node.ELEMENT_NODE && child.tagName === 'A' && child.innerText.trim() === '#ICON'){
-              const hrefParts = child.getAttribute('href').split('#');
-              const tooltipText = hrefParts[1];
-              const imgSrc = hrefParts[0];
-              imgElement = document.createElement('img');
-              imgElement.src = imgSrc;
-              imgElement.title = tooltipText;
-              imgElement.className = 'callout-icon';
-              imgElement.style.width = '16px';
-              imgElement.style.height = '16px';
-              child.parentNode.removeChild(child);
-          } else {
-              calloutContent.append(child.cloneNode(true));
-          }
-      }
-      calloutContentWrapper.append(calloutContent);
-      if (imgElement) {
-          calloutContentWrapper.append(imgElement);
-      }
-      calloutSlot.append(calloutContentWrapper);
-      merchCard.append(calloutSlot);
-      return;
     }
     if (isParagraphTag(tagName)) {
-      element.classList.add('editable');
       bodySlot.append(element);
       merchCard.append(bodySlot);
     }
@@ -402,21 +364,12 @@ export default async function init(el) {
       }
     }
   }
-
-  await Promise.all([
-    import(`../../features/spectrum-web-components/dist/theme.js`),
-    import(`../../features/spectrum-web-components/dist/button.js`),
-    import(`../../features/spectrum-web-components/dist/icons-workflow.js`),
-  ]);
-
-  const app = createTag('sp-theme', { color: 'light', scale: 'medium' });
-  const merchCard = createTag('merch-card', { class: styles.join(' '), 'data-block': '' }, '', { parent: app });
+  const merchCard = createTag('merch-card', { class: styles.join(' '), 'data-block': '' });
   merchCard.setAttribute('variant', cardType);
   merchCard.setAttribute('size', styles.find((style) => CARD_SIZES.includes(style)) || '');
   if (el.dataset.removedManifestId) {
     merchCard.dataset.removedManifestId = el.dataset.removedManifestId;
   }
-
   let tags = {};
   if (el.lastElementChild?.previousElementSibling?.querySelector('h3,h4,h5,h6')) {
     // tag section is available
@@ -524,25 +477,10 @@ export default async function init(el) {
     parseContent(el, merchCard);
 
     const footer = createTag('div', { slot: 'footer' });
-    const editCardDiv = createTag('div', { class: 'edit-card-div', style: 'display: flex; gap: 16px;'});
-    const hr = document.createElement('hr');
-    hr.style.width = '100%';
-    const editbutton = createTag('custom-button', { class: 'edit-card-button' });
-    editCardDiv.append(editbutton);
-    const ctasDiv = createTag('div');
-    ctasDiv.style.width = '100%';
-    ctasDiv.style.display = 'flex';
-    ctasDiv.style.justifyContent = 'flex-end';
-    ctasDiv.style.gap = '16px';
-    
     if (ctas) {
       decorateButtons(ctas, (merchCard.variant === MINI_COMPARE_CHART) ? 'button-l' : undefined);
-      ctasDiv.append(ctas);
+      footer.append(ctas);
     }
-
-    footer.append(ctasDiv);
-    footer.append(hr);
-    footer.append(editCardDiv);
     merchCard.appendChild(footer);
 
     if (MULTI_OFFER_CARDS.includes(cardType)) {
@@ -574,8 +512,7 @@ export default async function init(el) {
   } else {
     parseTwpContent(el, merchCard);
   }
-  
-  el.replaceWith(app);
+  el.replaceWith(merchCard);
   decorateMerchCardLinkAnalytics(merchCard);
-  return app;
+  return merchCard;
 }
