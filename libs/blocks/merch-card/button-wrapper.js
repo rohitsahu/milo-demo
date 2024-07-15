@@ -59,21 +59,6 @@ export class ButtonWrapper extends LitElement {
         createDocumentFromString: this.createDocumentFromString,
       });
       console.log(out.md);
-      // Create a Blob from the docx data
-      const blob = new Blob([out.docx], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
-
-      // Create a URL representing the Blob
-      const url = URL.createObjectURL(blob);
-
-      // Create a download link and click it
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'plan.docx';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      console.log('Downloaded url is,', url);
-      
       updateDocument(out.docx);
     } catch (error) {
       console.error(error);
