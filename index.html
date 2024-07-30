@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Project RAG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, height=400px"/>
+    <script src="../../../libs/features/spectrum-web-components/dist/theme.js" type="module"></script>
+    <script src="index.js" type="module"></script>
+    <script>
+        getUrl = () => {
+            console.log("get url");
+            return window.location.href
+        }
+    </script>
+    </head>
+    <body style="font-family: 'Adobe Clean', adobe-clean, sans-serif; width:100vq">
+        <sp-theme theme="spectrum" color="light" scale="medium">
+         <rag-homepage page="getUrl()"></rag-homepage>
+        </sp-theme>
+  </body>
+</html>

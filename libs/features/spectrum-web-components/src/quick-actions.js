@@ -1,0 +1,1 @@
+import '@spectrum-web-components/quick-actions/sp-quick-actions.js';
