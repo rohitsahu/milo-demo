@@ -18,6 +18,7 @@ export class Toolbar extends LitElement {
                         <toolbar-item text="Subtext"></toolbar-item>
                         <toolbar-item text="Promotext"></toolbar-item>
                         <toolbar-item text="Price"></toolbar-item>
+                         <toolbar-item text="Strike through Price"></toolbar-item>
                         <toolbar-item text="Link"></toolbar-item>
                         <toolbar-item text="AI Callout"></toolbar-item>
                     </div>
@@ -26,7 +27,7 @@ export class Toolbar extends LitElement {
                 <div class="row">
                 <p>Hero Marquee</p>
                 <div class="toolbar-grid">
-                        <toolbar-item text="Default"></toolbar-item>
+                        <toolbar-item text="Default" tag="hero-marquee"></toolbar-item>
                         <toolbar-item text="Center"></toolbar-item>
                         <toolbar-item text="With Video"></toolbar-item>
                 </div>
@@ -43,6 +44,15 @@ export class Toolbar extends LitElement {
                         <toolbar-item text="Large Compactt"></toolbar-item>
                         <toolbar-item text="Quiet"></toolbar-item>
                         <toolbar-item text="Split Large"></toolbar-item>
+                </div>
+                </div>
+
+                  <div class="row">
+                <p>Aside</p>
+                <div class="toolbar-grid">
+                        <toolbar-item text="Small" tag=></toolbar-item>
+                        <toolbar-item text="Medium"></toolbar-item>
+                        <toolbar-item text="Large" tag="aside"></toolbar-item>
                 </div>
                 </div>
 

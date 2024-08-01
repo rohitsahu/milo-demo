@@ -8,12 +8,19 @@ export class ToolbarItem extends LitElement {
     static styles = style;
 
     static properties = {
-        text : {type : String}
+        text : {type : String},
+        tag : {type : String}
     }
+
 
     render () {
         return html`
-            <div id="toolbar-item">
+            <div id="toolbar-item" @click=${()=>{
+                this.dispatchEvent(new CustomEvent("drop-elem",{
+                    bubbles: true,
+                    composed: true,
+                    detail : {component : this.tag}
+                }))}}>
             ${this.text}
             </div>
         `;

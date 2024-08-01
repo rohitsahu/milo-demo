@@ -2,9 +2,13 @@ import { css } from "../../deps/lit-all.min.js";
 
 export const style = css`
     #blank-canvas-main {
-        width: 90%;
-        height: 900px;
         display: flex;
-        margin: auto;
+        flex-direction : column;
+        width : calc(100% - 280px);
+    }
+
+    #container {
+    display:flex;
+    flex-direction : row;
     }
 `;

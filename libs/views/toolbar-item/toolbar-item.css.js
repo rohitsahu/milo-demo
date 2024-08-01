@@ -8,7 +8,7 @@ export const style = css`
         padding: 2px;
         font-size: 12px;
         text-align: center;
-        height : 34px;
+        height : 40px;
         align-content: center;
         border-radius : 8px;
     }

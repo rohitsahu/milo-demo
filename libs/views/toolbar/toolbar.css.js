@@ -3,12 +3,13 @@ import { css } from "../../deps/lit-all.min.js";
 export const style = css`
     #toolbar-container {
         width:260px;
-        height:900px;
+        height:1000px;
         background-color : #F8F8F8;
         box-shadow: 10px 10px 18px darkgrey;
         padding-left : 10px;
         padding-top : 10px;
         outline: 1px solid grey;
+        margin-right:10px;
     }
 
     p {
