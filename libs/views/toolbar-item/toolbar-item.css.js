@@ -11,8 +11,10 @@ export const style = css`
         height : 40px;
         align-content: center;
         border-radius : 8px;
+        line-height: normal;
     }
 
     #toolbar-item:hover {
         background-color: rgba(200, 200, 200, 0.8);
+        color : blue;
     }`;

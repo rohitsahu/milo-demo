@@ -37,6 +37,7 @@ export class BlankCanvas extends LitElement{
     }
 
     elementDroped(comp) {
+        if(comp === undefined) return;
         const component = getComponent(comp);
         this.dynamicListOfElements = [...this.dynamicListOfElements,component];
     }
