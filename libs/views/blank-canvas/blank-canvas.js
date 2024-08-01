@@ -8,7 +8,10 @@ export class BlankCanvas extends LitElement{
     static styles = style;
     render() {
         return html`
-        <div id="blank-canvas-main">
+        <div style="display:flex">
+            <rag-toolbar></rag-toolbar>
+            <div id="blank-canvas-main">
+            </div>
         </div>
         `;
     }
