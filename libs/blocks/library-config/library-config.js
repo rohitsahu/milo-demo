@@ -108,14 +108,12 @@ async function getSuppliedLibrary() {
   const { searchParams } = new URL(window.location.href);
   const repo = searchParams.get('repo');
   const owner = searchParams.get('owner');
-  if (!repo || !owner) return null;
   return fetchLibrary(`https://main--${repo}--${owner}.hlx.live`);
 }
 
 async function fetchAssetsData(path) {
   if (!path) return null;
   const resp = await fetch(path);
-  if (!resp.ok) return null;
 
   const json = await resp.json();
   const assetHrefs = json.entities.map((entity) => entity.links[0].href);
