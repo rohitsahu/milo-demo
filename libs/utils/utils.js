@@ -795,7 +795,7 @@ function decorateSection(section, idx) {
 }
 
 function decorateSections(el, isDoc) {
-  const selector = isDoc ? 'body > main > div' : ':scope > div';
+  const selector = isDoc ? 'body > sp-theme > rag-homepage > blank-canvas > div > div' : ':scope > div';
   return [...el.querySelectorAll(selector)].map(decorateSection);
 }
 
