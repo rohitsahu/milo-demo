@@ -17,11 +17,11 @@ export class Homepage extends LitElement {
             return html`<select-theme style="display:flex;"></select-theme>`;
         } else if (url.includes("theme=product"))
         {
-            const elements = ["hero-marquee", "aside", "media", "aside"];
+            const elements = ["hero-marquee", "aside_l", "media", "aside_m"];
             return html`<blank-canvas .elements="${elements}"></blank-canvas>`
         } else if (url.includes("theme=catalog"))
         {
-            const elements = ["aside", "media", "hero-marquee", "aside"];
+            const elements = ["aside_m", "media", "hero-marquee", "aside_l"];
             return html`<blank-canvas .elements="${elements}"></blank-canvas>`
         }
         else {
