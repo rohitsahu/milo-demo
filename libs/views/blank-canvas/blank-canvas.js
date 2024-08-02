@@ -4,11 +4,12 @@ import { style } from "./blank-canvas.css.js";
 import { style as style1 } from "../../styles/styles.css.js"
 import  { style as style2 } from "../../blocks/hero-marquee/hero-marquee.css.js";
 import { style as style3 } from "../../blocks/aside/aside.css.js";
+import { style as mediaStyle} from "../../blocks/media/media.css.js";
 export class BlankCanvas extends LitElement{
 
     static tag = "blank-canvas";
    
-    static styles = [style, style1, style2, style3];
+    static styles = [style, style1, style2, style3, mediaStyle];
 
     static properties = {
         dynamicListOfElements : {type : Array}
@@ -26,6 +27,13 @@ export class BlankCanvas extends LitElement{
                 unsafeHTML(comp.replace(/\\"/g, '"'))
             }
         `;
+
+    }
+
+    async updated() {
+        let isUpdateComplete = await this.updateComplete;
+        const elem = this.shadowRoot.getElementById("blank-canvas-main");
+        console.log(elem.childElementCount);
 
     }
 
