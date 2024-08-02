@@ -141,7 +141,7 @@ export class BlankCanvas extends LitElement{
       }
 
       _onDragEnd(e) {
-        console.log(dragENd);
+        
         this._draggedElement = null;
         this._offsetX = 0;
         this._offsetY = 0;
