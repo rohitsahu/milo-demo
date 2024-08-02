@@ -19,8 +19,9 @@ export class selectTheme extends LitElement {
         this.selectedDiv.className = "card selected";
     }
 
-    openNewPage = () => {
-        
+    openSelectedTheme = () => {
+        console.log ("open selected theme");
+        window.location.href = "http://localhost:3000/?theme=" + this.selectedDiv.id;
     }
 
     render() {
@@ -47,10 +48,7 @@ export class selectTheme extends LitElement {
                     <h2> Catalog </h2>
                 </div>
             </div>
-            <sp-button @click=${()=> {
-                console.log("clicked change");
-                window.location.href = "http://localhost:3000/"
-            }}>Create Page</sp-button>
+            <sp-button @click=${this.openSelectedTheme}>Create Page</sp-button>
         </div>
             
         `;

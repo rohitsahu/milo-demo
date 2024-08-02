@@ -12,12 +12,14 @@ export class BlankCanvas extends LitElement{
     static styles = [style, style1, style2, style3, mediaStyle];
 
     static properties = {
-        dynamicListOfElements : {type : Array}
+        dynamicListOfElements : {type : Array},
+        elements: { type: Array }
     }
 
     constructor() {
         super();
         this.dynamicListOfElements = [];
+        this.elements = [];
     }
 
     renderComponentFromString(comp) {
@@ -38,6 +40,15 @@ export class BlankCanvas extends LitElement{
     }
 
     renderDynamicElements() {
+        if (this.elements && this.elements.length > 0) {
+            console.log('Elements received:', this.elements);
+            this.elements.forEach((element, index) => {
+                this.dynamicListOfElements = [...this.dynamicListOfElements, getComponent(element)];
+            });
+            this.elements = [];
+        } else {
+            console.log('No elements provided');
+        }
         //this.elementDroped(ragcomponent.heromarquee);
         return html`
             ${this.dynamicListOfElements.map((code)=>this.renderComponentFromString(code))}
