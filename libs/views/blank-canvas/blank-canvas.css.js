@@ -11,4 +11,13 @@ export const style = css`
     display:flex;
     flex-direction : row;
     }
+
+    .child {
+      --dx: 0px;
+      --dy: 0px;
+      position: fixed;
+      flex-shrink: 1;
+      z-index: var(--layer, 0);
+      transform: translate(var(--dx), var(--dy));
+    }
 `;
