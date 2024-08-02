@@ -31,19 +31,19 @@ export class selectTheme extends LitElement {
             <div id="cards-container">
                 <div id="blank" class="card" @click=${() => this.selectTheme("blank")}>
                     <img slot="cover-photo"
-                    src="https://picsum.photos/200/300"
+                    src="https://drive.google.com/thumbnail?id=1ye9AN-PM0sgQcrwwviD8O0rUxGY1baaB"
                     alt="Blank Image"/>
                     <h2> Blank </h2>
                 </div>
                 <div id="product" class="card" @click=${() => this.selectTheme("product")}>
                     <img slot="cover-photo"
-                    src="https://picsum.photos/200/300"
+                    src="https://drive.google.com/thumbnail?id=1Ockqe5WZc63VzlYWeF4KCq0GeSvElqeA"
                     alt="Product Image"/>
                     <h2> Product </h2>
                 </div>
                 <div id="catalog" class="card" @click=${() => this.selectTheme("catalog")}>
                     <img slot="cover-photo"
-                    src="https://picsum.photos/200/300"
+                    src="https://drive.google.com/thumbnail?id=1DUd2TdqDRB4OAn1YeMHObVR4slpdwj5G"
                     alt="Catalog Image"/>
                     <h2> Catalog </h2>
                 </div>

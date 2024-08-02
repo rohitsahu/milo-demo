@@ -49,4 +49,10 @@ export const style = css`
        outline: 2px solid blue;
     }
 
+    img {
+        width : 200px;
+        height : 300px;
+        object-fit : cover;
+    }
+
 `;
