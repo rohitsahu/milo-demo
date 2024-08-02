@@ -1,6 +1,7 @@
 import { html, LitElement } from "../../deps/lit-all.min.js";
 //import { property } from "../../features/spectrum-web-components/src/lit.js";
 import { property } from "../../deps/lit-all.min.js";
+import { getComponent, ragcomponent } from "../html-components/componentStringMap.js";
 const Views = Object.freeze({
     THEME : 0,
     BLANK : 1
@@ -12,10 +13,18 @@ export class Homepage extends LitElement {
     
     render(){
         const url = window.location.href;
-        let selectTheme = url.includes("selectTheme=true");
-        if(selectTheme) {
+        if(url.includes("selectTheme=true")) {
             return html`<select-theme style="display:flex;"></select-theme>`;
-        } else {
+        } else if (url.includes("theme=product"))
+        {
+            const elements = ["hero-marquee", "aside", "media", "aside"];
+            return html`<blank-canvas .elements="${elements}"></blank-canvas>`
+        } else if (url.includes("theme=catalog"))
+        {
+            const elements = ["aside", "media", "hero-marquee", "aside"];
+            return html`<blank-canvas .elements="${elements}"></blank-canvas>`
+        }
+        else {
             return html`<blank-canvas></blank-canvas>`
         }
     }
