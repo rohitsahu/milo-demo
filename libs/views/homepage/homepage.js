@@ -22,10 +22,12 @@ export class Homepage extends LitElement {
         } else if (url.includes("theme=catalog"))
         {
             const elements = ["aside", "media", "hero-marquee", "aside"];
-            return html`<blank-canvas .elements="${elements}"></blank-canvas>`
+            const out = html`<blank-canvas .elements="${elements}"></blank-canvas>`
+            init(out);
+            return out;
         }
         else {
-            return html`<blank-canvas></blank-canvas>`
+            return html`<blank-canvas></blank-canvas>`;
         }
     }
 }
