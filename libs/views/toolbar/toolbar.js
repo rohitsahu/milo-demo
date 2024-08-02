@@ -1,4 +1,5 @@
 import { LitElement, html } from "../../deps/lit-all.min.js";
+import { ragcomponent } from "../html-components/componentStringMap.js";
 import { style } from "./toolbar.css.js";
 
 
@@ -27,7 +28,7 @@ export class Toolbar extends LitElement {
                 <div class="row">
                 <p>Hero Marquee</p>
                 <div class="toolbar-grid">
-                        <toolbar-item text="Default" tag="hero-marquee"></toolbar-item>
+                        <toolbar-item text="Default" tag=${ragcomponent.heromarquee}></toolbar-item>
                         <toolbar-item text="Center"></toolbar-item>
                         <toolbar-item text="With Video"></toolbar-item>
                 </div>
@@ -36,14 +37,14 @@ export class Toolbar extends LitElement {
                 <p>Aside</p>
                 <div class="toolbar-grid">
                         <toolbar-item text="Small"></toolbar-item>
-                        <toolbar-item text="Medium"></toolbar-item>
-                        <toolbar-item text="Large" tag="aside"></toolbar-item>
+                        <toolbar-item text="Medium" tag=${ragcomponent.aside_m}></toolbar-item>
+                        <toolbar-item text="Large" tag=${ragcomponent.aside_l}></toolbar-item>
                 </div>
                 </div>
                 <div class="row">
                 <p>Media</p>
                 <div class="toolbar-grid">
-                        <toolbar-item text="Small" tag="media"></toolbar-item>
+                        <toolbar-item text="Small" tag=${ragcomponent.media}></toolbar-item>
                         <toolbar-item text="Medium"></toolbar-item>
                         <toolbar-item text="Large"></toolbar-item>
                 </div>
