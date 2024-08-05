@@ -112,8 +112,19 @@ export class BlankCanvas extends LitElement{
     
       _onDrop(e) {
         e.preventDefault();
-        if (this._draggedElement) {
-            e.preventDefault();
+        // if (this._draggedElement) {
+        //     e.preventDefault();
+        //     const saved = this.pointerMap.get(this._draggedElementIndex);
+        //     const current = { ...saved.currentPos };
+        //     saved.currentPos = { x: e.clientX, y: e.clientY };
+        //     const delta = {
+        //         x: saved.currentPos.x - current.x,
+        //         y: saved.currentPos.y - current.y,
+        //     }
+        //     this.moveElement(delta);
+        // }
+        let canvasElement = this.shadowRoot.getElementById('blank-canvas-main');
+        if(e.currentTarget === canvasElement) {
             const saved = this.pointerMap.get(this._draggedElementIndex);
             const current = { ...saved.currentPos };
             saved.currentPos = { x: e.clientX, y: e.clientY };
@@ -122,6 +133,73 @@ export class BlankCanvas extends LitElement{
                 y: saved.currentPos.y - current.y,
             }
             this.moveElement(delta);
+        }else {
+            //const target = e.target.closest('.canvas-element');
+            const targetRect = e.currentTarget.getBoundingClientRect();
+            const relativeX = e.clientX - targetRect.left;
+            const relativeY = e.clientY - targetRect.top;
+            const halfWidth = targetRect.width / 2;
+            const halfHeight = targetRect.height / 2;
+
+            let dropLocation;
+            if (relativeX < halfWidth) {
+                dropLocation = 'left';
+            } else {
+                dropLocation = 'right';
+            }
+
+            if (relativeY < halfHeight) {
+                if (dropLocation === 'left') {
+                    dropLocation = 'top-left';
+                } else {
+                    dropLocation = 'top-right';
+                }
+            } else {
+            if (dropLocation === 'left') {
+                dropLocation = 'bottom-left';
+            } else {
+                dropLocation = 'bottom-right';
+            }
+            }
+
+            const draggedIndex = this._draggedElementIndex;
+            const targetIndex = this.dynamicListOfElements.findIndex(
+            (element) => element === e.currentTarget.firstElementChild
+            );
+
+            // Update dynamicListOfElements based on drop location
+            this.updateElementOrder(draggedIndex, targetIndex, dropLocation);
+
+            this._draggedElementIndex = -1;
+            this.requestUpdate();
+        }
+      }
+
+      updateElementOrder(draggedIndex, targetIndex, dropLocation) {
+        const draggedElement = this.dynamicListOfElements[draggedIndex];
+        this.dynamicListOfElements.splice(draggedIndex, 1); // Remove dragged element
+      
+        if (draggedIndex < targetIndex) {
+          targetIndex--; // Adjust target index if dragged from above
+        }
+      
+        switch (dropLocation) {
+          case 'top':
+          case 'top-left':
+          case 'top-right':
+            this.dynamicListOfElements.splice(targetIndex, 0, draggedElement);
+            break;
+          case 'bottom':
+          case 'bottom-left':
+          case 'bottom-right':
+            this.dynamicListOfElements.splice(targetIndex + 1, 0, draggedElement);
+            break;
+          case 'left':
+            this.dynamicListOfElements.splice(targetIndex, 0, draggedElement);
+            break;
+          case 'right':
+            this.dynamicListOfElements.splice(targetIndex + 1, 0, draggedElement);
+            break;
         }
       }
 
