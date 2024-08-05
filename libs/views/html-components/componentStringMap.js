@@ -2,10 +2,11 @@ import { aside_m, aside_l, hero_marquee } from "./hero-marquee.js";
 import { media } from "./media.js";
 
 export const ragcomponent = {
-    heromarquee : "hero-marquee",
+    heromarquee : "Hero Marquee",
     aside_l : "aside_l",
     aside_m : "aside_m",
-    media : "media"
+    media : "Media",
+    merchCard: "Merch Card"
 }
 
 let getComponentMap = () =>  {

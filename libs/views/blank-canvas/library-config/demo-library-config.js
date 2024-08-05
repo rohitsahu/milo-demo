@@ -216,15 +216,15 @@ export default async function init(el) {
   const base = await fetchLibrary("https://milo.adobe.com");//window.location.origin);
   const supplied = await getSuppliedLibrary();
   const libraries = await combineLibraries(base, supplied);
+  return libraries;
+  // // Create the UI
+  // const skLibrary = createTag('div', { class: 'sk-library' });
 
-  // Create the UI
-  const skLibrary = createTag('div', { class: 'sk-library' });
+  // const header = createHeader();
+  // skLibrary.append(header);
 
-  const header = createHeader();
-  skLibrary.append(header);
+  // const list = createList(libraries);
+  // skLibrary.append(list);
 
-  const list = createList(libraries);
-  skLibrary.append(list);
-
-  el.append(skLibrary);
+  // el.append(skLibrary);
 }

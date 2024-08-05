@@ -7,6 +7,8 @@ import { style as style3 } from "../../blocks/aside/aside.css.js";
 import { style as mediaStyle} from "../../blocks/media/media.css.js";
 import { style as libraryConfigStyle } from "./library-config/library-config.css.js"
 import init from "./library-config/demo-library-config.js";
+import { getContainers } from "../../blocks/library-config/lists/blocks.js";
+import { loadArea } from "../../utils/utils.js";
 
 export class BlankCanvas extends LitElement{
 
@@ -16,34 +18,28 @@ export class BlankCanvas extends LitElement{
 
     static properties = {
         dynamicListOfElements : {type : Array},
-        elements: { type: Array }
+        elements: { type: Array },
+        miloLibraries: { type: Object }
     }
 
     constructor() {
         super();
         this.dynamicListOfElements = [];
         this.elements = [];
-    }
-
-    firstUpdated() {
-        init(this.shadowRoot);
+        this.miloLibraries = {};
     }
 
     renderComponentFromString(comp) {
         if(comp === undefined) return nothing;
-        return html`
-            ${
-                unsafeHTML(comp.replace(/\\"/g, '"'))
-            }
-        `;
-
+        return comp;
     }
 
     async updated() {
-        let isUpdateComplete = await this.updateComplete;
-        const elem = this.shadowRoot.getElementById("blank-canvas-main");
-        console.log(elem.childElementCount);
-
+        super.updated();
+        const el = this.shadowRoot.querySelector('div');
+        if(el) {
+            await loadArea(el);
+        }
     }
 
     renderDynamicElements() {
@@ -62,17 +58,67 @@ export class BlankCanvas extends LitElement{
         `;
     }
 
-    elementDroped(comp) {
+    _getComponent(comp) {
+        const block = this.miloLibraries.blocks.find(block => block.name.toLowerCase() === comp.toLowerCase());
+        if (!block) {
+            console.error(`Block with name ${comp} not found`);
+            return null;
+        }
+    
+        return block;
+    }
+
+    async elementDroped(comp, variant) {
+        if(this.miloLibraries === undefined || this.miloLibraries.blocks === undefined) {
+            await this.fetchLibraries();
+        }
+
         if(comp === undefined) return;
-        const component = getComponent(comp);
-        this.dynamicListOfElements = [...this.dynamicListOfElements,component];
+
+        const blockComponent = this._getComponent(comp, 0);
+        if (!blockComponent) return;
+
+        const variantComponent  = await this.getContainersFromBlock(blockComponent);
+        console.log(variantComponent[variant]);
+        
+
+        this.dynamicListOfElements = [...this.dynamicListOfElements, variantComponent[variant].elements[0]];
+    }
+
+    async getContainersFromBlock(block) {
+        const resp = await fetch(`${block.path}.plain.html`);
+        if (!resp.ok) return;
+
+        const html = await resp.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        return getContainers(doc);
+    }
+
+    //move to store
+    async fetchLibraries() {
+        this.miloLibraries = await init(this.shadowRoot);
+
+        // Define the old and new domains
+        const oldDomain = "https://main--milo--adobecom.hlx.page/docs/library/blocks/";
+        const newDomain = "https://main--milo-demo--rohitsahu.hlx.page/blocks/";
+
+        // Iterate over the blocks and replace the domain in the path
+        if (this.miloLibraries && Array.isArray(this.miloLibraries.blocks)) {
+        this.miloLibraries.blocks = this.miloLibraries.blocks.map(block => {
+            if (block.path.startsWith(oldDomain)) {
+            block.path = block.path.replace(oldDomain, newDomain);
+            }
+            return block;
+        });
+        }
     }
 
     render() {
-        //this.elementDroped(ragcomponent.heromarquee);
         return html`
         <div id="container">
-            <rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component)}}></rag-toolbar>
+            <rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component, event.detail.variant)}}></rag-toolbar>
             <div id="blank-canvas-main">
             ${this.renderDynamicElements()}
             </div>
