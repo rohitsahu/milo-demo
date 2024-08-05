@@ -1,16 +1,18 @@
-import { aside, hero_marquee } from "./hero-marquee.js";
+import { aside_m, aside_l, hero_marquee } from "./hero-marquee.js";
 import { media } from "./media.js";
 
 export const ragcomponent = {
     heromarquee : "hero-marquee",
-    aside : "aside",
+    aside_l : "aside_l",
+    aside_m : "aside_m",
     media : "media"
 }
 
 let getComponentMap = () =>  {
     const componentToStringMap = new Map();
     componentToStringMap.set(ragcomponent.heromarquee,hero_marquee());
-    componentToStringMap.set(ragcomponent.aside,aside());
+    componentToStringMap.set(ragcomponent.aside_l,aside_l());
+    componentToStringMap.set(ragcomponent.aside_m,aside_m());
     componentToStringMap.set(ragcomponent.media,media());
     return componentToStringMap;
 }
