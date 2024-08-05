@@ -5,11 +5,13 @@ import { style as style1 } from "../../styles/styles.css.js"
 import  { style as style2 } from "../../blocks/hero-marquee/hero-marquee.css.js";
 import { style as style3 } from "../../blocks/aside/aside.css.js";
 import { style as mediaStyle} from "../../blocks/media/media.css.js";
+import { styles as sectionMetadatastyle} from "../../blocks/section-metadata/section-metadata.css.js"
+import { style as videoStyle } from "../../blocks/video/video.css.js";
 export class BlankCanvas extends LitElement{
 
     static tag = "blank-canvas";
    
-    static styles = [style, style1, style2, style3, mediaStyle];
+    static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle];
 
     static properties = {
         dynamicListOfElements : {type : Array},
