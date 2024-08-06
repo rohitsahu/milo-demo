@@ -1190,10 +1190,15 @@ export function loadToolbar() {
   parent.style ="display:flex; flex-direction: row;";
   let main = document.querySelector("main");
   main.style="display:block; width: calc(100% - 280px)"
-  main.addEventListener("drop-elem",(e)=>{console.log("event click : ",e.target.detail.component)
-})
   parent.insertBefore(toolbar,main);
 }
+
+export function loadCanvas() {
+  let canvas = createTag("blank-canvas");
+  let main = document.querySelector("main");
+  main.append(canvas)
+}
+
 export async function loadArea(area = document) {
   const isDoc = area === document;
 
@@ -1219,6 +1224,10 @@ export async function loadArea(area = document) {
     areaBlocks.forEach((block) => {
       if (!block.className.includes('metadata')) block.dataset.block = '';
     });
+  }
+
+  if(sections.length==1) {
+    loadCanvas();
   }
 
   const currentHash = window.location.hash;
