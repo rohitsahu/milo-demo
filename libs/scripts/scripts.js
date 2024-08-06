@@ -178,6 +178,6 @@ const eagerLoad = (img) => {
   performance.mark('loadpage');
   setConfig(config);
   loadLana({ clientId: 'milo' });
-  loadToolbar();
+  //loadToolbar();
   await loadArea();
 }());
