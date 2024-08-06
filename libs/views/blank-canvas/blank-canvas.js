@@ -8,72 +8,70 @@ import { style as mediaStyle} from "../../blocks/media/media.css.js";
 export class BlankCanvas extends LitElement{
 
     static tag = "blank-canvas";
-   
+  
     static styles = [style, style1, style2, style3, mediaStyle];
 
     static properties = {
-        dynamicListOfElements : {type : Array},
-        elements: { type: Array },
-        draggedElementIndex: {type: Number},
-        _draggedElement: {type: HTMLElement},
-        _offsetX: {type: Number},
-        _offsetY: {type: Number},
-        pointerMap: {type: Map}
+      dynamicListOfElements : {type : Array},
+      elements: { type: Array },
+      draggedElementIndex: {type: Number},
+      _draggedElement: {type: HTMLElement},
+      _offsetX: {type: Number},
+      _offsetY: {type: Number},
+      pointerMap: {type: Map}
     }
 
     constructor() {
-        super();
-        this.dynamicListOfElements = [];
-        this.elements = [];
-        this._draggedElementIndex = -1;
-        this._draggedElement = null;
-        this._offsetX = 0;
-        this._offsetY = 0;
-        this.pointerMap = new Map();
+      super();
+      this.dynamicListOfElements = [];
+      this.elements = [];
+      this._draggedElementIndex = -1;
+      this._draggedElement = null;
+      this._offsetX = 0;
+      this._offsetY = 0;
+      this.pointerMap = new Map();
 
-        this._onDragStart = this._onDragStart.bind(this);
-        this._onDragOver = this._onDragOver.bind(this);
-        this._onDrop = this._onDrop.bind(this);
+      this._onDragStart = this._onDragStart.bind(this);
+      this._onDragOver = this._onDragOver.bind(this);
+      this._onDrop = this._onDrop.bind(this);
     }
 
     renderComponentFromString(comp) {
-        if(comp === undefined) return nothing;
-        return html`
-            ${
-                unsafeHTML(comp.replace(/\\"/g, '"'))
-            }
-        `;
-
+      if(comp === undefined) return nothing;
+      return html`
+          ${
+              unsafeHTML(comp.replace(/\\"/g, '"'))
+          }
+      `;
     }
 
     renderDynamicElements() {
-        if (this.elements && this.elements.length > 0) {
-            console.log('Elements received:', this.elements);
-            this.elements.forEach((element, index) => {
-                this.dynamicListOfElements = [...this.dynamicListOfElements, getComponent(element)];
-            });
-            this.elements = [];
-        } else {
-            console.log('No elements provided');
-        }
+      if (this.elements && this.elements.length > 0) {
+        console.log('Elements received:', this.elements);
+        this.elements.forEach((element, index) => {
+            this.dynamicListOfElements = [...this.dynamicListOfElements, getComponent(element)];
+        });
+        this.elements = [];
+      } else {
+        console.log('No elements provided');
+      }
 
-       return html`
-              ${this.dynamicListOfElements.map((code, index) => html`
-                <div draggable="true"
-                    class="canvas-element"
-                    @dragstart=${(e) => this._onDragStart(e, index)}
-                    @dragover=${this._onDragOver}
-                    @dragenter=${this._onDragEnter}
-                    @drop=${(e) => this._onDrop(e)}
-                    @drag=${(e) => this._onDrag(e, index)}
-                    @dragend=${this._onDragEnd}
-                    key=${index}
-                >
-                  ${this.renderComponentFromString(code)}
-                </div>
-              `)}
-             
-            `;
+      return html`
+        ${this.dynamicListOfElements.map((code, index) => html`
+          <div draggable="true"
+              class="canvas-element"
+              @dragstart=${(e) => this._onDragStart(e, index)}
+              @dragover=${this._onDragOver}
+              @dragenter=${this._onDragEnter}
+              @drop=${(e) => this._onDrop(e)}
+              @drag=${(e) => this._onDrag(e, index)}
+              @dragend=${this._onDragEnd}
+              key=${index}
+          >
+            ${this.renderComponentFromString(code)}
+          </div>
+        `)} 
+      `;
     }
 
     elementDroped(comp) {
@@ -83,104 +81,125 @@ export class BlankCanvas extends LitElement{
         //this.requestUpdate();
     }
 
+    getDropLocation() {
+      let dropLocation;
+      if (relativeX < halfWidth) {
+          dropLocation = 'left';
+        } else {
+          dropLocation = 'right';
+      }
+
+      if (relativeY < halfHeight) {
+        if (dropLocation === 'left') {
+            dropLocation = 'top-left';
+        } else {
+            dropLocation = 'top-right';
+        }
+      } else {
+        if (dropLocation === 'left') {
+            dropLocation = 'bottom-left';
+        } else {
+            dropLocation = 'bottom-right';
+        }
+      }
+      return dropLocation;
+    }
+
+
     _onDragEnter(e) {
         e.preventDefault();
     }
 
     _onDragStart(e, index) {
-        this._draggedElement = e.target;
-        this._draggedElementIndex = index;
-        e.dataTransfer.setData('text/plain', index);
+      this._draggedElement = e.target;
+      this._draggedElementIndex = index;
+      e.dataTransfer.setData('text/plain', index);
 
-        this._offsetX = e.clientX;
-        this._offsetY = e.clientY;
-        this.pointerMap.set(index, {
-            startPos: { x: e.clientX, y: e.clientY },
-            currentPos: { x: e.clientX, y: e.clientY },
-          })
-  
+      this._offsetX = e.clientX;
+      this._offsetY = e.clientY;
+      this.pointerMap.set(index, {
+          startPos: { x: e.clientX, y: e.clientY },
+          currentPos: { x: e.clientX, y: e.clientY },
+        })
       }
     
-      _onDragOver(e) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        const target = e.target.closest('.canvas-element');
-        if (target && target !== this._draggedElement) {
-            e.currentTarget.style.cursor = 'grabbing';
+    _onDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const target = e.target.closest('.canvas-element');
+      if (target && target !== this._draggedElement) {
+          e.currentTarget.style.cursor = 'grabbing';
+      }
+    }
+    
+    _onDrop(e) {
+      e.preventDefault();
+      
+      if (e.dataTransfer.types.includes('text/toolbar-item')) {
+        const elementTag = e.dataTransfer.getData('text/toolbar-item');
+        this.elementDroped(elementTag)
+        _onDragStart(e, 0);
+        // this._onDrop(e);
+      }
+      let canvasElement = this.shadowRoot.getElementById('blank-canvas-main');
+      if(e.currentTarget === canvasElement) {
+        const saved = this.pointerMap.get(this._draggedElementIndex);
+        const current = { ...saved.currentPos };
+        saved.currentPos = { x: e.clientX, y: e.clientY };
+        const delta = {
+            x: saved.currentPos.x - current.x,
+            y: saved.currentPos.y - current.y,
         }
-      }
-    
-      _onDrop(e) {
-        e.preventDefault();
-        // if (this._draggedElement) {
-        //     e.preventDefault();
-        //     const saved = this.pointerMap.get(this._draggedElementIndex);
-        //     const current = { ...saved.currentPos };
-        //     saved.currentPos = { x: e.clientX, y: e.clientY };
-        //     const delta = {
-        //         x: saved.currentPos.x - current.x,
-        //         y: saved.currentPos.y - current.y,
-        //     }
-        //     this.moveElement(delta);
-        // }
-        let canvasElement = this.shadowRoot.getElementById('blank-canvas-main');
-        if(e.currentTarget === canvasElement) {
-            const saved = this.pointerMap.get(this._draggedElementIndex);
-            const current = { ...saved.currentPos };
-            saved.currentPos = { x: e.clientX, y: e.clientY };
-            const delta = {
-                x: saved.currentPos.x - current.x,
-                y: saved.currentPos.y - current.y,
-            }
-            this.moveElement(delta);
-        }else {
-            //const target = e.target.closest('.canvas-element');
-            const targetRect = e.currentTarget.getBoundingClientRect();
-            const relativeX = e.clientX - targetRect.left;
-            const relativeY = e.clientY - targetRect.top;
-            const halfWidth = targetRect.width / 2;
-            const halfHeight = targetRect.height / 2;
+        this.moveElement(delta);
+      }else {
+        const targetRect = e.currentTarget.getBoundingClientRect();
+        const relativeX = e.clientX - targetRect.left;
+        const relativeY = e.clientY - targetRect.top;
+        const halfWidth = targetRect.width / 2;
+        const halfHeight = targetRect.height / 2;
 
-            let dropLocation;
-            if (relativeX < halfWidth) {
-                dropLocation = 'left';
-            } else {
-                dropLocation = 'right';
-            }
+        //let dropLocation = this.getDropLocation(relativeX, relativeY, halfWidth, halfHeight)
+        let dropLocation;
+        if (relativeX < halfWidth) {
+            dropLocation = 'left';
+        } else {
+            dropLocation = 'right';
+        }
 
-            if (relativeY < halfHeight) {
-                if (dropLocation === 'left') {
-                    dropLocation = 'top-left';
-                } else {
-                    dropLocation = 'top-right';
-                }
-            } else {
+        if (relativeY < halfHeight) {
             if (dropLocation === 'left') {
-                dropLocation = 'bottom-left';
+                dropLocation = 'top-left';
             } else {
-                dropLocation = 'bottom-right';
+                dropLocation = 'top-right';
             }
-            }
-
-            const draggedIndex = this._draggedElementIndex;
-            const targetIndex = this.dynamicListOfElements.findIndex(
-            (element) => element === e.currentTarget.firstElementChild
-            );
-
-            // Update dynamicListOfElements based on drop location
-            this.updateElementOrder(draggedIndex, targetIndex, dropLocation);
-
-            this._draggedElementIndex = -1;
-            this.requestUpdate();
+        } else {
+        if (dropLocation === 'left') {
+            dropLocation = 'bottom-left';
+        } else {
+            dropLocation = 'bottom-right';
         }
+        }
+
+        const draggedIndex = this._draggedElementIndex;
+        const targetIndex = this.dynamicListOfElements.findIndex(
+          (element) => {
+            return e.currentTarget.innerHTML.includes(element);
+          }
+        );
+
+        this.updateElementOrder(draggedIndex, targetIndex, dropLocation);
+
+        this._draggedElementIndex = -1;
+        this.requestUpdate();
       }
+    }
 
       updateElementOrder(draggedIndex, targetIndex, dropLocation) {
         const draggedElement = this.dynamicListOfElements[draggedIndex];
         this.dynamicListOfElements.splice(draggedIndex, 1); // Remove dragged element
       
         if (draggedIndex < targetIndex) {
-          targetIndex--; // Adjust target index if dragged from above
+          targetIndex--;
         }
       
         switch (dropLocation) {
@@ -241,5 +260,5 @@ export class BlankCanvas extends LitElement{
             </div>
         </div>
         `;
+      }
     }
-}
