@@ -15,7 +15,12 @@ import {
   loadLana,
   setConfig,
   getMetadata,
+  createTag,
+  loadToolbar,
 } from '../utils/utils.js';
+
+import "../../index.js";
+import "../../libs/features/spectrum-web-components/dist/theme.js"
 
 // Production Domain
 const prodDomains = ['milo.adobe.com'];
@@ -162,9 +167,17 @@ const eagerLoad = (img) => {
 }());
 
 (async function loadPage() {
+  if(window.location.href.includes("?selectTheme=true")) {
+    let homepage = createTag("rag-homepage");
+    document.open();
+    document.append(homepage);
+    document.close();
+    return;
+  }
   if (getMetadata('template') === '404') window.SAMPLE_PAGEVIEWS_AT_RATE = 'high';
   performance.mark('loadpage');
   setConfig(config);
   loadLana({ clientId: 'milo' });
+  loadToolbar();
   await loadArea();
 }());
