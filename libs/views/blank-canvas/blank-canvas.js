@@ -22,6 +22,14 @@ export class BlankCanvas extends LitElement{
         super();
         this.dynamicListOfElements = [];
         this.elements = [];
+        const url = window.location.href;
+        if (url.includes("theme=product"))
+        {
+            this.elements = ["hero-marquee", "aside_l", "media", "aside_m"];
+        } else if (url.includes("theme=catalog"))
+        {
+            this.elements = ["aside_m", "media", "hero-marquee", "aside_l"];
+        }
     }
 
     renderComponentFromString(comp) {
@@ -34,12 +42,9 @@ export class BlankCanvas extends LitElement{
 
     }
 
-    async updated() {
-        let isUpdateComplete = await this.updateComplete;
-        const elem = this.shadowRoot.getElementById("blank-canvas-main");
-        console.log(elem.childElementCount);
-
-    }
+    // connectedCallback() {
+    //     
+    // }
 
     renderDynamicElements() {
         if (this.elements && this.elements.length > 0) {
@@ -51,7 +56,6 @@ export class BlankCanvas extends LitElement{
         } else {
             console.log('No elements provided');
         }
-        //this.elementDroped(ragcomponent.heromarquee);
         return html`
             ${this.dynamicListOfElements.map((code)=>this.renderComponentFromString(code))}
         `;
@@ -64,7 +68,6 @@ export class BlankCanvas extends LitElement{
     }
 
     render() {
-        //this.elementDroped(ragcomponent.heromarquee);
         return html`
         <div id="container">
             <rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component)}}></rag-toolbar>
