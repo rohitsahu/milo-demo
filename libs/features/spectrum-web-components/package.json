@@ -45,7 +45,10 @@
     "@spectrum-web-components/tooltip": "^0.42.5",
     "@spectrum-web-components/toast": "^0.42.5",
     "@spectrum-web-components/tray": "^0.42.5",
-    "@spectrum-web-components/underlay": "^0.42.5"
+    "@spectrum-web-components/underlay": "^0.42.5",
+    "@spectrum-web-components/card": "^0.42.5",
+    "@spectrum-web-components/quick-actions": "^0.42.5"
+
   },
   "devDependencies": {
     "esbuild": "^0.19.8"
