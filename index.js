@@ -4,6 +4,7 @@ import { BlankCanvas } from "./libs/views/blank-canvas/blank-canvas.js";
 import { Toolbar } from "./libs/views/toolbar/toolbar.js";
 import { ToolbarItem } from "./libs/views/toolbar-item/toolbar-item.js";
 import { ComponentPreview } from "./libs/views/component-preview/component-preview.js";
+import { Actionbar } from "./libs/views/rag-actionbar/rag-actionbar.js";
 const defineElement = () => {
 
 if(!customElements.get("select-theme")) {
@@ -30,6 +31,11 @@ if(!customElements.get(ToolbarItem.tag)) {
 if(!customElements.get(ComponentPreview.tag)) {
     customElements.define(ComponentPreview.tag,ComponentPreview);
 }
+
+if(!customElements.get(Actionbar.tag)) {
+    customElements.define(Actionbar.tag,Actionbar);
+}
+
 
 }
 
