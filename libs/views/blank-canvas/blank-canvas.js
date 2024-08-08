@@ -27,6 +27,13 @@ export class BlankCanvas extends LitElement{
       super();
       this.dynamicListOfElements = [];
       this.elements = [];
+      if (url.includes("theme=product"))
+        {
+            this.elements = ["hero-marquee", "aside_l", "media", "aside_m"];
+        } else if (url.includes("theme=catalog"))
+        {
+            this.elements = ["aside_m", "media", "hero-marquee", "aside_l"];
+        }
       this._draggedElementIndex = -1;
       this._draggedElement = null;
       this._offsetX = 0;
@@ -233,7 +240,6 @@ export class BlankCanvas extends LitElement{
     }
 
     render() {
-        //this.elementDroped(ragcomponent.heromarquee);
         return html`
         <div id="container">
             <rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component)}}></rag-toolbar>

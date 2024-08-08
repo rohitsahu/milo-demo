@@ -4,7 +4,6 @@ import { html, LitElement } from "../../deps/lit-all.min.js";
 import { style } from "./select-theme.css.js"
 import "../../features/spectrum-web-components/dist/button.js"
 import '../../features/spectrum-web-components/dist/checkbox.js'
-// import '../../features/spectrum-web-components/dist/card.js'
 
 
 export class selectTheme extends LitElement {
