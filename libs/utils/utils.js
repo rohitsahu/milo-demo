@@ -1193,6 +1193,15 @@ export function loadToolbar() {
   parent.insertBefore(toolbar,main);
 }
 
+export function loadActionbar() {
+
+  let actionbar = createTag("rag-actionbar");
+  actionbar.style = "z-index: 200; position: relative;";
+  let parent = document.querySelector("body");
+  let header = document.querySelector("header");
+  parent.replaceChild(actionbar,header);
+}
+
 export function loadCanvas() {
   let canvas = createTag("blank-canvas");
   let main = document.querySelector("main");
