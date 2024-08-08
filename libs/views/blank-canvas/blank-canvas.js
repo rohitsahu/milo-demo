@@ -5,11 +5,13 @@ import { style as style1 } from "../../styles/styles.css.js"
 import  { style as style2 } from "../../blocks/hero-marquee/hero-marquee.css.js";
 import { style as style3 } from "../../blocks/aside/aside.css.js";
 import { style as mediaStyle} from "../../blocks/media/media.css.js";
+import { styles as sectionMetadatastyle} from "../../blocks/section-metadata/section-metadata.css.js"
+import { style as videoStyle } from "../../blocks/video/video.css.js";
 export class BlankCanvas extends LitElement{
 
     static tag = "blank-canvas";
-  
-    static styles = [style, style1, style2, style3, mediaStyle];
+   
+    static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle];
 
     static properties = {
       dynamicListOfElements : {type : Array},
@@ -61,11 +63,11 @@ export class BlankCanvas extends LitElement{
           <div draggable="true"
               class="canvas-element"
               @dragstart=${(e) => this._onDragStart(e, index)}
-              @dragover=${this._onDragOver}
-              @dragenter=${this._onDragEnter}
+              
+              
               @drop=${(e) => this._onDrop(e)}
-              @drag=${(e) => this._onDrag(e, index)}
-              @dragend=${this._onDragEnd}
+              
+              
               key=${index}
           >
             ${this.renderComponentFromString(code)}
@@ -78,10 +80,9 @@ export class BlankCanvas extends LitElement{
         if(comp === undefined) return;
         const component = getComponent(comp);
         this.dynamicListOfElements = [...this.dynamicListOfElements,component];
-        //this.requestUpdate();
     }
 
-    getDropLocation() {
+    getDropLocation(relativeX, relativeY, halfWidth, halfHeight) {
       let dropLocation;
       if (relativeX < halfWidth) {
           dropLocation = 'left';
@@ -138,7 +139,7 @@ export class BlankCanvas extends LitElement{
       if (e.dataTransfer.types.includes('text/toolbar-item')) {
         const elementTag = e.dataTransfer.getData('text/toolbar-item');
         this.elementDroped(elementTag)
-        _onDragStart(e, 0);
+        this._onDragStart(e, 0);
         // this._onDrop(e);
       }
       let canvasElement = this.shadowRoot.getElementById('blank-canvas-main');
@@ -158,27 +159,8 @@ export class BlankCanvas extends LitElement{
         const halfWidth = targetRect.width / 2;
         const halfHeight = targetRect.height / 2;
 
-        //let dropLocation = this.getDropLocation(relativeX, relativeY, halfWidth, halfHeight)
-        let dropLocation;
-        if (relativeX < halfWidth) {
-            dropLocation = 'left';
-        } else {
-            dropLocation = 'right';
-        }
-
-        if (relativeY < halfHeight) {
-            if (dropLocation === 'left') {
-                dropLocation = 'top-left';
-            } else {
-                dropLocation = 'top-right';
-            }
-        } else {
-        if (dropLocation === 'left') {
-            dropLocation = 'bottom-left';
-        } else {
-            dropLocation = 'bottom-right';
-        }
-        }
+        let dropLocation = this.getDropLocation(relativeX, relativeY, halfWidth, halfHeight)
+       
 
         const draggedIndex = this._draggedElementIndex;
         const targetIndex = this.dynamicListOfElements.findIndex(

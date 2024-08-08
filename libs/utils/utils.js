@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
-
 const MILO_TEMPLATES = [
   '404',
   'featured-story',
+  'index'
 ];
 const MILO_BLOCKS = [
   'accordion',
@@ -1182,6 +1182,23 @@ async function processSection(section, config, isDoc) {
   return section.blocks;
 }
 
+export function loadToolbar() {
+
+  let toolbar = createTag("rag-toolbar");
+  toolbar.style =  "margin-top: 64px;"
+  let parent = document.querySelector("body");
+  parent.style ="display:flex; flex-direction: row;";
+  let main = document.querySelector("main");
+  main.style="display:block; width: calc(100% - 280px)"
+  parent.insertBefore(toolbar,main);
+}
+
+export function loadCanvas() {
+  let canvas = createTag("blank-canvas");
+  let main = document.querySelector("main");
+  main.append(canvas)
+}
+
 export async function loadArea(area = document) {
   const isDoc = area === document;
 
@@ -1207,6 +1224,10 @@ export async function loadArea(area = document) {
     areaBlocks.forEach((block) => {
       if (!block.className.includes('metadata')) block.dataset.block = '';
     });
+  }
+
+  if(sections.length==1) {
+    loadCanvas();
   }
 
   const currentHash = window.location.hash;

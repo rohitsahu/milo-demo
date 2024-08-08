@@ -21,7 +21,8 @@ export class selectTheme extends LitElement {
 
     openSelectedTheme = () => {
         console.log ("open selected theme");
-        window.location.href = "http://localhost:3000/?theme=" + this.selectedDiv.id;
+        let postionQues = window.location.href.indexOf("?");
+        window.location.href = window.location.href.substring(0,postionQues)+"?theme=" + this.selectedDiv.id;
     }
 
     render() {
