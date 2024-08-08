@@ -27,6 +27,7 @@ export class BlankCanvas extends LitElement{
       super();
       this.dynamicListOfElements = [];
       this.elements = [];
+      const url = window.location.href;
       if (url.includes("theme=product"))
         {
             this.elements = ["hero-marquee", "aside_l", "media", "aside_m"];
