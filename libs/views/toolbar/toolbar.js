@@ -15,8 +15,8 @@ export class Toolbar extends LitElement {
                 <div class="row">
                     <p>Text</p>
                     <div class="toolbar-grid">
-                        <toolbar-item text="Heading"></toolbar-item>
-                        <toolbar-item text="Subtext"></toolbar-item>
+                        <toolbar-item text="Heading" tag=${ragcomponent.text} variant=${6}></toolbar-item>
+                        <toolbar-item text="Subtext" tag=${ragcomponent.text} variant=${7}></toolbar-item>
                         <toolbar-item text="Promotext"></toolbar-item>
                         <toolbar-item text="Price"></toolbar-item>
                          <toolbar-item text="Strike through Price"></toolbar-item>
@@ -54,6 +54,7 @@ export class Toolbar extends LitElement {
                     <div class="toolbar-grid">
                         <toolbar-item text="Media block 2up" tag=${ragcomponent.layout} variant=${17}></toolbar-item>
                         <toolbar-item text="Media block 3up" tag=${ragcomponent.layout} variant=${18}></toolbar-item>
+                        <toolbar-item text="Media block 4up" tag=${ragcomponent.layout} variant=${19}></toolbar-item>
                     </div>
                 </div>
                  <div class="row">

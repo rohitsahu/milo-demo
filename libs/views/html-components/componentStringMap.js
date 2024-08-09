@@ -8,7 +8,8 @@ export const ragcomponent = {
     aside_m : "aside_m",
     media : "Media",
     layout: "Layout Patterns",
-    merchCard: "Merch Card"
+    merchCard: "Merch Card",
+    text: "Text"
 }
 
 let getComponentMap = () =>  {

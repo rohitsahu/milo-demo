@@ -5,7 +5,8 @@ import { style as style1 } from "../../styles/styles.css.js"
 import  { style as style2 } from "../../blocks/hero-marquee/hero-marquee.css.js";
 import { style as style3 } from "../../blocks/aside/aside.css.js";
 import { style as mediaStyle} from "../../blocks/media/media.css.js";
-import { style as libraryConfigStyle } from "./library-config/library-config.css.js"
+import { style as libraryConfigStyle } from "./library-config/library-config.css.js";
+import { style as blockStyle } from "./library-config/block-styles.css.js";
 import init from "./library-config/demo-library-config.js";
 import { getContainers } from "../../blocks/library-config/lists/blocks.js";
 import { loadArea } from "../../utils/utils.js";
@@ -14,7 +15,7 @@ export class BlankCanvas extends LitElement{
 
     static tag = "blank-canvas";
    
-    static styles = [style, style1, style2, style3, mediaStyle, libraryConfigStyle];
+    static styles = [style, style1, style2, style3, mediaStyle, libraryConfigStyle, blockStyle];
 
     static properties = {
         dynamicListOfElements : {type : Array},
