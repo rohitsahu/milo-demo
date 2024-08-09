@@ -11,4 +11,11 @@ export const style = css`
     display:flex;
     flex-direction : row;
     }
+
+    .canvas-element {
+        --dx: 0px;
+      --dy: 0px;
+      
+      transform: translate(var(--dx), var(--dy));
+    }
 `;
