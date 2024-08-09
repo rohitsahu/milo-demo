@@ -53,7 +53,7 @@ export class Toolbar extends LitElement {
                 <p>Layout Patterns</p>
                     <div class="toolbar-grid">
                         <toolbar-item text="Media block 2up"></toolbar-item>
-                        <toolbar-item text="Media block 3up""></toolbar-item>
+                        <toolbar-item text="Media block 3up" tag=${ragcomponent.layout_3up}></toolbar-item>
                     </div>
                 </div>
                  <div class="row">

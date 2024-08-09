@@ -4,7 +4,6 @@ import { html, LitElement } from "../../deps/lit-all.min.js";
 import { style } from "./select-theme.css.js"
 import "../../features/spectrum-web-components/dist/button.js"
 import '../../features/spectrum-web-components/dist/checkbox.js'
-// import '../../features/spectrum-web-components/dist/card.js'
 
 
 export class selectTheme extends LitElement {
@@ -21,7 +20,8 @@ export class selectTheme extends LitElement {
 
     openSelectedTheme = () => {
         console.log ("open selected theme");
-        window.location.href = "http://localhost:3000/?theme=" + this.selectedDiv.id;
+        let postionQues = window.location.href.indexOf("?");
+        window.location.href = window.location.href.substring(0,postionQues)+"?theme=" + this.selectedDiv.id;
     }
 
     render() {

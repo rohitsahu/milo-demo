@@ -12,16 +12,27 @@ export class ToolbarItem extends LitElement {
         tag : {type : String}
     }
 
+    constructor() {
+        super();
+        this._onDragStart = this._onDragStart.bind(this);
+    }
+    
+    _onDragStart(e) {
+        e.dataTransfer.setData('text/toolbar-item', this.tag); 
+    }
 
     render () {
         return html`
-            <div id="toolbar-item" @click=${()=>{
-                this.dispatchEvent(new CustomEvent("drop-elem",{
-                    bubbles: true,
-                    composed: true,
-                    detail : {component : this.tag}
+            <div id="toolbar-item" 
+                draggable="true"
+                @dragstart=${this._onDragStart}
+                @click=${()=>{
+                    this.dispatchEvent(new CustomEvent("drop-elem",{
+                        bubbles: true,
+                        composed: true,
+                        detail : {component : this.tag}
                 }))}}>
-            ${this.text}
+                ${this.text}
             </div>
         `;
 
