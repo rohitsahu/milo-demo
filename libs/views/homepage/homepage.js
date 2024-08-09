@@ -11,7 +11,7 @@ export class Homepage extends LitElement {
 
     static tag_name = "rag-homepage";
     
-    render(){
+    renderCanvas(){
         const url = window.location.href;
         if(url.includes("selectTheme=true")) {
             return html`<select-theme style="display:flex;"></select-theme>`;
@@ -27,5 +27,15 @@ export class Homepage extends LitElement {
         else {
             return html`<blank-canvas></blank-canvas>`;
         }
+    }
+
+    render() {
+        return html`
+        <sp-theme theme="spectrum" color="light" scale="medium">
+        <div style="font-family: 'Adobe Clean', adobe-clean, sans-serif; width:100vq">
+            ${this.renderCanvas()}
+        </div>
+        </sp-theme>
+        `;
     }
 }
