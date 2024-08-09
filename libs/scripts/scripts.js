@@ -17,6 +17,7 @@ import {
   getMetadata,
   createTag,
   loadActionbar,
+  loadCanvas,
 } from '../utils/utils.js';
 
 import "../../index.js";
@@ -178,6 +179,7 @@ const eagerLoad = (img) => {
   performance.mark('loadpage');
   setConfig(config);
   loadLana({ clientId: 'milo' });
+  loadCanvas();
   loadActionbar();
   await loadArea();
 }());

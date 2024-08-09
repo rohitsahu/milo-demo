@@ -448,6 +448,9 @@ export async function loadBlock(block) {
   }
 
   const name = block.classList[0];
+  if (name === "canvas-element") {
+    return loadBlock(block.children[0]);
+  }
   const { miloLibs, codeRoot, mep } = getConfig();
 
   const base = miloLibs && MILO_BLOCKS.includes(name) ? miloLibs : codeRoot;
@@ -1235,10 +1238,6 @@ export async function loadArea(area = document) {
     });
   }
 
-  if(sections.length==1) {
-    loadCanvas();
-  }
-
   const currentHash = window.location.hash;
   if (currentHash) {
     scrollToHashedElement(currentHash);
@@ -1247,10 +1246,6 @@ export async function loadArea(area = document) {
   if (isDoc) await documentPostSectionLoading(config);
 
   await loadDeferred(area, areaBlocks, config);
-}
-
-export function loadDelayed() {
-  // TODO: remove after all consumers have stopped calling this method
 }
 
 export const utf8ToB64 = (str) => window.btoa(unescape(encodeURIComponent(str)));
