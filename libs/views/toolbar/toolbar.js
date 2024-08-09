@@ -36,9 +36,9 @@ export class Toolbar extends LitElement {
                <div class="row">
                 <p>Aside</p>
                 <div class="toolbar-grid">
-                        <toolbar-item text="Small"></toolbar-item>
-                        <toolbar-item text="Medium" tag=${ragcomponent.aside_m}></toolbar-item>
-                        <toolbar-item text="Large" tag=${ragcomponent.aside_l}></toolbar-item>
+                        <toolbar-item text="Small" tag=${ragcomponent.aside} variant=${0}></toolbar-item>
+                        <toolbar-item text="Medium" tag=${ragcomponent.aside} variant=${1}></toolbar-item>
+                        <toolbar-item text="Large" tag=${ragcomponent.aside} variant=${2}></toolbar-item>
                 </div>
                 </div>
                 <div class="row">
@@ -52,8 +52,8 @@ export class Toolbar extends LitElement {
                 <div class="row">
                 <p>Layout Patterns</p>
                     <div class="toolbar-grid">
-                        <toolbar-item text="Media block 2up"></toolbar-item>
-                        <toolbar-item text="Media block 3up""></toolbar-item>
+                        <toolbar-item text="Media block 2up" tag=${ragcomponent.layout} variant=${17}></toolbar-item>
+                        <toolbar-item text="Media block 3up" tag=${ragcomponent.layout} variant=${18}></toolbar-item>
                     </div>
                 </div>
                  <div class="row">

@@ -3,9 +3,11 @@ import { media } from "./media.js";
 
 export const ragcomponent = {
     heromarquee : "Hero Marquee",
+    aside: "Aside",
     aside_l : "aside_l",
     aside_m : "aside_m",
     media : "Media",
+    layout: "Layout Patterns",
     merchCard: "Merch Card"
 }
 
