@@ -3,10 +3,14 @@ import { media } from "./media.js";
 import { layout_3up } from "./layout-3up.js";
 
 export const ragcomponent = {
-    heromarquee : "hero-marquee",
+    heromarquee : "Hero Marquee",
+    aside: "Aside",
     aside_l : "aside_l",
     aside_m : "aside_m",
-    media : "media",
+    media : "Media",
+    layout: "Layout Patterns",
+    merchCard: "Merch Card",
+    text: "Text",
     layout_3up : "layout-3up"
 }
 

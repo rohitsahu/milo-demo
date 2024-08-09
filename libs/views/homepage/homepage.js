@@ -25,7 +25,7 @@ export class Homepage extends LitElement {
             return html`<blank-canvas .elements="${elements}"></blank-canvas>`
         }
         else {
-            return html`<blank-canvas></blank-canvas>`
+            return html`<blank-canvas></blank-canvas>`;
         }
     }
 

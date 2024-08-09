@@ -5,13 +5,19 @@ import { style as style1 } from "../../styles/styles.css.js"
 import  { style as style2 } from "../../blocks/hero-marquee/hero-marquee.css.js";
 import { style as style3 } from "../../blocks/aside/aside.css.js";
 import { style as mediaStyle} from "../../blocks/media/media.css.js";
+import { style as libraryConfigStyle } from "./library-config/library-config.css.js";
+import { style as blockStyle } from "./library-config/block-styles.css.js";
+import init from "./library-config/demo-library-config.js";
+import { getContainers } from "../../blocks/library-config/lists/blocks.js";
+import { loadArea } from "../../utils/utils.js";
+
 import { styles as sectionMetadatastyle} from "../../blocks/section-metadata/section-metadata.css.js"
 import { style as videoStyle } from "../../blocks/video/video.css.js";
 export class BlankCanvas extends LitElement{
 
     static tag = "blank-canvas";
    
-    static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle];
+    static styles = [style, style1, style2, style3, mediaStyle, blockStyle, libraryConfigStyle, sectionMetadatastyle, videoStyle];
 
     static properties = {
       dynamicListOfElements : {type : Array},
@@ -20,13 +26,15 @@ export class BlankCanvas extends LitElement{
       _draggedElement: {type: HTMLElement},
       _offsetX: {type: Number},
       _offsetY: {type: Number},
-      pointerMap: {type: Map}
+      pointerMap: {type: Map},
+      miloLibraries: { type: Object }
     }
 
     constructor() {
       super();
       this.dynamicListOfElements = [];
       this.elements = [];
+      this.miloLibraries = {};
       const url = window.location.href;
       if (url.includes("theme=product"))
         {
@@ -46,13 +54,21 @@ export class BlankCanvas extends LitElement{
       this._onDrop = this._onDrop.bind(this);
     }
 
+    firstUpdated() {
+        init(this.shadowRoot);
+    }
+
+    async updated() {
+        super.updated();
+        const el = this.shadowRoot.querySelector('div');
+        if(el) {
+            await loadArea(el);
+        }
+    }
+
     renderComponentFromString(comp) {
       if(comp === undefined) return nothing;
-      return html`
-          ${
-              unsafeHTML(comp.replace(/\\"/g, '"'))
-          }
-      `;
+      return comp;
     }
 
     renderDynamicElements() {
@@ -84,10 +100,61 @@ export class BlankCanvas extends LitElement{
       `;
     }
 
-    elementDroped(comp) {
+    _getComponent(comp) {
+        const block = this.miloLibraries.blocks.find(block => block.name.toLowerCase() === comp.toLowerCase());
+        if (!block) {
+            console.error(`Block with name ${comp} not found`);
+            return null;
+        }
+    
+        return block;
+    }
+
+    async elementDroped(comp, variant) {
+        if(this.miloLibraries === undefined || this.miloLibraries.blocks === undefined) {
+            await this.fetchLibraries();
+        }
+
         if(comp === undefined) return;
-        const component = getComponent(comp);
-        this.dynamicListOfElements = [...this.dynamicListOfElements,component];
+
+        const blockComponent = this._getComponent(comp, 0);
+        if (!blockComponent) return;
+
+        const variantComponent  = await this.getContainersFromBlock(blockComponent);
+        console.log(variantComponent[variant]);
+        
+
+        this.dynamicListOfElements = [...this.dynamicListOfElements, variantComponent[variant].elements[0]];
+    }
+
+    async getContainersFromBlock(block) {
+        const resp = await fetch(`${block.path}.plain.html`);
+        if (!resp.ok) return;
+
+        const html = await resp.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        return getContainers(doc);
+    }
+
+    //move to store
+    async fetchLibraries() {
+        this.miloLibraries = await init(this.shadowRoot);
+
+        // Define the old and new domains
+        const oldDomain = "https://main--milo--adobecom.hlx.page/docs/library/blocks/";
+        const newDomain = "https://main--milo-demo--rohitsahu.hlx.page/blocks/";
+
+        // Iterate over the blocks and replace the domain in the path
+        if (this.miloLibraries && Array.isArray(this.miloLibraries.blocks)) {
+        this.miloLibraries.blocks = this.miloLibraries.blocks.map(block => {
+            if (block.path.startsWith(oldDomain)) {
+            block.path = block.path.replace(oldDomain, newDomain);
+            }
+            return block;
+        });
+        }
     }
 
     getDropLocation(relativeX, relativeY, halfWidth, halfHeight) {
@@ -243,7 +310,7 @@ export class BlankCanvas extends LitElement{
     render() {
         return html`
         <div id="container">
-            <rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component)}}></rag-toolbar>
+            <rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component, event.detail.variant)}}></rag-toolbar>
             <div id="blank-canvas-main" @dragover=${this._onDragOver} @dragenter=${this._onDragEnter} @drop=${(e) => this._onDrop(e)}>
             ${this.renderDynamicElements()}
             </div>

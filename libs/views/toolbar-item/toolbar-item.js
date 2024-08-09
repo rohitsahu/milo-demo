@@ -9,7 +9,8 @@ export class ToolbarItem extends LitElement {
 
     static properties = {
         text : {type : String},
-        tag : {type : String}
+        tag : {type : String},
+        variant : {type : Number}
     }
 
     constructor() {
@@ -30,7 +31,7 @@ export class ToolbarItem extends LitElement {
                     this.dispatchEvent(new CustomEvent("drop-elem",{
                         bubbles: true,
                         composed: true,
-                        detail : {component : this.tag}
+                        detail : {component : this.tag, variant: this.variant}
                 }))}}>
                 ${this.text}
             </div>
