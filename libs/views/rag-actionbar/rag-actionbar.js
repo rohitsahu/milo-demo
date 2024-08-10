@@ -6,12 +6,58 @@ export class Actionbar extends LitElement {
 
     static styles = style;
 
+    changeTheme() {
+        window.history.back();
+    }
+
+    createDocumentFromString(html) {
+        const { document } = new JSDOM(html, { runScripts: undefined }).window;
+        return document;
+      }
+
+    async saveCanvas() {
+        
+        let htmlcomp = document.documentElement.cloneNode(true);
+
+        let body = htmlcomp.querySelector("body");
+
+        let actionbar = htmlcomp.querySelector("rag-actionbar");
+        actionbar.remove();
+
+        let main = body.querySelector("main");
+        let section = main.querySelector(".section");
+
+        let blankcanvasDom = document.querySelector("blank-canvas").shadowRoot;
+
+        blankcanvasDom.querySelectorAll(".canvas-element").forEach(element => {
+            section.appendChild(element.children[0].cloneNode(true));
+        });
+
+        let blankcanvas = main.querySelector("blank-canvas");
+        blankcanvas.remove();
+
+        console.log(htmlcomp.outerHTML);
+
+        try {
+            const out = await WebImporter.html2docx(window.location.href, htmlcomp.outerHTML, null, {
+              createDocumentFromString: this.createDocumentFromString,
+            });
+            console.log(out.md);
+            //updateDocument(out.docx);
+          } catch (error) {
+            console.error(error);
+          }
+
+    }
+
+
     render() {
         return html`
         <sp-theme theme="spectrum" color="light" scale="medium">
         <div id="actionbar-container">
-            <sp-button>Save</sp-button>
-            <sp-button>Preview</sp-button>
+            <sp-button>Submit</sp-button>
+            <sp-button @click=${this.saveCanvas}>Save</sp-button>
+            <sp-button @click=${this.changeTheme}>Change theme</sp-button>
         </div>
         </sp-theme>
         `;
