@@ -6,6 +6,11 @@ export class Actionbar extends LitElement {
 
     static styles = style;
 
+    constructor() {
+      super();
+      this.toolbarState = false;
+    }
+
     changeTheme() {
         window.history.back();
     }
@@ -15,7 +20,16 @@ export class Actionbar extends LitElement {
         return document;
       }
 
-    async saveCanvas() {
+    get getToolbarText() {
+      return this.toolbarState ? "Close" : "Open";
+    }
+
+    toggleToolbar() {
+      this.toolbarState = !this.toolbarState;
+      this.requestUpdate();
+    }
+
+      async saveCanvas() {
         
         let htmlcomp = document.documentElement.cloneNode(true);
 
@@ -55,9 +69,14 @@ export class Actionbar extends LitElement {
         return html`
         <sp-theme theme="spectrum" color="light" scale="medium">
         <div id="actionbar-container">
+          <div>
+            <sp-button @click=${this.toggleToolbar}>${this.getToolbarText}</sp-button>
+          </div>
+          <div>
             <sp-button>Submit</sp-button>
             <sp-button @click=${this.saveCanvas}>Save</sp-button>
             <sp-button @click=${this.changeTheme}>Change theme</sp-button>
+          </div>
         </div>
         </sp-theme>
         `;
