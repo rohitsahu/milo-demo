@@ -8,7 +8,7 @@ export class Actionbar extends LitElement {
 
     constructor() {
       super();
-      this.toolbarState = false;
+      this.toolbarState = true;
     }
 
     changeTheme() {
@@ -20,13 +20,20 @@ export class Actionbar extends LitElement {
         return document;
       }
 
-    get getToolbarText() {
-      return this.toolbarState ? "Close" : "Open";
+    get getToolbarIcon() {
+      return this.toolbarState ? html`<svg id="close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>` : html`<svg id="open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>`;
     }
 
     toggleToolbar() {
       this.toolbarState = !this.toolbarState;
       this.requestUpdate();
+      const rootNode = this.getRootNode();
+      const canvas = rootNode.querySelector('blank-canvas');
+      const toolbar = canvas.shadowRoot.querySelector('rag-toolbar');
+
+      if (toolbar) {
+        toolbar.style.display = this.toolbarState ? 'block' : 'none';
+      }
     }
 
       async saveCanvas() {
@@ -69,13 +76,14 @@ export class Actionbar extends LitElement {
         return html`
         <sp-theme theme="spectrum" color="light" scale="medium">
         <div id="actionbar-container">
-          <div>
-            <sp-button @click=${this.toggleToolbar}>${this.getToolbarText}</sp-button>
+          <div id="toolbar-button">
+            <sp-badge style="display: flex;" @click=${this.toggleToolbar}>${this.getToolbarIcon}</sp-badge>
+            <x-icon-add></x-icon-add>
           </div>
           <div>
-            <sp-button>Submit</sp-button>
-            <sp-button @click=${this.saveCanvas}>Save</sp-button>
             <sp-button @click=${this.changeTheme}>Change theme</sp-button>
+            <sp-button @click=${this.saveCanvas}>Save</sp-button>
+            <sp-button>Submit</sp-button>
           </div>
         </div>
         </sp-theme>

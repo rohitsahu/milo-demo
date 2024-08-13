@@ -240,10 +240,27 @@ export class BlankCanvas extends LitElement{
         }
     }
 
+    renderToolbar() {
+      const rootNode = this.getRootNode();
+      const actionbar = rootNode.querySelector('rag-actionbar');
+      if (actionbar && actionbar.shadowRoot) {
+        const pickerButton = actionbar.shadowRoot.querySelector('sp-badge');
+        if (pickerButton) {
+            const buttonText = pickerButton.textContent.trim();
+            if (buttonText === 'Open') {
+                return html``;
+            } else {
+                return html`<rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component)}}></rag-toolbar>`;
+            }
+        } 
+      }
+      return html`<rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component)}}></rag-toolbar>`;
+    }
+
     render() {
         return html`
         <div id="container">
-            <rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component)}}></rag-toolbar>
+            ${this.renderToolbar()}
             <div id="blank-canvas-main" @dragover=${this._onDragOver} @dragenter=${this._onDragEnter} @drop=${(e) => this._onDrop(e)}>
             ${this.renderDynamicElements()}
             </div>

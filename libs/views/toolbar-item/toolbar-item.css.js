@@ -8,11 +8,15 @@ export const style = css`
         padding: 2px;
         font-size: 12px;
         text-align: center;
-        height : 40px;
         align-content: center;
-        border-radius : 8px;
+        border-radius : 4px;
         line-height: normal;
-        background-color: #e8e8e8;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        margin: 2px;
     }
 
     #toolbar-item:hover {

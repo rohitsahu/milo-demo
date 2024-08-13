@@ -1200,6 +1200,7 @@ export function loadActionbar() {
   let parent = document.querySelector("body");
   let header = document.querySelector("header");
   parent.replaceChild(actionbar,header);
+  parent.style.overflow ="hidden";
 }
 
 export function loadCanvas() {

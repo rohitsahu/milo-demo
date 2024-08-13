@@ -32,6 +32,7 @@ export class ToolbarItem extends LitElement {
                         composed: true,
                         detail : {component : this.tag}
                 }))}}>
+                <slot name="icon" slot="icon"></slot>
                 ${this.text}
             </div>
         `;
