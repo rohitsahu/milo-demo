@@ -4,7 +4,9 @@ export const style = css`
     #blank-canvas-main {
         display: flex;
         flex-direction : column;
-        width : calc(100% - 280px);
+        width: -webkit-fill-available;
+        overflow: scroll;
+        height: 945px;
     }
 
     #container {
