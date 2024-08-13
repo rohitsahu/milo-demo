@@ -7,6 +7,7 @@ import { style as style3 } from "../../blocks/aside/aside.css.js";
 import { style as mediaStyle} from "../../blocks/media/media.css.js";
 import { styles as sectionMetadatastyle} from "../../blocks/section-metadata/section-metadata.css.js"
 import { style as videoStyle } from "../../blocks/video/video.css.js";
+
 export class BlankCanvas extends LitElement{
 
     static tag = "blank-canvas";
@@ -29,12 +30,13 @@ export class BlankCanvas extends LitElement{
       this.elements = [];
       const url = window.location.href;
       if (url.includes("theme=product"))
-        {
-            this.elements = ["hero-marquee", "aside_l", "media", "aside_m"];
-        } else if (url.includes("theme=catalog"))
-        {
-            this.elements = ["aside_m", "media", "hero-marquee", "aside_l"];
-        }
+      {
+        this.elements = ["hero-marquee", "aside_l", "media", "aside_m"];
+      } 
+      else if (url.includes("theme=catalog"))
+      {
+        this.elements = ["aside_m", "media", "hero-marquee", "aside_l"];
+      }
       this._draggedElementIndex = -1;
       this._draggedElement = null;
       this._offsetX = 0;
@@ -45,6 +47,12 @@ export class BlankCanvas extends LitElement{
       this._onDragOver = this._onDragOver.bind(this);
       this._onDrop = this._onDrop.bind(this);
     }
+
+    async updated() {
+      let isUpdateComplete = await this.updateComplete;
+      const elem = this.shadowRoot.getElementById("blank-canvas-main");
+      this.makeParagraphsEditable(elem);
+  }
 
     renderComponentFromString(comp) {
       if(comp === undefined) return nothing;
@@ -71,11 +79,7 @@ export class BlankCanvas extends LitElement{
           <div draggable="true"
               class="canvas-element"
               @dragstart=${(e) => this._onDragStart(e, index)}
-              
-              
               @drop=${(e) => this._onDrop(e)}
-              
-              
               key=${index}
           >
             ${this.renderComponentFromString(code)}
@@ -142,6 +146,7 @@ export class BlankCanvas extends LitElement{
     }
     
     _onDrop(e) {
+      console.log("inside on drop")
       e.preventDefault();
       
       if (e.dataTransfer.types.includes('text/toolbar-item')) {
@@ -171,8 +176,10 @@ export class BlankCanvas extends LitElement{
        
 
         const draggedIndex = this._draggedElementIndex;
+        console.log("currentTarget", e.currentTarget.innerHTML);
         const targetIndex = this.dynamicListOfElements.findIndex(
           (element) => {
+            console.log("element", element);
             return e.currentTarget.innerHTML.includes(element);
           }
         );
@@ -180,6 +187,7 @@ export class BlankCanvas extends LitElement{
         this.updateElementOrder(draggedIndex, targetIndex, dropLocation);
 
         this._draggedElementIndex = -1;
+        
         this.requestUpdate();
       }
     }
@@ -240,12 +248,48 @@ export class BlankCanvas extends LitElement{
         }
     }
 
+    makeParagraphsEditable(element) {
+      const paragraphs =  Array.from(element.querySelectorAll('p, h1, h2, h3, h4, h5, h6'));
+
+      paragraphs.forEach(paragraph => {
+        paragraph.addEventListener('dblclick', () => {
+          this.enableEditMode(paragraph);
+        });
+        paragraph.addEventListener('blur', () => {
+          this.disableEditMode(paragraph);
+        });
+      });
+    }
+
+    enableEditMode(element) {
+      element.contentEditable = true;
+      element.focus();
+      //this.enableContextualMenu(element)
+    }
+    
+    disableEditMode(element) {
+      element.contentEditable = false;
+    }
+
+    // enableContextualMenu(element) {
+    //   const quill = new Quill(element, {
+    //     // Quill configuration options
+    //     theme: 'snow', // Or 'bubble'
+    //     modules: {
+    //       toolbar: [
+    //         ['bold', 'italic', 'underline'],
+    //         [{ list: 'ordered' }, { list: 'bullet' }]
+    //       ]
+    //     }
+    //   });
+    // }
+
     render() {
         return html`
         <div id="container">
             <rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component)}}></rag-toolbar>
             <div id="blank-canvas-main" @dragover=${this._onDragOver} @dragenter=${this._onDragEnter} @drop=${(e) => this._onDrop(e)}>
-            ${this.renderDynamicElements()}
+            ${this.renderDynamicElements()}           
             </div>
         </div>
         `;
