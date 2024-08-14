@@ -15,7 +15,7 @@ export class BlankCanvas extends LitElement{
     static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle];
 
     static properties = {
-      dynamicListOfElements : {type : Array},
+      // dynamicListOfElements : {type : Array},
       elements: { type: Array },
       draggedElementIndex: {type: Number},
       _draggedElement: {type: HTMLElement},
@@ -26,7 +26,7 @@ export class BlankCanvas extends LitElement{
 
     constructor() {
       super();
-      this.dynamicListOfElements = [];
+      // this.dynamicListOfElements = [];
       this.elements = [];
       const url = window.location.href;
       if (url.includes("theme=product"))
@@ -51,6 +51,7 @@ export class BlankCanvas extends LitElement{
     async updated() {
       let isUpdateComplete = await this.updateComplete;
       const elem = this.shadowRoot.getElementById("blank-canvas-main");
+      this.renderDynamicElements();
       this.makeParagraphsEditable(elem);
   }
 
@@ -66,32 +67,42 @@ export class BlankCanvas extends LitElement{
     renderDynamicElements() {
       if (this.elements && this.elements.length > 0) {
         console.log('Elements received:', this.elements);
+        let canvasElement = this.shadowRoot.getElementById('blank-canvas-main');
         this.elements.forEach((element, index) => {
-            this.dynamicListOfElements = [...this.dynamicListOfElements, getComponent(element)];
+          const element1 = document.createElement('div');
+          element1.setAttribute('draggable', 'true');
+          element1.setAttribute('class', 'canvas-element');
+          element1.addEventListener('dragstart', this._onDragStart);
+          element1.addEventListener('drop', this._onDrop);
+
+          const component = getComponent(element);
+          element1.innerHTML = component.trim();
+          canvasElement.append(element1);
+          // this.dynamicListOfElements = [...this.dynamicListOfElements, getComponent(element)];
         });
         this.elements = [];
       } else {
         console.log('No elements provided');
       }
-
-      return html`
-        ${this.dynamicListOfElements.map((code, index) => html`
-          <div draggable="true"
-              class="canvas-element"
-              @dragstart=${(e) => this._onDragStart(e, index)}
-              @drop=${(e) => this._onDrop(e)}
-              key=${index}
-          >
-            ${this.renderComponentFromString(code)}
-          </div>
-        `)} 
-      `;
     }
 
     elementDroped(comp) {
         if(comp === undefined) return;
+        const element = document.createElement('div');
+        element.setAttribute('draggable', 'true');
+        element.setAttribute('class', 'canvas-element');
+        element.addEventListener('dragstart', (e) => {
+          this._onDrag(e, 0);
+        });
+        element.addEventListener('drop', (e) => {
+          this._onDrag(e, 0);
+        });
+        
         const component = getComponent(comp);
-        this.dynamicListOfElements = [...this.dynamicListOfElements,component];
+        element.innerHTML = component.trim();
+        let canvasElement = this.shadowRoot.getElementById('blank-canvas-main');
+        canvasElement.append(element);
+         // this.dynamicListOfElements = [...this.dynamicListOfElements,component];
     }
 
     getDropLocation(relativeX, relativeY, halfWidth, halfHeight) {
@@ -289,7 +300,6 @@ export class BlankCanvas extends LitElement{
         <div id="container">
             <rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component)}}></rag-toolbar>
             <div id="blank-canvas-main" @dragover=${this._onDragOver} @dragenter=${this._onDragEnter} @drop=${(e) => this._onDrop(e)}>
-            ${this.renderDynamicElements()}           
             </div>
         </div>
         `;
