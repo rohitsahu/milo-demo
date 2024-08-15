@@ -52,6 +52,7 @@ export class BlankCanvas extends LitElement{
       let isUpdateComplete = await this.updateComplete;
       const elem = this.shadowRoot.getElementById("blank-canvas-main");
       this.makeParagraphsEditable(elem);
+      // this.makeDivsEditable(elem);
   }
 
     renderComponentFromString(comp) {
@@ -83,6 +84,10 @@ export class BlankCanvas extends LitElement{
               key=${index}
           >
             ${this.renderComponentFromString(code)}
+            <div>
+              <img class="delete-icon" src="https://img.icons8.com/ios/452/delete-sign.png" @click=${(event) => {
+                event.currentTarget.parentElement.parentElement.remove()}}/>
+            </div>
           </div>
         `)} 
       `;
@@ -247,6 +252,17 @@ export class BlankCanvas extends LitElement{
             e.preventDefault();
         }
     }
+
+    // makeDivsEditable(element) {
+    //   const dragableDivs =  Array.from(element.querySelectorAll('div.canvas-element'));
+
+    //   dragableDivs.forEach(div => {
+    //     div.addEventListener('dblclick', () => {
+    //       div.removeEventListener('dblclick', () => {});
+    //       div.remove();
+    //     });
+    //   });
+    // }
 
     makeParagraphsEditable(element) {
       const paragraphs =  Array.from(element.querySelectorAll('p, h1, h2, h3, h4, h5, h6'));

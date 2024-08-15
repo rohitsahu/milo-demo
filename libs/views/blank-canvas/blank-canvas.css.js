@@ -17,5 +17,10 @@ export const style = css`
       --dy: 0px;
       
       transform: translate(var(--dx), var(--dy));
+      display: flex;
+    }
+    
+    .delete-icon {
+        height: 20px;    
     }
 `;
