@@ -1,4 +1,5 @@
 import { LitElement, html } from "../../deps/lit-all.min.js";
+import { createTag } from "../../utils/utils.js";
 import { style } from "./rag-actionbar.css.js";
 
 export class Actionbar extends LitElement {
@@ -27,6 +28,12 @@ export class Actionbar extends LitElement {
         let main = body.querySelector("main");
         let section = main.querySelector(".section");
 
+        if(section === undefined) {
+          section = createTag("div");
+          section.class = "section";
+          main.appendChild(section);
+        }
+
         let blankcanvasDom = document.querySelector("blank-canvas").shadowRoot;
 
         blankcanvasDom.querySelectorAll(".canvas-element").forEach(element => {
@@ -43,6 +50,18 @@ export class Actionbar extends LitElement {
               createDocumentFromString: this.createDocumentFromString,
             });
             console.log(out.md);
+            const blob = new Blob([out.docx], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+             // Create a URL representing the Blob
+            const url = URL.createObjectURL(blob);
+
+            // Create a download link and click it
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'plan.docx';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            console.log('Downloaded url is,', url);
             //updateDocument(out.docx);
           } catch (error) {
             console.error(error);

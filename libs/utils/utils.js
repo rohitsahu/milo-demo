@@ -1205,7 +1205,23 @@ export function loadActionbar() {
 export function loadCanvas() {
   let canvas = createTag("blank-canvas");
   let main = document.querySelector("main");
-  main.append(canvas)
+  main.append(canvas);
+
+
+
+}
+
+export function placeElements() {
+
+  let main = document.querySelector("main");
+  let mainDivs = main.querySelectorAll(":scope > div");
+
+  let canvas = main.querySelector("blank-canvas");
+  let parent = canvas.shadowRoot.querySelector("#container");
+  let parentDiv = parent.querySelector("div");
+
+  mainDivs.forEach(d => parentDiv.appendChild(d));
+
 }
 
 export async function loadArea(area = document) {
@@ -1235,9 +1251,11 @@ export async function loadArea(area = document) {
     });
   }
 
-  if(sections.length==1) {
-    loadCanvas();
-  }
+  placeElements();
+
+  // if(sections.length==1) {
+  //   loadCanvas();
+  // }
 
   const currentHash = window.location.hash;
   if (currentHash) {
