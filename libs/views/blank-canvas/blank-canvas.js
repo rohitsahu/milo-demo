@@ -146,7 +146,6 @@ export class BlankCanvas extends LitElement{
     }
     
     _onDrop(e) {
-      console.log("inside on drop")
       e.preventDefault();
       
       if (e.dataTransfer.types.includes('text/toolbar-item')) {
@@ -264,31 +263,41 @@ export class BlankCanvas extends LitElement{
     enableEditMode(element) {
       element.contentEditable = true;
       element.focus();
-      //this.enableContextualMenu(element)
+      
+      const toolbar = element.querySelector("#context-menu-div");
+      if (toolbar) {
+        toolbar.remove();
+      }
+      this.enableContextualMenu(element)
     }
     
     disableEditMode(element) {
       element.contentEditable = false;
+      const toolbar = element.querySelector("#context-menu-div");
+      if (toolbar) {
+        toolbar.remove();
+      }
     }
 
-    // enableContextualMenu(element) {
-    //   const quill = new Quill(element, {
-    //     // Quill configuration options
-    //     theme: 'snow', // Or 'bubble'
-    //     modules: {
-    //       toolbar: [
-    //         ['bold', 'italic', 'underline'],
-    //         [{ list: 'ordered' }, { list: 'bullet' }]
-    //       ]
-    //     }
-    //   });
-    // }
+    enableContextualMenu(element) {
+      const toolbar = document.createElement('div');
+      toolbar.id = "context-menu-div";
+      toolbar.innerHTML = `<context-menu></context-menu>`
+      element.appendChild(toolbar);
+
+      //const targetDims = element.getBoundingClientRect();
+      // toolbar.style.position = 'absolute';
+      // toolbar.style.top = targetDims.top + 'px';
+      // toolbar.style.left = targetDims.left + 'px';
+      //document.shadowRoot.getElementById("blank-canvas-main").appendChild(toolbar);
+      //document.body.appendChild(toolbar);
+    }
 
     render() {
         return html`
         <div id="container">
             <rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component)}}></rag-toolbar>
-            <div id="blank-canvas-main" @dragover=${this._onDragOver} @dragenter=${this._onDragEnter} @drop=${(e) => this._onDrop(e)}>
+            <div id="blank-canvas-main" @dragover=${this._onDragOver} @dragenter=${this._onDragEnter} @drop=${(e) => this._onDrop(e)}>           
             ${this.renderDynamicElements()}           
             </div>
         </div>
