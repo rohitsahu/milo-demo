@@ -7,6 +7,8 @@ import { style as style3 } from "../../blocks/aside/aside.css.js";
 import { style as mediaStyle} from "../../blocks/media/media.css.js";
 import { styles as sectionMetadatastyle} from "../../blocks/section-metadata/section-metadata.css.js"
 import { style as videoStyle } from "../../blocks/video/video.css.js";
+import { ContextMenu } from "../context-menu/context-menu.js";
+
 export class BlankCanvas extends LitElement{
 
     static tag = "blank-canvas";
@@ -29,12 +31,13 @@ export class BlankCanvas extends LitElement{
       this.elements = [];
       const url = window.location.href;
       if (url.includes("theme=product"))
-        {
-            this.elements = ["hero-marquee", "aside_l", "media", "aside_m"];
-        } else if (url.includes("theme=catalog"))
-        {
-            this.elements = ["aside_m", "media", "hero-marquee", "aside_l"];
-        }
+      {
+        this.elements = ["hero-marquee", "aside_l", "media", "aside_m"];
+      } 
+      else if (url.includes("theme=catalog"))
+      {
+        this.elements = ["aside_m", "media", "hero-marquee", "aside_l"];
+      }
       this._draggedElementIndex = -1;
       this._draggedElement = null;
       this._offsetX = 0;
@@ -45,6 +48,14 @@ export class BlankCanvas extends LitElement{
       this._onDragOver = this._onDragOver.bind(this);
       this._onDrop = this._onDrop.bind(this);
     }
+
+    async updated() {
+      let isUpdateComplete = await this.updateComplete;
+      const elem = this.shadowRoot.getElementById("blank-canvas-main");
+      this.makeParagraphsEditable(elem);
+      this.makeLinksEditable(elem);
+      this.makeMediaSourceEditable(elem);
+  }
 
     renderComponentFromString(comp) {
       if(comp === undefined) return nothing;
@@ -71,11 +82,7 @@ export class BlankCanvas extends LitElement{
           <div draggable="true"
               class="canvas-element"
               @dragstart=${(e) => this._onDragStart(e, index)}
-              
-              
               @drop=${(e) => this._onDrop(e)}
-              
-              
               key=${index}
           >
             ${this.renderComponentFromString(code)}
@@ -180,13 +187,14 @@ export class BlankCanvas extends LitElement{
         this.updateElementOrder(draggedIndex, targetIndex, dropLocation);
 
         this._draggedElementIndex = -1;
+        
         this.requestUpdate();
       }
     }
 
       updateElementOrder(draggedIndex, targetIndex, dropLocation) {
         const draggedElement = this.dynamicListOfElements[draggedIndex];
-        this.dynamicListOfElements.splice(draggedIndex, 1); // Remove dragged element
+        this.dynamicListOfElements.splice(draggedIndex, 1);
       
         if (draggedIndex < targetIndex) {
           targetIndex--;
@@ -240,6 +248,82 @@ export class BlankCanvas extends LitElement{
         }
     }
 
+    makeParagraphsEditable(element) {
+      const paragraphs =  Array.from(element.querySelectorAll('p, h1, h2, h3, h4, h5, h6'));
+
+      paragraphs.forEach(paragraph => {
+        paragraph.addEventListener('dblclick', () => {
+          this.enableEditMode(paragraph);
+        });
+        paragraph.addEventListener('blur', () => {
+          this.disableEditMode(paragraph);
+        });
+      });
+    }
+
+    makeMediaSourceEditable(element) {
+      const editableSource =  Array.from(element.querySelectorAll('video'));
+      editableSource.forEach((link) => {
+        link.addEventListener('click', (event) => {
+          //event.preventDefault();
+          //link.contentEditable = true;
+          link.focus();
+          this.enableContextualMenu(link, "media")
+        });
+        link.addEventListener('blur', () => {
+          this.disableEditMode(link);
+        });
+      });
+    }
+
+    makeLinksEditable(element) {
+        const editableLinks =  Array.from(element.querySelectorAll('a'));
+        editableLinks.forEach((link) => {
+          link.addEventListener('click', (event) => {
+            event.preventDefault();
+            link.contentEditable = true;
+            link.focus();
+            this.enableContextualMenu(link, "anchor")
+          });
+          link.addEventListener('blur', () => {
+            this.disableEditMode(link);
+          });
+        });
+    }
+
+    enableEditMode(element) {
+      element.contentEditable = true;
+      element.focus();
+      
+      const toolbar = element.querySelector("#context-menu-div");
+      if (toolbar) {
+        toolbar.remove();
+      }
+      this.enableContextualMenu(element)
+    }
+    
+    disableEditMode(element) {     
+      element.contentEditable = false;
+      const toolbar = element.querySelector("#context-menu-div");
+      if (toolbar) {
+        toolbar.remove();
+      }
+    }
+
+    enableContextualMenu(element, elementType) {
+      const toolbar = document.createElement('div');
+      toolbar.id = "context-menu-div";
+
+      const contextMenu = new ContextMenu();
+      contextMenu.elementType = elementType; // Set elementType here
+
+      toolbar.appendChild(contextMenu);
+      if(elementType==="media")
+        element.parentElement.appendChild(toolbar);
+      else
+        element.appendChild(toolbar);
+    }
+    
     renderToolbar() {
       const rootNode = this.getRootNode();
       const actionbar = rootNode.querySelector('rag-actionbar');
