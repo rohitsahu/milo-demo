@@ -91,12 +91,8 @@ export class BlankCanvas extends LitElement{
         const element = document.createElement('div');
         element.setAttribute('draggable', 'true');
         element.setAttribute('class', 'canvas-element');
-        element.addEventListener('dragstart', (e) => {
-          this._onDrag(e, 0);
-        });
-        element.addEventListener('drop', (e) => {
-          this._onDrag(e, 0);
-        });
+        element.addEventListener('dragstart', this._onDragStart);
+        element.addEventListener('drop', this._onDrop);
         
         const component = getComponent(comp);
         element.innerHTML = component.trim();
