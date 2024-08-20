@@ -1,6 +1,7 @@
 import { LitElement, html } from "../../deps/lit-all.min.js";
 import { createTag } from "../../utils/utils.js";
 import { style } from "./rag-actionbar.css.js";
+import { updateDocument } from "./../../../libs/blocks/merch-card/network_util/doc_api_caller.js";
 
 export class Actionbar extends LitElement {
     static tag = 'rag-actionbar';
@@ -49,7 +50,7 @@ export class Actionbar extends LitElement {
         let main = body.querySelector("main");
         let section = main.querySelector(".section");
 
-        if(section === undefined) {
+        if(section === undefined || section === null) {
           section = createTag("div");
           section.class = "section";
           main.appendChild(section);
@@ -71,6 +72,7 @@ export class Actionbar extends LitElement {
               createDocumentFromString: this.createDocumentFromString,
             });
             console.log(out.md);
+            //console.log(out);
             const blob = new Blob([out.docx], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
              // Create a URL representing the Blob
             const url = URL.createObjectURL(blob);
@@ -83,7 +85,8 @@ export class Actionbar extends LitElement {
             link.click();
             document.body.removeChild(link);
             console.log('Downloaded url is,', url);
-            //updateDocument(out.docx);
+            const name = window.location.href.substring(window.location.href.lastIndexOf("/")+1)+".docx";
+            updateDocument(out.docx, name );
           } catch (error) {
             console.error(error);
           }

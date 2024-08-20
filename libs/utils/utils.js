@@ -1221,7 +1221,13 @@ export function placeElements() {
   let parent = canvas.shadowRoot.querySelector("#container");
   let parentDiv = parent.querySelector("div");
 
-  mainDivs.forEach(d => parentDiv.appendChild(d));
+  mainDivs.forEach(d => {
+    const eleWrapper = createTag("div");
+    eleWrapper.className="canvas-element";
+    eleWrapper.appendChild(d);
+    //TODO add events listener
+    parentDiv.appendChild(eleWrapper);
+});
 
 }
 
