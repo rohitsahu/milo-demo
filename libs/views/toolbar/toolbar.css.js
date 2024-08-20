@@ -3,13 +3,14 @@ import { css } from "../../deps/lit-all.min.js";
 export const style = css`
     #toolbar-container {
         width:260px;
-        height:1000px;
+        height:935px;
         background-color : #F8F8F8;
         box-shadow: 10px 10px 18px darkgrey;
         padding-left : 10px;
         padding-top : 10px;
         outline: 1px solid grey;
         margin-right:10px;
+        overflow: scroll;
     }
 
     p {
@@ -21,9 +22,8 @@ export const style = css`
     
     .toolbar-grid {
         display : grid;
-        column-gap : 7px;
+        column-gap : 10px;
         row-gap : 5px;
         grid-template-columns : 80px 80px 80px;
     }
-}
 `;
