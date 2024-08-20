@@ -7,6 +7,7 @@ import { style as style3 } from "../../blocks/aside/aside.css.js";
 import { style as mediaStyle} from "../../blocks/media/media.css.js";
 import { styles as sectionMetadatastyle} from "../../blocks/section-metadata/section-metadata.css.js"
 import { style as videoStyle } from "../../blocks/video/video.css.js";
+import { ContextMenu } from "../context-menu/context-menu.js";
 
 export class BlankCanvas extends LitElement{
 
@@ -52,6 +53,8 @@ export class BlankCanvas extends LitElement{
       let isUpdateComplete = await this.updateComplete;
       const elem = this.shadowRoot.getElementById("blank-canvas-main");
       this.makeParagraphsEditable(elem);
+      this.makeLinksEditable(elem);
+      this.makeMediaSourceEditable(elem);
   }
 
     renderComponentFromString(comp) {
@@ -175,10 +178,8 @@ export class BlankCanvas extends LitElement{
        
 
         const draggedIndex = this._draggedElementIndex;
-        console.log("currentTarget", e.currentTarget.innerHTML);
         const targetIndex = this.dynamicListOfElements.findIndex(
           (element) => {
-            console.log("element", element);
             return e.currentTarget.innerHTML.includes(element);
           }
         );
@@ -193,7 +194,7 @@ export class BlankCanvas extends LitElement{
 
       updateElementOrder(draggedIndex, targetIndex, dropLocation) {
         const draggedElement = this.dynamicListOfElements[draggedIndex];
-        this.dynamicListOfElements.splice(draggedIndex, 1); // Remove dragged element
+        this.dynamicListOfElements.splice(draggedIndex, 1);
       
         if (draggedIndex < targetIndex) {
           targetIndex--;
@@ -260,6 +261,36 @@ export class BlankCanvas extends LitElement{
       });
     }
 
+    makeMediaSourceEditable(element) {
+      const editableSource =  Array.from(element.querySelectorAll('video'));
+      editableSource.forEach((link) => {
+        link.addEventListener('click', (event) => {
+          //event.preventDefault();
+          //link.contentEditable = true;
+          link.focus();
+          this.enableContextualMenu(link, "media")
+        });
+        link.addEventListener('blur', () => {
+          this.disableEditMode(link);
+        });
+      });
+    }
+
+    makeLinksEditable(element) {
+        const editableLinks =  Array.from(element.querySelectorAll('a'));
+        editableLinks.forEach((link) => {
+          link.addEventListener('click', (event) => {
+            event.preventDefault();
+            link.contentEditable = true;
+            link.focus();
+            this.enableContextualMenu(link, "anchor")
+          });
+          link.addEventListener('blur', () => {
+            this.disableEditMode(link);
+          });
+        });
+    }
+
     enableEditMode(element) {
       element.contentEditable = true;
       element.focus();
@@ -271,7 +302,7 @@ export class BlankCanvas extends LitElement{
       this.enableContextualMenu(element)
     }
     
-    disableEditMode(element) {
+    disableEditMode(element) {     
       element.contentEditable = false;
       const toolbar = element.querySelector("#context-menu-div");
       if (toolbar) {
@@ -279,18 +310,18 @@ export class BlankCanvas extends LitElement{
       }
     }
 
-    enableContextualMenu(element) {
+    enableContextualMenu(element, elementType) {
       const toolbar = document.createElement('div');
       toolbar.id = "context-menu-div";
-      toolbar.innerHTML = `<context-menu></context-menu>`
-      element.appendChild(toolbar);
 
-      //const targetDims = element.getBoundingClientRect();
-      // toolbar.style.position = 'absolute';
-      // toolbar.style.top = targetDims.top + 'px';
-      // toolbar.style.left = targetDims.left + 'px';
-      //document.shadowRoot.getElementById("blank-canvas-main").appendChild(toolbar);
-      //document.body.appendChild(toolbar);
+      const contextMenu = new ContextMenu();
+      contextMenu.elementType = elementType; // Set elementType here
+
+      toolbar.appendChild(contextMenu);
+      if(elementType==="media")
+        element.parentElement.appendChild(toolbar);
+      else
+        element.appendChild(toolbar);
     }
 
     render() {

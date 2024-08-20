@@ -18,6 +18,12 @@ export const style = css`
         
     }
 
+    #anchor-input {
+        position: relative;
+    top: 45px;
+    left: 151px;
+    }
+
     .hover-bg-gray-200:hover {
         --tw-bg-opacity: 1;
         background-color: rgb(238 237 242 / var(--tw-bg-opacity));
@@ -88,5 +94,33 @@ export const style = css`
     }
     .box-border {
         box-sizing: border-box;
+    }
+
+    #canvas-hyperlink-popup{
+        display: flex;
+    width: fit-content;
+    top: 351px;
+    left: 854px;
+    z-index: 31;
+    flex-direction: column;
+    filter: drop-shadow(0px 0px 1px rgba(18, 15, 40, .24)) drop-shadow(0px 3px 6px rgba(18, 15, 40, .12)) drop-shadow(0px .5px 2px rgba(18, 15, 40, .06));
+    border-radius: 10px;
+    }
+
+    #position-icon{
+        align-self: center;
+    }
+
+    #input-wrapper{
+        padding: 5px 5px;
+    background: white;
+    }
+
+    #input-wrapper-child{
+        padding-right: 10px;
+    display: flex;
+    background: lightgray;
+    width: fit-content;
+    border-radius: 6px;
     }
     `
