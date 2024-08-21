@@ -14,19 +14,8 @@ export class BlankCanvas extends LitElement{
    
     static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle];
 
-    static properties = {
-      // dynamicListOfElements : {type : Array},
-      elements: { type: Array },
-      draggedElementIndex: {type: Number},
-      _draggedElement: {type: HTMLElement},
-      _offsetX: {type: Number},
-      _offsetY: {type: Number},
-      pointerMap: {type: Map}
-    }
-
     constructor() {
       super();
-      // this.dynamicListOfElements = [];
       this.elements = [];
       const url = window.location.href;
       if (url.includes("theme=product"))
@@ -78,7 +67,6 @@ export class BlankCanvas extends LitElement{
           const component = getComponent(element);
           element1.innerHTML = component.trim();
           canvasElement.append(element1);
-          // this.dynamicListOfElements = [...this.dynamicListOfElements, getComponent(element)];
         });
         this.elements = [];
       } else {
@@ -98,7 +86,6 @@ export class BlankCanvas extends LitElement{
         element.innerHTML = component.trim();
         let canvasElement = this.shadowRoot.getElementById('blank-canvas-main');
         canvasElement.append(element);
-         // this.dynamicListOfElements = [...this.dynamicListOfElements,component];
     }
 
     getDropLocation(relativeX, relativeY, halfWidth, halfHeight) {
@@ -132,12 +119,11 @@ export class BlankCanvas extends LitElement{
 
     _onDragStart(e, index) {
       this._draggedElement = e.target;
-      this._draggedElementIndex = index;
       e.dataTransfer.setData('text/plain', index);
 
       this._offsetX = e.clientX;
       this._offsetY = e.clientY;
-      this.pointerMap.set(index, {
+      this.pointerMap.set(e.target, {
           startPos: { x: e.clientX, y: e.clientY },
           currentPos: { x: e.clientX, y: e.clientY },
         })
@@ -160,11 +146,10 @@ export class BlankCanvas extends LitElement{
         const elementTag = e.dataTransfer.getData('text/toolbar-item');
         this.elementDroped(elementTag)
         this._onDragStart(e, 0);
-        // this._onDrop(e);
       }
       let canvasElement = this.shadowRoot.getElementById('blank-canvas-main');
-      if(e.currentTarget === canvasElement) {
-        const saved = this.pointerMap.get(this._draggedElementIndex);
+      if (e.currentTarget === canvasElement) {
+        const saved = this.pointerMap.get(this._draggedElement);
         const current = { ...saved.currentPos };
         saved.currentPos = { x: e.clientX, y: e.clientY };
         const delta = {
@@ -172,74 +157,64 @@ export class BlankCanvas extends LitElement{
             y: saved.currentPos.y - current.y,
         }
         this.moveElement(delta);
-      }else {
+      } else {
         const targetRect = e.currentTarget.getBoundingClientRect();
         const relativeX = e.clientX - targetRect.left;
         const relativeY = e.clientY - targetRect.top;
         const halfWidth = targetRect.width / 2;
         const halfHeight = targetRect.height / 2;
 
-        let dropLocation = this.getDropLocation(relativeX, relativeY, halfWidth, halfHeight)
+        let dropLocation = this.getDropLocation(relativeX, relativeY, halfWidth, halfHeight);
+        console.log("dropLocation", dropLocation);
        
-
-        const draggedIndex = this._draggedElementIndex;
-        console.log("currentTarget", e.currentTarget.innerHTML);
-        const targetIndex = this.dynamicListOfElements.findIndex(
-          (element) => {
-            console.log("element", element);
-            return e.currentTarget.innerHTML.includes(element);
-          }
-        );
-
-        this.updateElementOrder(draggedIndex, targetIndex, dropLocation);
-
-        this._draggedElementIndex = -1;
+        this.updateElementOrder(this._draggedElement, e.currentTarget, dropLocation);
         
         this.requestUpdate();
       }
     }
 
-      updateElementOrder(draggedIndex, targetIndex, dropLocation) {
-        const draggedElement = this.dynamicListOfElements[draggedIndex];
-        this.dynamicListOfElements.splice(draggedIndex, 1); // Remove dragged element
-      
-        if (draggedIndex < targetIndex) {
-          targetIndex--;
-        }
+      updateElementOrder(srcEle, destEle, dropLocation) {
+
+        const parent = destEle.parentNode;
+        parent.insertBefore(srcEle, destEle.nextSibling);
       
         switch (dropLocation) {
           case 'top':
           case 'top-left':
           case 'top-right':
-            this.dynamicListOfElements.splice(targetIndex, 0, draggedElement);
+            parent.insertBefore(srcEle, destEle.nextSibling);
             break;
           case 'bottom':
           case 'bottom-left':
-          case 'bottom-right':
-            this.dynamicListOfElements.splice(targetIndex + 1, 0, draggedElement);
+          case 'bottom-right': {
+            const nextSibling = destEle.nextSibling;
+            parent.insertBefore(srcEle, nextSibling);
             break;
+          }
           case 'left':
-            this.dynamicListOfElements.splice(targetIndex, 0, draggedElement);
+            parent.insertBefore(srcEle, destEle.nextSibling);
             break;
-          case 'right':
-            this.dynamicListOfElements.splice(targetIndex + 1, 0, draggedElement);
-            break;
+          case 'right':{
+              const nextSibling = destEle.nextSibling;
+              parent.insertBefore(srcEle, nextSibling);
+              break;
+            }
         }
       }
 
       moveElement(delta) {
-        const getNumber = (key, fallback) => {
-          const saved = this._draggedElement.style.getPropertyValue(key);
-          if (saved.length > 0) {
-            return parseFloat(saved.replace("px", ""));
-          }
-          return fallback;
-        };
-        const dx = getNumber("--dx", 0) + delta.x;
-        const dy = getNumber("--dy", 0) + delta.y;
-        this._draggedElement.style.transform = `translate(${dx}px, ${dy}px)`;
-        this._draggedElement.style.setProperty("--dx", `${dx}px`);
-        this._draggedElement.style.setProperty("--dy", `${dy}px`);
+        // const getNumber = (key, fallback) => {
+        //   const saved = this._draggedElement.style.getPropertyValue(key);
+        //   if (saved.length > 0) {
+        //     return parseFloat(saved.replace("px", ""));
+        //   }
+        //   return fallback;
+        // };
+        // const dx = getNumber("--dx", 0) + delta.x;
+        // const dy = getNumber("--dy", 0) + delta.y;
+        // this._draggedElement.style.transform = `translate(${dx}px, ${dy}px)`;
+        // this._draggedElement.style.setProperty("--dx", `${dx}px`);
+        // this._draggedElement.style.setProperty("--dy", `${dy}px`);
       }
 
       _onDragEnd(e) {
@@ -271,25 +246,11 @@ export class BlankCanvas extends LitElement{
     enableEditMode(element) {
       element.contentEditable = true;
       element.focus();
-      //this.enableContextualMenu(element)
     }
     
     disableEditMode(element) {
       element.contentEditable = false;
     }
-
-    // enableContextualMenu(element) {
-    //   const quill = new Quill(element, {
-    //     // Quill configuration options
-    //     theme: 'snow', // Or 'bubble'
-    //     modules: {
-    //       toolbar: [
-    //         ['bold', 'italic', 'underline'],
-    //         [{ list: 'ordered' }, { list: 'bullet' }]
-    //       ]
-    //     }
-    //   });
-    // }
 
     render() {
         return html`
