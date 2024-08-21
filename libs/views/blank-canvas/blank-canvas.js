@@ -7,6 +7,7 @@ import { style as style3 } from "../../blocks/aside/aside.css.js";
 import { style as mediaStyle} from "../../blocks/media/media.css.js";
 import { styles as sectionMetadatastyle} from "../../blocks/section-metadata/section-metadata.css.js"
 import { style as videoStyle } from "../../blocks/video/video.css.js";
+import { ContextMenu } from "../context-menu/context-menu.js";
 
 export class BlankCanvas extends LitElement{
 
@@ -42,6 +43,8 @@ export class BlankCanvas extends LitElement{
       const elem = this.shadowRoot.getElementById("blank-canvas-main");
       this.renderDynamicElements();
       this.makeParagraphsEditable(elem);
+      this.makeLinksEditable(elem);
+      this.makeMediaSourceEditable(elem);
   }
 
     renderComponentFromString(comp) {
@@ -139,7 +142,6 @@ export class BlankCanvas extends LitElement{
     }
     
     _onDrop(e) {
-      console.log("inside on drop")
       e.preventDefault();
       
       if (e.dataTransfer.types.includes('text/toolbar-item')) {
@@ -243,19 +245,90 @@ export class BlankCanvas extends LitElement{
       });
     }
 
+    makeMediaSourceEditable(element) {
+      const editableSource =  Array.from(element.querySelectorAll('video'));
+      editableSource.forEach((link) => {
+        link.addEventListener('click', (event) => {
+          //event.preventDefault();
+          //link.contentEditable = true;
+          link.focus();
+          this.enableContextualMenu(link, "media")
+        });
+        link.addEventListener('blur', () => {
+          this.disableEditMode(link);
+        });
+      });
+    }
+
+    makeLinksEditable(element) {
+        const editableLinks =  Array.from(element.querySelectorAll('a'));
+        editableLinks.forEach((link) => {
+          link.addEventListener('click', (event) => {
+            event.preventDefault();
+            link.contentEditable = true;
+            link.focus();
+            this.enableContextualMenu(link, "anchor")
+          });
+          link.addEventListener('blur', () => {
+            this.disableEditMode(link);
+          });
+        });
+    }
+
     enableEditMode(element) {
       element.contentEditable = true;
       element.focus();
+      
+      const toolbar = element.querySelector("#context-menu-div");
+      if (toolbar) {
+        toolbar.remove();
+      }
+      this.enableContextualMenu(element)
     }
     
-    disableEditMode(element) {
+    disableEditMode(element) {     
       element.contentEditable = false;
+      const toolbar = element.querySelector("#context-menu-div");
+      if (toolbar) {
+        toolbar.remove();
+      }
+    }
+
+    enableContextualMenu(element, elementType) {
+      const toolbar = document.createElement('div');
+      toolbar.id = "context-menu-div";
+
+      const contextMenu = new ContextMenu();
+      contextMenu.elementType = elementType; // Set elementType here
+
+      toolbar.appendChild(contextMenu);
+      if(elementType==="media")
+        element.parentElement.appendChild(toolbar);
+      else
+        element.appendChild(toolbar);
+    }
+    
+    renderToolbar() {
+      const rootNode = this.getRootNode();
+      const actionbar = rootNode.querySelector('rag-actionbar');
+      if (actionbar && actionbar.shadowRoot) {
+        const pickerButton = actionbar.shadowRoot.querySelector('sp-badge');
+        if (pickerButton) {
+            const buttonText = pickerButton.textContent.trim();
+            if (buttonText === 'Open') {
+                return html``;
+            } else {
+                return html`<rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component)}}></rag-toolbar>`;
+            }
+        } 
+      }
+      return html`<rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component)}}></rag-toolbar>`;
     }
 
     render() {
         return html`
         <div id="container">
-            <rag-toolbar @drop-elem=${(event)=>{this.elementDroped(event.detail.component)}}></rag-toolbar>
+            ${this.renderToolbar()}
             <div id="blank-canvas-main" @dragover=${this._onDragOver} @dragenter=${this._onDragEnter} @drop=${(e) => this._onDrop(e)}>
             </div>
         </div>

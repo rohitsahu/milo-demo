@@ -5,6 +5,8 @@ import { Toolbar } from "./libs/views/toolbar/toolbar.js";
 import { ToolbarItem } from "./libs/views/toolbar-item/toolbar-item.js";
 import { ComponentPreview } from "./libs/views/component-preview/component-preview.js";
 import { Actionbar } from "./libs/views/rag-actionbar/rag-actionbar.js";
+import { ContextMenu } from "./libs/views/context-menu/context-menu.js";
+
 const defineElement = () => {
 
 if(!customElements.get("select-theme")) {
@@ -36,7 +38,9 @@ if(!customElements.get(Actionbar.tag)) {
     customElements.define(Actionbar.tag,Actionbar);
 }
 
-
+if(!customElements.get(ContextMenu.tag)) {
+    customElements.define(ContextMenu.tag,ContextMenu);
+}
 }
 
 defineElement();
