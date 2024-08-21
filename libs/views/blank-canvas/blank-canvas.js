@@ -176,29 +176,24 @@ export class BlankCanvas extends LitElement{
     }
 
       updateElementOrder(srcEle, destEle, dropLocation) {
-
         const parent = destEle.parentNode;
-        parent.insertBefore(srcEle, destEle.nextSibling);
-      
         switch (dropLocation) {
           case 'top':
           case 'top-left':
           case 'top-right':
-            parent.insertBefore(srcEle, destEle.nextSibling);
+            parent.insertBefore(srcEle, destEle);
             break;
           case 'bottom':
           case 'bottom-left':
           case 'bottom-right': {
-            const nextSibling = destEle.nextSibling;
-            parent.insertBefore(srcEle, nextSibling);
+            parent.insertBefore(srcEle, destEle.nextSibling);
             break;
           }
           case 'left':
-            parent.insertBefore(srcEle, destEle.nextSibling);
+            parent.insertBefore(srcEle, destEle);
             break;
           case 'right':{
-              const nextSibling = destEle.nextSibling;
-              parent.insertBefore(srcEle, nextSibling);
+              parent.insertBefore(srcEle, destEle.nextSibling);
               break;
             }
         }
