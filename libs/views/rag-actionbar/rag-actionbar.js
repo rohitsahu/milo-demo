@@ -73,18 +73,18 @@ export class Actionbar extends LitElement {
             });
             console.log(out.md);
             //console.log(out);
-            const blob = new Blob([out.docx], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
-             // Create a URL representing the Blob
-            const url = URL.createObjectURL(blob);
+            // const blob = new Blob([out.docx], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+            //  // Create a URL representing the Blob
+            // const url = URL.createObjectURL(blob);
 
-            // Create a download link and click it
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'plan.docx';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            console.log('Downloaded url is,', url);
+            // // Create a download link and click it
+            // const link = document.createElement('a');
+            // link.href = url;
+            // link.download = 'plan.docx';
+            // document.body.appendChild(link);
+            // link.click();
+            // document.body.removeChild(link);
+            // console.log('Downloaded url is,', url);
             const name = window.location.href.substring(window.location.href.lastIndexOf("/")+1)+".docx";
             updateDocument(out.docx, name );
           } catch (error) {
