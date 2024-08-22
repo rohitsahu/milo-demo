@@ -85,7 +85,10 @@ export class Actionbar extends LitElement {
             // link.click();
             // document.body.removeChild(link);
             // console.log('Downloaded url is,', url);
-            const name = window.location.href.substring(window.location.href.lastIndexOf("/")+1)+".docx";
+            const url = window.location.href;
+            const end = url.lastIndexOf("?");
+            const start = url.lastIndexOf("/");
+            const name = window.location.href.substring(start+1, end )+".docx";
             updateDocument(out.docx, name );
           } catch (error) {
             console.error(error);
