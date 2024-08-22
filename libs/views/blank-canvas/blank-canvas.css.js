@@ -20,4 +20,17 @@ export const style = css`
       
       transform: translate(var(--dx), var(--dy));
     }
+    #delete-component {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        background: transparent;
+        border: none;
+        color: red;
+        cursor: pointer;
+        margin-top: 5px;
+        margin-left: 5px;
+        opacity: 0.70;
+    }
 `;

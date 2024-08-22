@@ -64,49 +64,82 @@ export class ContextMenu extends LitElement {
     }
     
     deleteElement(e) {
-        const contextMenu = e.currentTarget.parentElement.parentElement;
-        const contextmenuParent = contextMenu.getRootNode();
-        const y = contextmenuParent.host;
-        y.parentElement.parentElement.remove()
+        if(this.elementType==="media"){
+            e.currentTarget.parentElement.getRootNode().host.parentElement.parentElement.remove();
+        }
+        else {
+            const contextMenu = e.currentTarget.parentElement.parentElement;
+            const contextmenuParent = contextMenu.getRootNode();
+            const y = contextmenuParent.host;
+            y.parentElement.parentElement.remove()
+        }
     }
 
-    renderAnchorInput(event, elementType) {
+    renderAnchorInput(event) {
+        if(this.elementType==='anchor') {
+            event.preventDefault();
+            const blankCanvas = document.querySelector('blank-canvas').shadowRoot;
+            const toolbar = blankCanvas.querySelector("#context-menu-div");
         
-        event.preventDefault();
-        const blankCanvas = document.querySelector('blank-canvas').shadowRoot;
-        const toolbar = blankCanvas.querySelector("#context-menu-div");
-      
-        const anchorInFocus = event.currentTarget.parentElement.parentElement.getRootNode().host.parentElement.parentElement;
-        const contextMenu = event.currentTarget.parentElement.parentElement.getRootNode().host.parentElement.parentElement.parentElement;
+            const anchorInFocus = event.currentTarget.parentElement.parentElement.getRootNode().host.parentElement.parentElement;
+            const contextMenu = event.currentTarget.parentElement.parentElement.getRootNode().host.parentElement.parentElement.parentElement;
 
-        const inputFielddiv = document.createElement('div');
-        inputFielddiv.style.width = 'fit-content';
-        inputFielddiv.innerHTML = this.anchorInputString();
-        
-        contextMenu.appendChild(inputFielddiv);
-        // inputFielddiv.focus()
-        // inputFielddiv.addEventListener('blur', () => {
-        //     inputFielddiv.remove();
-        //     
-        // })
-        if (toolbar) {
-            toolbar.remove();
-            anchorInFocus.contentEditable = false;
-          }
-
-        const submit = inputFielddiv.querySelector('#submit-btn');
-        const input = inputFielddiv.querySelector('input');
-        submit.addEventListener('click', (e) => {
-            if(input.value!=""){
-                anchorInFocus.href = input.value;
+            const inputFielddiv = document.createElement('div');
+            inputFielddiv.style.width = 'fit-content';
+            inputFielddiv.innerHTML = this.anchorInputString();
+            
+            contextMenu.appendChild(inputFielddiv);           
+            if (toolbar) {
+                toolbar.remove();
+                anchorInFocus.contentEditable = false;
             }
-            contextMenu.removeChild(inputFielddiv);
-        })
+
+            const submit = inputFielddiv.querySelector('#submit-btn');
+            const input = inputFielddiv.querySelector('input');
+            submit.addEventListener('click', (e) => {
+                if(input.value!=""){
+                    anchorInFocus.href = input.value;
+                }
+                contextMenu.removeChild(inputFielddiv);
+            })
+        }
+        else {
+            const blankCanvas = document.querySelector('blank-canvas').shadowRoot;
+            const toolbar = blankCanvas.querySelector("#context-menu-div");
+        
+            const anchorInFocus = event.currentTarget.parentElement.getRootNode().host.parentElement.parentElement;
+            const contextMenu = event.currentTarget.parentElement.getRootNode().host.parentElement.parentElement;
+            const video = event.currentTarget.parentElement.getRootNode().host.parentElement.previousSibling;
+            const source = video.querySelector('source');
+
+            const inputFielddiv = document.createElement('div');
+            inputFielddiv.style.width = 'fit-content';
+            inputFielddiv.innerHTML = this.anchorInputString();
+            
+            contextMenu.appendChild(inputFielddiv);
+            
+            if (toolbar) {
+                toolbar.remove();
+            }
+
+            const submit = inputFielddiv.querySelector('#submit-btn');
+            const input = inputFielddiv.querySelector('input');
+
+            submit.addEventListener('click', (e) => {
+                if(input.value!=""){
+                    source.src = `${input.value}?v=${Math.random()}`;
+                    video.load();
+                    video.play()
+                }
+                contextMenu.removeChild(inputFielddiv);
+                document.querySelector('blank-canvas').requestUpdate()
+            })
+        }
     }
 
-    renderAnchorMenuItem() {
+    renderAnchorMenuItem(elementType) {
         return html`
-            <div @click = ${(e)=>this.renderAnchorInput(e)} class="box-border cursor-pointer whitespace-nowrap rounded capitalize hover-bg-gray-200 px-1.5 py-1">
+            <div @click = ${(e)=>this.renderAnchorInput(e, elementType)} class="box-border cursor-pointer whitespace-nowrap rounded capitalize hover-bg-gray-200 px-1.5 py-1">
                 <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18">
                     <defs>
                         <style>
@@ -196,9 +229,6 @@ export class ContextMenu extends LitElement {
             flex-direction: column;
             filter: drop-shadow(0px 0px 1px rgba(18, 15, 40, .24)) drop-shadow(0px 3px 6px rgba(18, 15, 40, .12)) drop-shadow(0px .5px 2px rgba(18, 15, 40, .06));
             border-radius: 10px;">
-                <svg style= " align-self: center;" id="position-icon" width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg" class="absolute -top-1.5 z-10 w-3">
-                    <path d="M2.8862 0.701546C3.39573 -0.23385 4.60427 -0.233848 5.1138 0.701549L8 6L0 6L2.8862 0.701546Z" fill="white"></path>
-                </svg>
                 
                 <div id="input-wrapper" style="padding: 5px 5px;
                     background: white;

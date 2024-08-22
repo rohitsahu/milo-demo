@@ -58,7 +58,9 @@ export class Actionbar extends LitElement {
         }
 
         let blankcanvasDom = document.querySelector("blank-canvas").shadowRoot;
-
+        blankcanvasDom.querySelectorAll("#delete-component").forEach(element => {
+          element.remove();
+        })
         blankcanvasDom.querySelectorAll(".canvas-element").forEach(element => {
             section.appendChild(element.children[0].cloneNode(true));
         });

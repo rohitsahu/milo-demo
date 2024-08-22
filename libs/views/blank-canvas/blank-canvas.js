@@ -70,11 +70,33 @@ export class BlankCanvas extends LitElement{
           const component = getComponent(element);
           element1.innerHTML = component.trim();
           canvasElement.append(element1);
+
+          const btn = document.createElement('button');
+          btn.setAttribute('id', 'delete-component');
+          btn.addEventListener('click', this.removeComponent);
+          btn.innerHTML = `
+                  <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18">
+                  <defs>
+                    <style>
+                      .fill {
+                        fill: #464646;
+                      }
+                    </style>
+                  </defs>
+                  <title>S RemoveCircle 18 N</title>
+                  <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" /><path class="fill" d="M9,1a8,8,0,1,0,8,8A8,8,0,0,0,9,1Zm5,8.5a.5.5,0,0,1-.5.5h-9A.5.5,0,0,1,4,9.5v-1A.5.5,0,0,1,4.5,8h9a.5.5,0,0,1,.5.5Z" />
+                </svg> 
+          `
+          element1.appendChild(btn);
         });
         this.elements = [];
       } else {
         console.log('No elements provided');
       }
+    }
+
+    removeComponent(e) {
+      e.currentTarget.parentElement.remove();
     }
 
     elementDroped(comp) {
@@ -89,6 +111,28 @@ export class BlankCanvas extends LitElement{
         element.innerHTML = component.trim();
         let canvasElement = this.shadowRoot.getElementById('blank-canvas-main');
         canvasElement.append(element);
+
+        const btn = document.createElement('button');
+        btn.setAttribute('id', 'delete-component');
+        btn.addEventListener('click', this.removeComponent);
+        btn.innerHTML = `
+                  <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18">
+                  <defs>
+                    <style>
+                      .fill {
+                        fill: #464646;
+                      }
+                    </style>
+                  </defs>
+                  <title>S RemoveCircle 18 N</title>
+                  <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" /><path class="fill" d="M9,1a8,8,0,1,0,8,8A8,8,0,0,0,9,1Zm5,8.5a.5.5,0,0,1-.5.5h-9A.5.5,0,0,1,4,9.5v-1A.5.5,0,0,1,4.5,8h9a.5.5,0,0,1,.5.5Z" />
+                </svg> 
+          `
+        element.appendChild(btn);
+
+        this.makeParagraphsEditable(element);
+        this.makeLinksEditable(element);
+        this.makeMediaSourceEditable(element);
     }
 
     getDropLocation(relativeX, relativeY, halfWidth, halfHeight) {
