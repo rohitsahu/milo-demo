@@ -14,7 +14,7 @@ export class Actionbar extends LitElement {
     }
 
     changeTheme() {
-        window.history.back();
+        window.location.href += "?selectTheme=true";
     }
 
     createDocumentFromString(html) {
