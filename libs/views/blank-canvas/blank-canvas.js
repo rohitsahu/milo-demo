@@ -89,6 +89,9 @@ export class BlankCanvas extends LitElement{
         element.innerHTML = component.trim();
         let canvasElement = this.shadowRoot.getElementById('blank-canvas-main');
         canvasElement.append(element);
+        this.makeParagraphsEditable(element);
+        this.makeLinksEditable(element);
+        this.makeMediaSourceEditable(element);
     }
 
     getDropLocation(relativeX, relativeY, halfWidth, halfHeight) {
