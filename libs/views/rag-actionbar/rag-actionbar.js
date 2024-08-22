@@ -15,7 +15,8 @@ export class Actionbar extends LitElement {
 
     changeTheme() {
         const url =  window.location.href.substring(0,window.location.href.lastIndexOf("?"));
-        window.location.href = url+"?selectTheme=true";
+        //TODO added 1 as a hack
+        window.location.href = url+"1?selectTheme=true";
     }
 
     createDocumentFromString(html) {
