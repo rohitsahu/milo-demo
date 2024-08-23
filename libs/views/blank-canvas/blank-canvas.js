@@ -21,7 +21,7 @@ export class BlankCanvas extends LitElement{
       const url = window.location.href;
       if (url.includes("theme=product"))
       {
-        this.elements = ["hero-marquee", "aside_l", "media", "aside_m"];
+        this.elements = ["layout-3up","aside_l", "media","hero-marquee"];
       } 
       else if (url.includes("theme=catalog"))
       {
