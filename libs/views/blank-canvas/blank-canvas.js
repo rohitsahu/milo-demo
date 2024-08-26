@@ -318,7 +318,7 @@ export class BlankCanvas extends LitElement{
             this.enableContextualMenu(link, "button")
           });
           link.addEventListener('handle-submit', (event) => {
-            link.innerText = event.detail.content;
+            link.children[0].innerText = event.detail.content;
             this.disableEditMode(link);
           });
         //   link.addEventListener('blur', (event) => {
