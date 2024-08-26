@@ -14,7 +14,9 @@ export class Actionbar extends LitElement {
     }
 
     changeTheme() {
-        window.history.back();
+        const url =  window.location.href.substring(0,window.location.href.lastIndexOf("?"));
+        //TODO added 1 as a hack
+        window.location.href = url+"1?selectTheme=true";
     }
 
     createDocumentFromString(html) {
@@ -57,7 +59,9 @@ export class Actionbar extends LitElement {
         }
 
         let blankcanvasDom = document.querySelector("blank-canvas").shadowRoot;
-
+        blankcanvasDom.querySelectorAll("#delete-component").forEach(element => {
+          element.remove();
+        })
         blankcanvasDom.querySelectorAll(".canvas-element").forEach(element => {
             section.appendChild(element.children[0].cloneNode(true));
         });
@@ -85,7 +89,10 @@ export class Actionbar extends LitElement {
             // link.click();
             // document.body.removeChild(link);
             // console.log('Downloaded url is,', url);
-            const name = window.location.href.substring(window.location.href.lastIndexOf("/")+1)+".docx";
+            const url = window.location.href;
+            const end = url.lastIndexOf("?");
+            const start = url.lastIndexOf("/");
+            const name = window.location.href.substring(start+1, end )+".docx";
             updateDocument(out.docx, name );
           } catch (error) {
             console.error(error);

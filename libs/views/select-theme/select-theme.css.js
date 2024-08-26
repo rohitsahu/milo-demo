@@ -8,7 +8,7 @@ export const style = css`
         margin-block-start: 100px;
         flex-direction: column;
         flex-grow: auto;
-        gap: 30px;
+        gap: 48px;
         margin-left: auto;
         margin-right: auto;
     }
@@ -17,42 +17,58 @@ export const style = css`
         text-align : center;
     }
 
-    h2{
+    h3{
         text-align : center;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
     }
 
     #cards-container {
         display: flex;
         flex-direction: row;
-        gap : 12px;
+        gap : 48px;
     }
 
     .card {
-       outline: 2px solid black;
-        border-radius: 5px;
-        border: 2px double grey;
+       outline: 1px solid rgb(230,230,230);
+        border-radius: 10px;
+        border: 1px solid rgb(230,230,230);
     }
 
     .card:hover {
-        border : 2px solid blue;
-        outline: 2px solid black;
+        border : 1px solid blue;
+        outline: 1px solid black;
     }
 
     .selected {
-      border : 2px solid blue;
-       outline: 2px solid blue;
+      border : 1px solid blue;
+       outline: 1px solid blue;
     }
 
     img {
-        width : 200px;
-        height : 300px;
-        object-fit : cover;
+        width : 300px;
+        height : 250px;
+        object-fit : none;
+        border-radius: 10px 10px 0px 0px;
+    }
+
+    #new-div {
+        width : 300px;
+        height : 308px;
+        display : flex;
+
+        outline: 1px solid rgb(230,230,230);
+        border-radius: 10px;
+        border: 1px double rgb(230,230,230);
+    }
+
+    #new-div:hover {
+        border : 1px solid blue;
+        outline: 1px solid black;
+    }
+
+    svg {
+        margin : auto;
+        width : 70px;
+        height : 70px;
     }
 
 `;
