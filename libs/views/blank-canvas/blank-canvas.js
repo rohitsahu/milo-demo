@@ -364,6 +364,10 @@ export class BlankCanvas extends LitElement{
       contextMenu.linkText = element.href;
       contextMenu.textVal = element.innerText;
 
+      if(elementType==="button" && element.classList.contains('con-button')) {
+        contextMenu.extraMargin = true;
+      }
+
       toolbar.appendChild(contextMenu);
       if(elementType==="media")
         element.parentElement.appendChild(toolbar);

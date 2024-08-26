@@ -178,8 +178,12 @@ export class ContextMenu extends LitElement {
                 </div>
                 <div @click = ${this.executeStrikethrough} class="box-border cursor-pointer whitespace-nowrap rounded capitalize hover-bg-gray-200 px-1.5 py-1">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 10C2.25 9.51675 2.64175 9.125 3.125 9.125H16.875C17.3582 9.125 17.75 9.51675 17.75 10C17.75 10.4832 17.3582 10.875 16.875 10.875H3.125C2.64175 10.875 2.25 10.4832 2.25 10Z" fill="currentColor"></path>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10 4.625C7.84635 4.625 6.7422 5.82783 6.7422 6.875V6.88521L6.74214 6.88521C6.74076 7.00337 6.7584 7.12098 6.79439 7.23353C6.94156 7.69383 6.68771 8.18627 6.22742 8.33344C5.76712 8.4806 5.27468 8.22676 5.12751 7.76647C5.03489 7.47677 4.98921 7.17413 4.9922 6.87002C4.99542 4.46684 7.3274 2.875 10 2.875C12.0899 2.875 13.9057 3.81077 14.655 5.36149C14.8653 5.7966 14.683 6.31977 14.2479 6.53003C13.8128 6.74028 13.2896 6.558 13.0794 6.12289C12.7037 5.34548 11.6289 4.625 10 4.625Z" fill="currentColor"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 10C2.25 9.51675 2.64175 9.125 3.125        <div id="canvas-context-toolbar" 
+             class="fixed flex select-none items-center rounded-md bg-white text-sm shadow-md"
+             style="${this.extraMargin ? 'margin-top: 14px; margin-left: -6px;' : ''}">
+            ${renderOptions()}
+        </div>}
+        </div>35 4.625 6.7422 5.82783 6.7422 6.875V6.88521L6.74214 6.88521C6.74076 7.00337 6.7584 7.12098 6.79439 7.23353C6.94156 7.69383 6.68771 8.18627 6.22742 8.33344C5.76712 8.4806 5.27468 8.22676 5.12751 7.76647C5.03489 7.47677 4.98921 7.17413 4.9922 6.87002C4.99542 4.46684 7.3274 2.875 10 2.875C12.0899 2.875 13.9057 3.81077 14.655 5.36149C14.8653 5.7966 14.683 6.31977 14.2479 6.53003C13.8128 6.74028 13.2896 6.558 13.0794 6.12289C12.7037 5.34548 11.6289 4.625 10 4.625Z" fill="currentColor"></path>
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M9.9725 9.75523C10.1078 9.29131 10.5936 9.02492 11.0575 9.16023C12.0005 9.43526 13.023 9.78556 13.8138 10.3645C14.6537 10.9795 15.25 11.869 15.25 13.1252C15.25 14.3447 14.556 15.3656 13.6012 16.0473C12.6447 16.7302 11.3684 17.1252 10 17.1252C8.63159 17.1252 7.35534 16.7302 6.39881 16.0473C5.44399 15.3656 4.75 14.3447 4.75 13.1252C4.75 12.642 5.14175 12.2502 5.625 12.2502C6.10825 12.2502 6.5 12.642 6.5 13.1252C6.5 13.6323 6.78647 14.1739 7.41564 14.6231C8.0431 15.071 8.95435 15.3752 10 15.3752C11.0457 15.3752 11.9569 15.071 12.5844 14.6231C13.2135 14.1739 13.5 13.6323 13.5 13.1252C13.5 12.5221 13.2525 12.1225 12.78 11.7765C12.2583 11.3946 11.4995 11.1121 10.5675 10.8402C10.1036 10.7049 9.83719 10.2191 9.9725 9.75523Z" fill="currentColor"></path>
                     </svg>
                 </div>
@@ -443,7 +447,8 @@ export class ContextMenu extends LitElement {
         };
     
         return html`   
-        <div id="canvas-context-toolbar" class="fixed flex select-none items-center rounded-md bg-white text-sm shadow-md">
+        <div id="canvas-context-toolbar" class="fixed flex select-none items-center rounded-md bg-white text-sm shadow-md"
+            style="${this.extraMargin ? 'margin-top: 14px; margin-left: -6px;' : ''}">
             ${renderOptions()}
         </div>
         `;
