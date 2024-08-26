@@ -22,7 +22,8 @@ export class BlankCanvas extends LitElement{
       _draggedElement: {type: HTMLElement},
       _offsetX: {type: Number},
       _offsetY: {type: Number},
-      pointerMap: {type: Map}
+      pointerMap: {type: Map},
+      contextMenuEnabled: {type: Boolean} = false
     }
 
     constructor() {
@@ -249,6 +250,9 @@ export class BlankCanvas extends LitElement{
     }
 
     makeParagraphsEditable(element) {
+        if (this.contextMenuEnabled) {
+            return;
+        }
       const paragraphs =  Array.from(element.querySelectorAll('p, h1, h2, h3, h4, h5, h6'));
 
       paragraphs.forEach(paragraph => {
@@ -262,6 +266,9 @@ export class BlankCanvas extends LitElement{
     }
 
     makeMediaSourceEditable(element) {
+        if (this.contextMenuEnabled) {
+            return;
+        }
       const editableSource =  Array.from(element.querySelectorAll('video'));
       editableSource.forEach((link) => {
         link.addEventListener('click', (event) => {
@@ -277,21 +284,31 @@ export class BlankCanvas extends LitElement{
     }
 
     makeLinksEditable(element) {
+        if (this.contextMenuEnabled) {
+            return;
+        }
         const editableLinks =  Array.from(element.querySelectorAll('a'));
         editableLinks.forEach((link) => {
           link.addEventListener('click', (event) => {
             event.preventDefault();
-            link.contentEditable = true;
-            link.focus();
-            this.enableContextualMenu(link, "anchor")
+            //link.contentEditable = true;
+            //link.focus();
+            this.enableContextualMenu(link, "button")
           });
-          link.addEventListener('blur', () => {
+          link.addEventListener('handle-submit', (event) => {
+            link.innerText = event.detail.content;
             this.disableEditMode(link);
           });
+        //   link.addEventListener('blur', (event) => {
+        //     this.disableEditMode(link);
+        //   });
         });
     }
 
     enableEditMode(element) {
+        if (this.contextMenuEnabled) {
+            return;
+        }
       element.contentEditable = true;
       element.focus();
       
@@ -302,7 +319,8 @@ export class BlankCanvas extends LitElement{
       this.enableContextualMenu(element)
     }
     
-    disableEditMode(element) {     
+    disableEditMode(element) {   
+        this.contextMenuEnabled = false;  
       element.contentEditable = false;
       const toolbar = element.querySelector("#context-menu-div");
       if (toolbar) {
@@ -311,11 +329,18 @@ export class BlankCanvas extends LitElement{
     }
 
     enableContextualMenu(element, elementType) {
+        if (this.contextMenuEnabled) {
+            return;
+        }
+        this.contextMenuEnabled = true;
       const toolbar = document.createElement('div');
       toolbar.id = "context-menu-div";
 
       const contextMenu = new ContextMenu();
       contextMenu.elementType = elementType; // Set elementType here
+      contextMenu.element = element;
+      contextMenu.linkText = element.href;
+      contextMenu.textVal = element.innerText;
 
       toolbar.appendChild(contextMenu);
       if(elementType==="media")

@@ -341,6 +341,26 @@ export const style = css`
   text-decoration: none;
 }
 
+.con-button2 {
+  background-color: transparent;
+  border-radius: 16px;
+  border: 2px solid var(--text-color);
+  color: var(--text-color);
+  display: inline-block;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16px;
+  padding: 5px 14px;
+  text-decoration: none;
+}
+
+.con-button2:hover {
+  border-color: var(--color-black);
+  text-decoration: none;
+  color: var(--text-color);
+}
+
 .l-button .con-button,
 .con-button.button-l {
   border-radius: 20px;
@@ -351,7 +371,8 @@ export const style = css`
 }
 
 .xl-button .con-button,
-.con-button.button-xl {
+.con-button.button-xl,
+.con-button2.button-xl {
   border-radius: 25px;
   font-size: 19px;
   line-height: 24px;
