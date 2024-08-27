@@ -7,13 +7,14 @@ import { style as style3 } from "../../blocks/aside/aside.css.js";
 import { style as mediaStyle} from "../../blocks/media/media.css.js";
 import { styles as sectionMetadatastyle} from "../../blocks/section-metadata/section-metadata.css.js"
 import { style as videoStyle } from "../../blocks/video/video.css.js";
+import { style as textStyle } from "../../blocks/text/text.css.js";
 import { ContextMenu } from "../context-menu/context-menu.js";
 
 export class BlankCanvas extends LitElement{
 
     static tag = "blank-canvas";
    
-    static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle];
+    static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle, textStyle];
 
     constructor() {
       super();
@@ -21,7 +22,7 @@ export class BlankCanvas extends LitElement{
       const url = window.location.href;
       if (url.includes("theme=product"))
       {
-        this.elements = ["layout-3up","aside_l", "media","hero-marquee"];
+        this.elements = ["text","layout-3up","aside_l", "media","hero-marquee"];
       } 
       else if (url.includes("theme=catalog"))
       {
