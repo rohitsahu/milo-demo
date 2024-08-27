@@ -1207,29 +1207,11 @@ export function loadCanvas() {
   let canvas = createTag("blank-canvas");
   let main = document.querySelector("main");
   main.append(canvas);
-
-
-
-}
-
-export function placeElements() {
-
-  let main = document.querySelector("main");
-  let mainDivs = main.querySelectorAll(":scope > div");
-
-  let canvas = main.querySelector("blank-canvas");
-  let parent = canvas.shadowRoot.querySelector("#container");
-  let parentDiv = parent.querySelector("div");
-
-  mainDivs.forEach(d => {
-    const eleWrapper = createTag("div");
-    eleWrapper.className="canvas-element";
-    eleWrapper.appendChild(d);
-    //TODO add events listener
-    parentDiv.appendChild(eleWrapper);
-});
+  return canvas;
 
 }
+
+
 
 export async function loadArea(area = document) {
   const isDoc = area === document;
@@ -1257,12 +1239,6 @@ export async function loadArea(area = document) {
       if (!block.className.includes('metadata')) block.dataset.block = '';
     });
   }
-
-  placeElements();
-
-  // if(sections.length==1) {
-  //   loadCanvas();
-  // }
 
   const currentHash = window.location.hash;
   if (currentHash) {
