@@ -5,7 +5,7 @@ export const style = css`
         position: fixed;
         display: flex;
         z-index: 21;
-        flex-direction: row;
+        flex-direction: column;
         --tw-shadow: 0px 0px 1px rgba(18, 15, 40, .24), 0px 3px 6px rgba(18, 15, 40, .12), 0px .5px 2px rgba(18, 15, 40, .06);
         --tw-shadow-colored: 0px 0px 1px var(--tw-shadow-color), 0px 3px 6px var(--tw-shadow-color), 0px .5px 2px var(--tw-shadow-color);
         box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -15,13 +15,16 @@ export const style = css`
         background-color: rgb(255 255 255 / var(--tw-bg-opacity));
         border-radius: .375rem;
         align-items: center;
-        
+        padding: 7px 15px;
     }
 
     #anchor-input {
         position: relative;
-    top: 45px;
-    left: 151px;
+        margin-top: 0.5rem; /* Adjust margin as needed */
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 0.375rem;
+        width: 100%;
     }
 
     .hover-bg-gray-200:hover {
@@ -29,27 +32,52 @@ export const style = css`
         background-color: rgb(238 237 242 / var(--tw-bg-opacity));
     }
 
+    .input-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .icon-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 0.375rem;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+    }
+
+    .icon-container:hover {
+        background-color: #f0f0f0;
+    }
+
     .drag-toolbar-icon{
         padding-left: .75rem;
         padding-right: .25rem;
     }
 
+    .toolbar-icon {
+        height: 30px; /* Adjust size as needed */
+    }
+
     .toolbar-row {
-    
-    padding: .375rem;
-    padding-left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+        padding: .375rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 5px;
     }
 
     .toolbar-row-item {
-    padding-top: .25rem;
-    padding-bottom: .25rem;
-    width: fit-content;
-    height: 100%;
-    align-items: center;
-    display: flex;
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+        width: fit-content;
+        height: 100%;
+        align-items: center;
+        display: flex;
     }
 
     .toolbar-row-item-inner{
@@ -59,12 +87,40 @@ export const style = css`
         outline-offset: 2px;
     }
 
+    .toolbar-subtext {
+        font-size: 12px;
+        color: #333;
+        float: left;
+        margin-left: 10px;
+        align-self: self-start;
+    }
+
+    .link-subtext {
+        font-size: 12px;
+        color: #333;
+    }
+    
+    #submit-btn {
+        width: 17px;
+        height: 17px;
+        position: absolute;
+        top: 18px;
+        right: 25px;
+        cursor: pointer;
+    }
+
+    #link-icon {
+        transform: rotate(-45deg);
+        height: 30px;
+        width: 70px;
+    }
+
     .inner-container {
         display: flex;
     }
 
     .capitalize {
-    text-transform: capitalize;
+        text-transform: capitalize;
     }
     .text-xs {
         font-size: .75rem;
@@ -109,18 +165,5 @@ export const style = css`
 
     #position-icon{
         align-self: center;
-    }
-
-    #input-wrapper{
-        padding: 5px 5px;
-    background: white;
-    }
-
-    #input-wrapper-child{
-        padding-right: 10px;
-    display: flex;
-    background: lightgray;
-    width: fit-content;
-    border-radius: 6px;
     }
     `

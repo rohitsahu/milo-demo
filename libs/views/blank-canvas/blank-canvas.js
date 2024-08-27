@@ -7,13 +7,14 @@ import { style as style3 } from "../../blocks/aside/aside.css.js";
 import { style as mediaStyle} from "../../blocks/media/media.css.js";
 import { styles as sectionMetadatastyle} from "../../blocks/section-metadata/section-metadata.css.js"
 import { style as videoStyle } from "../../blocks/video/video.css.js";
+import { style as textStyle } from "../../blocks/text/text.css.js";
 import { ContextMenu } from "../context-menu/context-menu.js";
 
 export class BlankCanvas extends LitElement{
 
     static tag = "blank-canvas";
    
-    static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle];
+    static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle, textStyle];
 
     constructor() {
       super();
@@ -21,7 +22,7 @@ export class BlankCanvas extends LitElement{
       const url = window.location.href;
       if (url.includes("theme=product"))
       {
-        this.elements = ["layout-3up","aside_l", "media","hero-marquee"];
+        this.elements = ["text","layout-3up","aside_l", "media","hero-marquee"];
       } 
       else if (url.includes("theme=catalog"))
       {
@@ -301,6 +302,9 @@ export class BlankCanvas extends LitElement{
     }
 
     makeParagraphsEditable(element) {
+        if (this.contextMenuEnabled) {
+            return;
+        }
       const paragraphs =  Array.from(element.querySelectorAll('p, h1, h2, h3, h4, h5, h6'));
 
       paragraphs.forEach(paragraph => {
@@ -314,6 +318,9 @@ export class BlankCanvas extends LitElement{
     }
 
     makeMediaSourceEditable(element) {
+        if (this.contextMenuEnabled) {
+            return;
+        }
       const editableSource =  Array.from(element.querySelectorAll('video'));
       editableSource.forEach((link) => {
         link.addEventListener('click', (event) => {
@@ -329,21 +336,31 @@ export class BlankCanvas extends LitElement{
     }
 
     makeLinksEditable(element) {
+        if (this.contextMenuEnabled) {
+            return;
+        }
         const editableLinks =  Array.from(element.querySelectorAll('a'));
         editableLinks.forEach((link) => {
           link.addEventListener('click', (event) => {
             event.preventDefault();
-            link.contentEditable = true;
-            link.focus();
-            this.enableContextualMenu(link, "anchor")
+            //link.contentEditable = true;
+            //link.focus();
+            this.enableContextualMenu(link, "button")
           });
-          link.addEventListener('blur', () => {
+          link.addEventListener('handle-submit', (event) => {
+            link.children[0].innerText = event.detail.content;
             this.disableEditMode(link);
           });
+        //   link.addEventListener('blur', (event) => {
+        //     this.disableEditMode(link);
+        //   });
         });
     }
 
     enableEditMode(element) {
+        if (this.contextMenuEnabled) {
+            return;
+        }
       element.contentEditable = true;
       element.focus();
       
@@ -354,7 +371,8 @@ export class BlankCanvas extends LitElement{
       this.enableContextualMenu(element)
     }
     
-    disableEditMode(element) {     
+    disableEditMode(element) {   
+        this.contextMenuEnabled = false;  
       element.contentEditable = false;
       const toolbar = element.querySelector("#context-menu-div");
       if (toolbar) {
@@ -363,11 +381,22 @@ export class BlankCanvas extends LitElement{
     }
 
     enableContextualMenu(element, elementType) {
+        if (this.contextMenuEnabled) {
+            return;
+        }
+        this.contextMenuEnabled = true;
       const toolbar = document.createElement('div');
       toolbar.id = "context-menu-div";
 
       const contextMenu = new ContextMenu();
       contextMenu.elementType = elementType; // Set elementType here
+      contextMenu.element = element;
+      contextMenu.linkText = element.href;
+      contextMenu.textVal = element.innerText;
+
+      if(elementType==="button" && element.classList.contains('con-button')) {
+        contextMenu.extraMargin = true;
+      }
 
       toolbar.appendChild(contextMenu);
       if(elementType==="media")
