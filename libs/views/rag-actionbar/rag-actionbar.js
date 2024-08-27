@@ -92,7 +92,12 @@ export class Actionbar extends LitElement {
             const url = window.location.href;
             const end = url.lastIndexOf("?");
             const start = url.lastIndexOf("/");
-            const name = window.location.href.substring(start+1, end )+".docx";
+            let name;
+            if(end === -1) {
+              name = url.substring(start+1)+".docx";
+            } else {
+              name = url.substring(start+1, end )+".docx";
+            }
             updateDocument(out.docx, name );
           } catch (error) {
             console.error(error);
