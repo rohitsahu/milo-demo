@@ -1,4 +1,4 @@
-import { LitElement, html, nothing, unsafeHTML } from "../../deps/lit-all.min.js";
+import { LitElement, html, nothing, repeat, unsafeHTML } from "../../deps/lit-all.min.js";
 import { getComponent, ragcomponent } from "../html-components/componentStringMap.js";
 import { style } from "./blank-canvas.css.js";
 import { style as style1 } from "../../styles/styles.css.js"
@@ -7,13 +7,14 @@ import { style as style3 } from "../../blocks/aside/aside.css.js";
 import { style as mediaStyle} from "../../blocks/media/media.css.js";
 import { styles as sectionMetadatastyle} from "../../blocks/section-metadata/section-metadata.css.js"
 import { style as videoStyle } from "../../blocks/video/video.css.js";
+import { style as textStyle } from "../../blocks/text/text.css.js";
 import { ContextMenu } from "../context-menu/context-menu.js";
 
 export class BlankCanvas extends LitElement{
 
     static tag = "blank-canvas";
    
-    static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle];
+    static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle, textStyle];
 
     constructor() {
       super();
@@ -21,7 +22,7 @@ export class BlankCanvas extends LitElement{
       const url = window.location.href;
       if (url.includes("theme=product"))
       {
-        this.elements = ["layout-3up","aside_l", "media","hero-marquee"];
+        this.elements = ["text","layout-3up","aside_l", "media","hero-marquee"];
       } 
       else if (url.includes("theme=catalog"))
       {
@@ -38,6 +39,26 @@ export class BlankCanvas extends LitElement{
       this._onDrop = this._onDrop.bind(this);
     }
 
+    renderAlreadyAddedElements() {
+
+      let main = document.querySelector("main");
+      let mainDivs = main.querySelectorAll(":scope > div > div");
+      const url = window.location.href;
+      if (url.includes("theme=product") || url.includes("theme=blank"))
+      {
+        mainDivs.forEach(element  => element.remove());
+        return;
+      } 
+      
+      mainDivs.forEach(element => {
+        this.renderElement(element);
+    });
+    }
+
+    async firstUpdated() {
+      this.renderAlreadyAddedElements();
+    }
+
     async updated() {
       let isUpdateComplete = await this.updateComplete;
       const elem = this.shadowRoot.getElementById("blank-canvas-main");
@@ -47,14 +68,53 @@ export class BlankCanvas extends LitElement{
       this.makeMediaSourceEditable(elem);
   }
 
-    renderComponentFromString(comp) {
-      if(comp === undefined) return nothing;
-      return html`
-          ${
-              unsafeHTML(comp.replace(/\\"/g, '"'))
-          }
-      `;
+    // renderComponentFromString(comp) {
+    //   if(comp === undefined) return nothing;
+    //   return html`
+    //       ${
+    //           unsafeHTML(comp.replace(/\\"/g, '"'))
+    //       }
+    //   `;
+    // }
+
+    renderElement(element) {
+
+      let canvasElement = this.shadowRoot.getElementById('blank-canvas-main');
+
+      const element1 = document.createElement('div');
+      element1.setAttribute('draggable', 'true');
+      element1.setAttribute('class', 'canvas-element');
+      element1.addEventListener('dragstart', this._onDragStart);
+      element1.addEventListener('drop', this._onDrop);
+
+      console.log("typeof : "+typeof(element));
+      if(typeof element == "string") {
+        element1.innerHTML = element;
+      } else {
+        element1.appendChild(element);
+      }
+     
+      canvasElement.appendChild(element1);
+
+      const btn = document.createElement('button');
+      btn.setAttribute('id', 'delete-component');
+      btn.addEventListener('click', this.removeComponent);
+      btn.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18">
+              <defs>
+                <style>
+                  .fill {
+                    fill: #464646;
+                  }
+                </style>
+              </defs>
+              <title>S RemoveCircle 18 N</title>
+              <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" /><path class="fill" d="M9,1a8,8,0,1,0,8,8A8,8,0,0,0,9,1Zm5,8.5a.5.5,0,0,1-.5.5h-9A.5.5,0,0,1,4,9.5v-1A.5.5,0,0,1,4.5,8h9a.5.5,0,0,1,.5.5Z" />
+            </svg> 
+      `
+     element1.append(btn);
     }
+
 
     renderDynamicElements() {
       if (this.elements && this.elements.length > 0) {
