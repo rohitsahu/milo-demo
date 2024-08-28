@@ -67,6 +67,8 @@ export class BlankCanvas extends LitElement{
           element1.addEventListener('dragstart', this._onDragStart);
           element1.addEventListener('drop', this._onDrop);
 
+          element1.style.setProperty("z-index", -1*index);
+
           const component = getComponent(element);
           element1.innerHTML = component.trim();
           canvasElement.append(element1);
@@ -106,6 +108,11 @@ export class BlankCanvas extends LitElement{
         element.setAttribute('class', 'canvas-element');
         element.addEventListener('dragstart', this._onDragStart);
         element.addEventListener('drop', this._onDrop);
+
+        const index = this.shadowRoot.getElementById('blank-canvas-main').childElementCount;
+        if(index == 2) {
+            element.style.setProperty("z-index", 1);
+        }
         
         const component = getComponent(comp);
         element.innerHTML = component.trim();

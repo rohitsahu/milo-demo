@@ -5,8 +5,8 @@ export const style = css`
         display: flex;
         flex-direction : column;
         width: -webkit-fill-available;
-        overflow: scroll;
-        height: 945px;
+        overflow-y: scroll;
+        height: 958px;
     }
 
     #container {

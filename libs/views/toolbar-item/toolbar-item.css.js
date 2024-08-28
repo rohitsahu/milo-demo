@@ -19,7 +19,21 @@ export const style = css`
         margin: 2px;
     }
 
-    #toolbar-item:hover {
-        background-color: rgba(200, 200, 200, 0.8);
-        color : blue;
-    }`;
+
+    .toolbar-text {
+        position: absolute;
+        visibility: hidden;
+        white-space: nowrap;
+        z-index: 10;
+        margin-top: 50px;
+        margin-left: 30px;
+        background-color: rgb(60 64 67 / 23%);
+        padding: 1px 5px;
+        border-radius: 4px;
+    }
+
+    #toolbar-item:hover .toolbar-text {
+        visibility: visible;
+    }
+
+    `;
