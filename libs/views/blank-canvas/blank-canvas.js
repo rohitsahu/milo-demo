@@ -55,6 +55,10 @@ export class BlankCanvas extends LitElement{
     });
     }
 
+    async firstUpdated() {
+      this.renderAlreadyAddedElements();
+    }
+
     async updated() {
       let isUpdateComplete = await this.updateComplete;
       const elem = this.shadowRoot.getElementById("blank-canvas-main");

@@ -180,7 +180,7 @@ const eagerLoad = (img) => {
   setConfig(config);
   loadLana({ clientId: 'milo' });
   loadActionbar();
-  const canvas = loadCanvas();
   await loadArea();
-  canvas.renderAlreadyAddedElements();
+  const canvas = loadCanvas();
+  //canvas.renderAlreadyAddedElements();
 }());
