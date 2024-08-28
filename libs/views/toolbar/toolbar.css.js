@@ -38,12 +38,9 @@ export const style = css`
 
     toolbar-item {
         width: 50px;
-        border: 1px solid #ccc;
         padding: 5px;
         margin: 2px;
         display: inline-block;
-        border-radius: 4px;
-        background-color: rgb(218 220 224 / 50%);
         cursor: pointer;
     }
 
