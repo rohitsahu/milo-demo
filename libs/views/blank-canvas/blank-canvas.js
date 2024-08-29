@@ -42,18 +42,33 @@ export class BlankCanvas extends LitElement{
     renderAlreadyAddedElements() {
 
       let main = document.querySelector("main");
-      let mainDivs = main.querySelectorAll(":scope > div > div");
+       
+      const sections = [...main.querySelectorAll('.section')];
+
+         
       const url = window.location.href;
       if (url.includes("theme=product") || url.includes("theme=blank"))
       {
-        mainDivs.forEach(element  => element.remove());
+        sections.forEach(element  => element.remove());
         return;
       } 
+
+
+      sections.forEach(section => {
+        if(section.classList.contains("three-up")) {
+          this.renderElement(section);
+        } else {
+          let mainDivs = section.querySelectorAll(":scope > div");
+          mainDivs.forEach(elem => this.renderElement(elem))
+        }
+      });
       
-      mainDivs.forEach(element => {
-        this.renderElement(element);
-    });
+
+
+      let mainsection = main.querySelectorAll(":scope > div");    
+      mainsection.forEach(section => section.remove());
     }
+
 
     async firstUpdated() {
       this.renderAlreadyAddedElements();
