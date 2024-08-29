@@ -33,7 +33,7 @@ export class ToolbarItem extends LitElement {
                         detail : {component : this.tag}
                 }))}}>
                 <slot name="icon" slot="icon"></slot>
-                ${this.text}
+                <div class="toolbar-text">${this.text}</div>
             </div>
         `;
 

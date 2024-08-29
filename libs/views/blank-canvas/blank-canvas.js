@@ -119,9 +119,37 @@ export class BlankCanvas extends LitElement{
     renderDynamicElements() {
       if (this.elements && this.elements.length > 0) {
         console.log('Elements received:', this.elements);
-       
-        this.elements.forEach((element) => {
-          this.renderElement(getComponent(element));
+        let canvasElement = this.shadowRoot.getElementById('blank-canvas-main');
+        this.elements.forEach((element, index) => {
+          const element1 = document.createElement('div');
+          element1.setAttribute('draggable', 'true');
+          element1.setAttribute('class', 'canvas-element');
+          element1.addEventListener('dragstart', this._onDragStart);
+          element1.addEventListener('drop', this._onDrop);
+
+          element1.style.setProperty("z-index", -1*index);
+
+          const component = getComponent(element);
+          element1.innerHTML = component.trim();
+          canvasElement.append(element1);
+
+          const btn = document.createElement('button');
+          btn.setAttribute('id', 'delete-component');
+          btn.addEventListener('click', this.removeComponent);
+          btn.innerHTML = `
+                  <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18">
+                  <defs>
+                    <style>
+                      .fill {
+                        fill: #464646;
+                      }
+                    </style>
+                  </defs>
+                  <title>S RemoveCircle 18 N</title>
+                  <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" /><path class="fill" d="M9,1a8,8,0,1,0,8,8A8,8,0,0,0,9,1Zm5,8.5a.5.5,0,0,1-.5.5h-9A.5.5,0,0,1,4,9.5v-1A.5.5,0,0,1,4.5,8h9a.5.5,0,0,1,.5.5Z" />
+                </svg> 
+          `
+          element1.appendChild(btn);
         });
         this.elements = [];
       } else {
@@ -140,6 +168,11 @@ export class BlankCanvas extends LitElement{
         element.setAttribute('class', 'canvas-element');
         element.addEventListener('dragstart', this._onDragStart);
         element.addEventListener('drop', this._onDrop);
+
+        const index = this.shadowRoot.getElementById('blank-canvas-main').childElementCount;
+        if(index == 2) {
+            element.style.setProperty("z-index", 1);
+        }
         
         const component = getComponent(comp);
         element.innerHTML = component.trim();

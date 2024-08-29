@@ -3,8 +3,6 @@ import { css } from "../../deps/lit-all.min.js";
 
 export const style = css`
     #toolbar-item {
-        /*background-color: rgba(255, 255, 255, 0.8);*/
-        /*border: 1px solid rgba(0, 0, 0, 0.8);*/
         padding: 2px;
         font-size: 12px;
         text-align: center;
@@ -20,6 +18,24 @@ export const style = css`
     }
 
     #toolbar-item:hover {
-        background-color: rgba(200, 200, 200, 0.8);
-        color : blue;
-    }`;
+        background-color: rgb(218 220 224 / 44%);
+    }
+
+
+    .toolbar-text {
+        position: absolute;
+        visibility: hidden;
+        white-space: nowrap;
+        z-index: 10;
+        margin-top: 63px;
+        margin-left: 30px;
+        background-color: rgb(60 64 67 / 23%);
+        padding: 1px 5px;
+        border-radius: 4px;
+    }
+
+    #toolbar-item:hover .toolbar-text {
+        visibility: visible;
+    }
+
+    `;
