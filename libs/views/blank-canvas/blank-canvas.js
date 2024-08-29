@@ -119,7 +119,7 @@ export class BlankCanvas extends LitElement{
               <defs>
                 <style>
                   .fill {
-                    fill: #464646;
+                    fill: white;
                   }
                 </style>
               </defs>
