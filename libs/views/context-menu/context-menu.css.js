@@ -5,7 +5,7 @@ export const style = css`
         position: fixed;
         display: flex;
         z-index: 21;
-        flex-direction: row;
+        flex-direction: column;
         --tw-shadow: 0px 0px 1px rgba(18, 15, 40, .24), 0px 3px 6px rgba(18, 15, 40, .12), 0px .5px 2px rgba(18, 15, 40, .06);
         --tw-shadow-colored: 0px 0px 1px var(--tw-shadow-color), 0px 3px 6px var(--tw-shadow-color), 0px .5px 2px var(--tw-shadow-color);
         box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
