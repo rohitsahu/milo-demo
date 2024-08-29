@@ -144,8 +144,8 @@ export class Actionbar extends LitElement {
             <sp-badge style="display: flex;" @click=${this.toggleToolbar}>${this.getToolbarIcon}</sp-badge>
             <x-icon-add></x-icon-add>
           </div>
-          <div>
-            <sp-button @click=${this.changeTheme}>Change theme</sp-button>
+          <div id="right-buttons">
+            <a style="padding-right: 10px; text-decoration: underline; cursor: pointer;" @click=${this.changeTheme}>Change theme</a>
             <sp-button @click=${this.saveCanvas}>Save</sp-button>
             <sp-button>Publish</sp-button>
           </div>

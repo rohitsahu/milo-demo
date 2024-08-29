@@ -17,6 +17,11 @@ export const style = css`
         align-items: center;
     }
 
+    #right-buttons {
+        display: flex;
+        align-items: center;
+    }
+
     sp-button {
         margin : 7px;
     }
