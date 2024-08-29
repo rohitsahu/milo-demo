@@ -44,7 +44,6 @@ export const style = css`
         justify-content: space-around;
         align-items: center;
         padding: 5px;
-        border: 1px solid #ccc;
         border-radius: 0.375rem;
         transition: background-color 0.3s ease;
         cursor: pointer;
