@@ -53,6 +53,9 @@ export class BlankCanvas extends LitElement{
       mainDivs.forEach(element => {
         this.renderElement(element);
     });
+
+      let mainsection = main.querySelectorAll(":scope > div");
+      mainsection.forEach(section => section.remove());
     }
 
     async firstUpdated() {
