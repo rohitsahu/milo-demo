@@ -371,6 +371,9 @@ export class BlankCanvas extends LitElement{
         link.addEventListener('blur', () => {
           this.disableEditMode(link);
         });
+        link.addEventListener('handle-submit', (event) => {
+            this.disableEditMode(link);
+          });
       });
     }
 
@@ -387,7 +390,7 @@ export class BlankCanvas extends LitElement{
             this.enableContextualMenu(link, "button")
           });
           link.addEventListener('handle-submit', (event) => {
-            link.children[0].innerText = event.detail.content;
+            link.innerText = event.detail.text;
             this.disableEditMode(link);
           });
         //   link.addEventListener('blur', (event) => {
@@ -412,11 +415,11 @@ export class BlankCanvas extends LitElement{
     
     disableEditMode(element) {   
         this.contextMenuEnabled = false;  
-      element.contentEditable = false;
-      const toolbar = element.querySelector("#context-menu-div");
-      if (toolbar) {
-        toolbar.remove();
-      }
+        //element.contentEditable = false;
+        const toolbar = element.querySelector("#context-menu-div");
+        if (toolbar) {
+            toolbar.remove();
+        }
     }
 
     enableContextualMenu(element, elementType) {
@@ -430,8 +433,12 @@ export class BlankCanvas extends LitElement{
       const contextMenu = new ContextMenu();
       contextMenu.elementType = elementType; // Set elementType here
       contextMenu.element = element;
-      contextMenu.linkText = element.href;
       contextMenu.textVal = element.innerText;
+      if(elementType==="media") {
+        contextMenu.linkText = element.querySelector('source').getAttribute('src');
+      } else {
+        contextMenu.linkText = element.href;
+      }
 
       if(elementType==="button" && element.classList.contains('con-button')) {
         contextMenu.extraMargin = true;

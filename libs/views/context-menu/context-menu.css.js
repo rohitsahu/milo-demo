@@ -108,6 +108,15 @@ export const style = css`
         cursor: pointer;
     }
 
+    #submit-btn-media {
+        width: 17px;
+        height: 17px;
+        align-self: center;
+        margin-left: 15px;
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+
     #link-icon {
         transform: rotate(-45deg);
         height: 30px;
