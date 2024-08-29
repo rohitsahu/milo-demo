@@ -7,10 +7,6 @@ export const style = css`
         background-color : #F8F8F8;
         box-shadow: 10px 10px 18px #a9a9a970;
         padding : 10px;
-        outline: 1px solid grey;
-        margin-right:10px;
-        border-radius: 0px 11px 11px 11px;
-
     }
 
     .row {

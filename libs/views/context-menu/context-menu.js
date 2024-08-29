@@ -1,4 +1,5 @@
 import { LitElement, html, nothing } from "../../deps/lit-all.min.js";
+import { text } from "../html-components/text.js";
 import { style } from "./context-menu.css.js";
 
 export class ContextMenu extends LitElement {
@@ -178,12 +179,8 @@ export class ContextMenu extends LitElement {
                 </div>
                 <div @click = ${this.executeStrikethrough} class="box-border cursor-pointer whitespace-nowrap rounded capitalize hover-bg-gray-200 px-1.5 py-1">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 10C2.25 9.51675 2.64175 9.125 3.125        <div id="canvas-context-toolbar" 
-             class="fixed flex select-none items-center rounded-md bg-white text-sm shadow-md"
-             style="${this.extraMargin ? 'margin-top: 14px; margin-left: -6px;' : ''}">
-            ${renderOptions()}
-        </div>}
-        </div>35 4.625 6.7422 5.82783 6.7422 6.875V6.88521L6.74214 6.88521C6.74076 7.00337 6.7584 7.12098 6.79439 7.23353C6.94156 7.69383 6.68771 8.18627 6.22742 8.33344C5.76712 8.4806 5.27468 8.22676 5.12751 7.76647C5.03489 7.47677 4.98921 7.17413 4.9922 6.87002C4.99542 4.46684 7.3274 2.875 10 2.875C12.0899 2.875 13.9057 3.81077 14.655 5.36149C14.8653 5.7966 14.683 6.31977 14.2479 6.53003C13.8128 6.74028 13.2896 6.558 13.0794 6.12289C12.7037 5.34548 11.6289 4.625 10 4.625Z" fill="currentColor"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 10C2.25 9.51675 2.64175 9.125 3.125 9.125H16.875C17.3582 9.125 17.75 9.51675 17.75 10C17.75 10.4832 17.3582 10.875 16.875 10.875H3.125C2.64175 10.875 2.25 10.4832 2.25 10Z" fill="currentColor"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10 4.625C7.84635 4.625 6.7422 5.82783 6.7422 6.875V6.88521L6.74214 6.88521C6.74076 7.00337 6.7584 7.12098 6.79439 7.23353C6.94156 7.69383 6.68771 8.18627 6.22742 8.33344C5.76712 8.4806 5.27468 8.22676 5.12751 7.76647C5.03489 7.47677 4.98921 7.17413 4.9922 6.87002C4.99542 4.46684 7.3274 2.875 10 2.875C12.0899 2.875 13.9057 3.81077 14.655 5.36149C14.8653 5.7966 14.683 6.31977 14.2479 6.53003C13.8128 6.74028 13.2896 6.558 13.0794 6.12289C12.7037 5.34548 11.6289 4.625 10 4.625Z" fill="currentColor"></path>
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M9.9725 9.75523C10.1078 9.29131 10.5936 9.02492 11.0575 9.16023C12.0005 9.43526 13.023 9.78556 13.8138 10.3645C14.6537 10.9795 15.25 11.869 15.25 13.1252C15.25 14.3447 14.556 15.3656 13.6012 16.0473C12.6447 16.7302 11.3684 17.1252 10 17.1252C8.63159 17.1252 7.35534 16.7302 6.39881 16.0473C5.44399 15.3656 4.75 14.3447 4.75 13.1252C4.75 12.642 5.14175 12.2502 5.625 12.2502C6.10825 12.2502 6.5 12.642 6.5 13.1252C6.5 13.6323 6.78647 14.1739 7.41564 14.6231C8.0431 15.071 8.95435 15.3752 10 15.3752C11.0457 15.3752 11.9569 15.071 12.5844 14.6231C13.2135 14.1739 13.5 13.6323 13.5 13.1252C13.5 12.5221 13.2525 12.1225 12.78 11.7765C12.2583 11.3946 11.4995 11.1121 10.5675 10.8402C10.1036 10.7049 9.83719 10.2191 9.9725 9.75523Z" fill="currentColor"></path>
                     </svg>
                 </div>
@@ -207,9 +204,9 @@ export class ContextMenu extends LitElement {
 
     renderMediaOptions() {
         return html`
-            ${this.renderAnchorMenuItem()}
-            <div @click = ${(e)=>this.deleteElement(e)} class="box-border cursor-pointer whitespace-nowrap rounded capitalize hover-bg-gray-200 px-1.5 py-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18">
+            <div style="display: flex;">
+                <div @click = ${(e)=>this.deleteElement(e)} class="box-border cursor-pointer whitespace-nowrap rounded capitalize hover-bg-gray-200 px-1.5 py-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18" style="vertical-align: middle;">
                         <defs>
                             <style>
                             .fill {
@@ -220,7 +217,39 @@ export class ContextMenu extends LitElement {
                         <title>S Delete 18 N</title>
                         <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" /><path class="fill" d="M15.75,3H12V2a1,1,0,0,0-1-1H6A1,1,0,0,0,5,2V3H1.25A.25.25,0,0,0,1,3.25v.5A.25.25,0,0,0,1.25,4h1L3.4565,16.55a.5.5,0,0,0,.5.45H13.046a.5.5,0,0,0,.5-.45L14.75,4h1A.25.25,0,0,0,16,3.75v-.5A.25.25,0,0,0,15.75,3ZM5.5325,14.5a.5.5,0,0,1-.53245-.46529L5,14.034l-.5355-8a.50112.50112,0,0,1,1-.067l.5355,8a.5.5,0,0,1-.46486.53283ZM9,14a.5.5,0,0,1-1,0V6A.5.5,0,0,1,9,6ZM11,3H6V2h5Zm1,11.034a.50112.50112,0,0,1-1-.067l.5355-8a.50112.50112,0,1,1,1,.067Z" />
                     </svg>
-                </div>`
+                </div>
+                <span class="box-border cursor-pointer whitespace-nowrap rounded capitalize px-1.5 py-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18" style="vertical-align: middle;">
+                        <defs>
+                            <style>
+                            .fill {
+                                fill: #464646;
+                            }
+                            </style>
+                        </defs>
+                        <title>S Link 18 N</title>
+                        <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" /><path class="fill" d="M15.85,2.15a3.588,3.588,0,0,0-5.074,0c-.1925.193-2.132,2.111-2.6755,2.6545A4.15349,4.15349,0,0,1,9.972,5.108c.2595-.26,1.784-1.763,1.8915-1.8705a2.05061,2.05061,0,1,1,2.9,2.9L11.204,9.695a2.30853,2.30853,0,0,1-1.686.65,1.97648,1.97648,0,0,1-1.35-.5545,2.07708,2.07708,0,0,1-.6205-.813,1.03342,1.03342,0,0,0-.214.159l-.8175.856a3.57187,3.57187,0,0,0,.613.8365,3.92429,3.92429,0,0,0,5.3385-.219L15.85,7.226a3.587,3.587,0,0,0,.00322-5.07278Z" />
+                        <path class="fill" d="M7.963,12.912c-.26.26-1.75,1.7735-1.8565,1.881a2.05061,2.05061,0,0,1-2.9-2.9L6.8,8.3a2.29,2.29,0,0,1,1.683-.646,2.1,2.1,0,0,1,1.892,1.391,1.03342,1.03342,0,0,0,.214-.159l.867-.8605a3.58269,3.58269,0,0,0-.613-.8365,3.6555,3.6555,0,0,0-5.13.024L2.1195,10.806a3.588,3.588,0,1,0,5.074,5.0745c.193-.193,2.097-2.1215,2.6405-2.665A4.15006,4.15006,0,0,1,7.963,12.912Z" />
+                    </svg>
+                </span>
+                <span style="align-self: center;">:</span>
+                <span @mousedown=${this.handleMouseDown} id="input-wrapper" style="padding: 5px 5px;
+                    width: 216px;
+                    background: white;
+                    border-radius: 6px;"
+                    class="flex w-fit items-center justify-center rounded-md bg-white px-1.5 py-1 text-12 leading-3.75 h-10">
+                    <input type="text" .value=${this.linkText} @input=${this.handleLinkInput} @focus=${this.handleFocus} @click=${this.handleClick} style="width: 100%;"/>
+                </span>
+                <span id="submit-btn-media" @click=${this.handleSubmitClickMedia}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                            <circle cx="10" cy="10" r="9" stroke="black" stroke-width="1" fill="none"/>
+                        <g id="ArrowSize100">
+                        <rect id="Frame" width="20" height="20" fill="red" opacity="0"/>
+                        <path style="transform: translate(5px, 5px);" d="M9.94952,4.99652a.87815.87815,0,0,0-.02966-.15259.854.854,0,0,0-.03522-.17315L9.882,4.66217A.86384.86384,0,0,0,9.7464,4.459a.819.819,0,0,0-.04718-.07226l-.00488-.005-.00086-.00079L6.62354,1.26172A.87459.87459,0,1,0,5.37646,2.48828L6.98682,4.125H.9248a.875.875,0,0,0,0,1.75h6.062L5.37646,7.51172A.87459.87459,0,1,0,6.62354,8.73828l3.06994-3.1192.00086-.00079.00488-.005A.819.819,0,0,0,9.7464,5.541.86384.86384,0,0,0,9.882,5.33783l.00262-.00861a.854.854,0,0,0,.03522-.17315.87815.87815,0,0,0,.02966-.15259L9.9502,5Z"/>
+                        </g>
+                    </svg>
+                </span>
+            </div>`
     }
 
     handleIconClick(icon) {
@@ -254,6 +283,7 @@ export class ContextMenu extends LitElement {
 
     handleLinkInput(event) {
         this.parentElement.parentElement.href = event.target.value;
+        this.linkText = event.target.value;
     }
 
     handleTextInput(event) {
@@ -265,7 +295,26 @@ export class ContextMenu extends LitElement {
         event.preventDefault();
         event.stopPropagation();
         // Logic to close the context menu
-        this.parentElement.parentElement.dispatchEvent(new CustomEvent('handle-submit', { detail: { content: this.textVal } }));
+        this.parentElement.parentElement.dispatchEvent(new CustomEvent('handle-submit', { detail: { linkText:this.linkText, text: this.textVal } }));
+    }
+
+    handleSubmitClickMedia(event) {
+        event.preventDefault();
+        const blankCanvas = document.querySelector('blank-canvas').shadowRoot;
+        const toolbar = blankCanvas.querySelector("#context-menu-div");
+    
+        const video = event.currentTarget.parentElement.getRootNode().host.parentElement.previousSibling;
+        const source = video.querySelector('source');
+
+        source.src = `${this.linkText}?v=${Math.random()}`;
+        video.load();
+        video.play()
+        
+        if (toolbar) {
+            toolbar.remove();
+        }
+
+        video.dispatchEvent(new CustomEvent('handle-submit', { detail: { content: this.linkText } }));
     }
 
     renderButtonOptions() {

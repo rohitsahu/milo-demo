@@ -2,7 +2,7 @@ import { css } from "../../deps/lit-all.min.js";
 
 export const style = css`
     #actionbar-container {
-        border-bottom : 1px solid grey;
+        border-bottom : 1px solid #80808036;
         display : flex;
         flex-direction: row;
         justify-content: space-between;

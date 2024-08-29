@@ -44,7 +44,6 @@ export const style = css`
         justify-content: space-around;
         align-items: center;
         padding: 5px;
-        border: 1px solid #ccc;
         border-radius: 0.375rem;
         transition: background-color 0.3s ease;
         cursor: pointer;
@@ -106,6 +105,15 @@ export const style = css`
         position: absolute;
         top: 18px;
         right: 25px;
+        cursor: pointer;
+    }
+
+    #submit-btn-media {
+        width: 17px;
+        height: 17px;
+        align-self: center;
+        margin-left: 15px;
+        margin-bottom: 5px;
         cursor: pointer;
     }
 

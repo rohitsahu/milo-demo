@@ -147,7 +147,7 @@ export class Actionbar extends LitElement {
           <div>
             <sp-button @click=${this.changeTheme}>Change theme</sp-button>
             <sp-button @click=${this.saveCanvas}>Save</sp-button>
-            <sp-button>Submit</sp-button>
+            <sp-button>Publish</sp-button>
           </div>
         </div>
         </sp-theme>
