@@ -99,7 +99,7 @@ export class Actionbar extends LitElement {
               name = url.substring(start+1, end );
             }
             namewithext = name+".docx";
-            await updateDocument(out.docx, namewithext );
+            //await updateDocument(out.docx, namewithext );
 
             //command to preview the file;
             this.preview("drafts/"+name);
@@ -116,13 +116,19 @@ export class Actionbar extends LitElement {
       try {
         const response  = await fetch(baseURl + path,
           {
-            "cache-control" : "no-cache",
+            method:"POST",
+            cache: 'no-store',
+            credentials: 'include',
           });
+
           if(response.ok){
             console.log("preview success");
+            await fetch(window.location.href,  { cache: 'reload', mode: 'no-cors' });
           } else {
             console.log("Failed to preview");
           }
+
+         
 
       } catch(error) {
         console.log("Error in preview : "+error);
