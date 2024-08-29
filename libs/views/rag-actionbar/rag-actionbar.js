@@ -99,7 +99,7 @@ export class Actionbar extends LitElement {
               name = url.substring(start+1, end );
             }
             namewithext = name+".docx";
-            //await updateDocument(out.docx, namewithext );
+            await updateDocument(out.docx, namewithext );
 
             //command to preview the file;
             this.preview("drafts/"+name);
