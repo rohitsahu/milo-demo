@@ -92,19 +92,43 @@ export class Actionbar extends LitElement {
             const url = window.location.href;
             const end = url.lastIndexOf("?");
             const start = url.lastIndexOf("/");
-            let name;
+            let name, namewithext;
             if(end === -1) {
-              name = url.substring(start+1)+".docx";
+              name = url.substring(start+1);
             } else {
-              name = url.substring(start+1, end )+".docx";
+              name = url.substring(start+1, end );
             }
-            updateDocument(out.docx, name );
+            namewithext = name+".docx";
+            await updateDocument(out.docx, namewithext );
+
+            //command to preview the file;
+            this.preview("drafts/"+name);
+
           } catch (error) {
             console.error(error);
           }
 
     }
 
+
+    async preview(path) {
+      let baseURl = "https://admin.hlx.page/preview/rohitsahu/milo-demo/main/"
+      try {
+        const response  = await fetch(baseURl + path,
+          {
+            "cache-control" : "no-cache",
+          });
+          if(response.ok){
+            console.log("preview success");
+          } else {
+            console.log("Failed to preview");
+          }
+
+      } catch(error) {
+        console.log("Error in preview : "+error);
+      }
+    
+    }
 
     render() {
         return html`
