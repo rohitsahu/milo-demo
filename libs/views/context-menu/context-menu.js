@@ -259,7 +259,7 @@ export class ContextMenu extends LitElement {
                 break;
             case 'outline':
                 this.element.classList.remove(...this.element.classList); // Clear all classes
-                this.element.classList.add('con-button2', 'outline', 'button-xl'); // Add new classes
+                this.element.classList.add('con-button', 'outline', 'button-xl'); // Add new classes
                 break;
             case 'fill':
                 this.element.classList.remove(...this.element.classList); // Clear all classes
