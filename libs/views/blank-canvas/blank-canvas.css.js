@@ -23,7 +23,7 @@ export const style = css`
     #delete-component {
         position: absolute;
         top: 0;
-        right: 0;
+        left: 0;
         z-index: 1;
         background: transparent;
         border: none;

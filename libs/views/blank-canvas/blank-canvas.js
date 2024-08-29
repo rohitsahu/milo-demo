@@ -119,11 +119,11 @@ export class BlankCanvas extends LitElement{
               <defs>
                 <style>
                   .fill {
-                    fill: white;
+                    fill: #464646;
                   }
                 </style>
               </defs>
-              <title>S RemoveCircle 18 N</title>
+              <title>Remove</title>
               <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" /><path class="fill" d="M9,1a8,8,0,1,0,8,8A8,8,0,0,0,9,1Zm5,8.5a.5.5,0,0,1-.5.5h-9A.5.5,0,0,1,4,9.5v-1A.5.5,0,0,1,4.5,8h9a.5.5,0,0,1,.5.5Z" />
             </svg> 
       `
@@ -162,7 +162,7 @@ export class BlankCanvas extends LitElement{
                       }
                     </style>
                   </defs>
-                  <title>S RemoveCircle 18 N</title>
+                  <title>Remove</title>
                   <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" /><path class="fill" d="M9,1a8,8,0,1,0,8,8A8,8,0,0,0,9,1Zm5,8.5a.5.5,0,0,1-.5.5h-9A.5.5,0,0,1,4,9.5v-1A.5.5,0,0,1,4.5,8h9a.5.5,0,0,1,.5.5Z" />
                 </svg> 
           `
@@ -208,7 +208,7 @@ export class BlankCanvas extends LitElement{
                       }
                     </style>
                   </defs>
-                  <title>S RemoveCircle 18 N</title>
+                  <title>Remove</title>
                   <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" /><path class="fill" d="M9,1a8,8,0,1,0,8,8A8,8,0,0,0,9,1Zm5,8.5a.5.5,0,0,1-.5.5h-9A.5.5,0,0,1,4,9.5v-1A.5.5,0,0,1,4.5,8h9a.5.5,0,0,1,.5.5Z" />
                 </svg> 
           `
