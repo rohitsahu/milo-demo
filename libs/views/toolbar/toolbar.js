@@ -23,7 +23,7 @@ export class Toolbar extends LitElement {
                                     <rect x="8" y="24" width="12" height="2" fill="black"></rect>
                                 </svg>
                             </toolbar-item>
-                            <toolbar-item text="Centre">
+                            <toolbar-item text="Centre" tag=${ragcomponent.text}>
                                 <svg slot="icon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                                     <rect x="10" y="12" width="20" height="2" fill="black"></rect>
                                     <rect x="12" y="18" width="16" height="2" fill="black"></rect>
