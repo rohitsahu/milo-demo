@@ -419,7 +419,7 @@ export class BlankCanvas extends LitElement{
           });
           link.addEventListener('handle-submit', (event) => {
             link.innerText = event.detail.text;
-            this.disableEditMode(link);
+            this.disableEditMode(link, "link");
           });
         //   link.addEventListener('blur', (event) => {
         //     this.disableEditMode(link);
@@ -441,10 +441,15 @@ export class BlankCanvas extends LitElement{
       this.enableContextualMenu(element)
     }
     
-    disableEditMode(element) {   
+    disableEditMode(element, type = "") {   
         this.contextMenuEnabled = false;  
         //element.contentEditable = false;
-        const toolbar = element.querySelector("#context-menu-div");
+        var toolbar;
+        if (type === "link") {
+            toolbar = element.nextSibling;
+        } else  {
+            toolbar = element.querySelector("#context-menu-div");
+        }
         if (toolbar) {
             toolbar.remove();
         }
@@ -475,8 +480,11 @@ export class BlankCanvas extends LitElement{
       toolbar.appendChild(contextMenu);
       if(elementType==="media")
         element.parentElement.appendChild(toolbar);
-      else
+      else if(elementType==="button") {
+        element.parentNode.insertBefore(toolbar, element.nextSibling);
+      } else {
         element.appendChild(toolbar);
+      }
     }
     
     renderToolbar() {

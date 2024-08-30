@@ -295,7 +295,7 @@ export class ContextMenu extends LitElement {
         event.preventDefault();
         event.stopPropagation();
         // Logic to close the context menu
-        this.parentElement.parentElement.dispatchEvent(new CustomEvent('handle-submit', { detail: { linkText:this.linkText, text: this.textVal } }));
+        this.parentElement.previousSibling.dispatchEvent(new CustomEvent('handle-submit', { detail: { linkText:this.linkText, text: this.textVal } }));
     }
 
     handleSubmitClickMedia(event) {
@@ -497,7 +497,7 @@ export class ContextMenu extends LitElement {
     
         return html`   
         <div id="canvas-context-toolbar" class="fixed flex select-none items-center rounded-md bg-white text-sm shadow-md"
-            style="${this.extraMargin ? 'margin-top: 14px; margin-left: -6px;' : ''}">
+            style="${this.extraMargin ? 'margin-top: 25px; margin-left: -126px;' : ''}">
             ${renderOptions()}
         </div>
         `;
