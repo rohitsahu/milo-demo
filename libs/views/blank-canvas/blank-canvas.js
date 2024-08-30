@@ -37,6 +37,7 @@ export class BlankCanvas extends LitElement{
       this._onDragStart = this._onDragStart.bind(this);
       this._onDragOver = this._onDragOver.bind(this);
       this._onDrop = this._onDrop.bind(this);
+      this.zindex = 100;
     }
 
     renderAlreadyAddedElements() {
@@ -142,9 +143,7 @@ export class BlankCanvas extends LitElement{
           element1.addEventListener('dragstart', this._onDragStart);
           element1.addEventListener('drop', this._onDrop);
 
-          if(index == 0) {
-            element1.style.setProperty("z-index", 1);
-          }
+          element1.style.setProperty("z-index", this.zindex--);
 
           const component = getComponent(element);
           element1.innerHTML = component.trim();
@@ -186,10 +185,9 @@ export class BlankCanvas extends LitElement{
         element.addEventListener('dragstart', this._onDragStart);
         element.addEventListener('drop', this._onDrop);
 
-        const index = this.shadowRoot.getElementById('blank-canvas-main').childElementCount;
-        if(index == 0) {
-            element.style.setProperty("z-index", 1);
-        }
+        //const index = this.shadowRoot.getElementById('blank-canvas-main').childElementCount;
+        element.style.setProperty("z-index", this.zindex--);
+
         
         const component = getComponent(comp);
         element.innerHTML = component.trim();
@@ -305,15 +303,29 @@ export class BlankCanvas extends LitElement{
 
       updateElementOrder(srcEle, destEle, dropLocation) {
         const parent = destEle.parentNode;
+        const zIdxSrc = srcEle.style.getPropertyValue("z-index");
+        const zIdxDest = destEle.style.getPropertyValue("z-index");
         switch (dropLocation) {
           case 'top':
           case 'top-left':
           case 'top-right':
+            if (parseInt(zIdxDest, 10) > parseInt(zIdxSrc, 10)) {
+                srcEle.style.setProperty("z-index", zIdxDest);
+                destEle.style.setProperty("z-index", (parseInt(zIdxDest, 10) - 1).toString());
+
+            }
             parent.insertBefore(srcEle, destEle);
             break;
           case 'bottom':
           case 'bottom-left':
           case 'bottom-right': {
+            if (parseInt(zIdxDest, 10) < parseInt(zIdxSrc, 10)) {
+                srcEle.style.setProperty("z-index", zIdxDest);
+                destEle.style.setProperty("z-index", (parseInt(zIdxDest, 10) + 1).toString());
+
+            }
+
+            // Insert the source element after the destination element
             parent.insertBefore(srcEle, destEle.nextSibling);
             break;
           }
