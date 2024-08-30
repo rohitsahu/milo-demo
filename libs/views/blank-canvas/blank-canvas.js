@@ -109,6 +109,7 @@ export class BlankCanvas extends LitElement{
       } else {
         element1.appendChild(element);
       }
+      element1.style.setProperty("z-index", this.zindex--);
      
       canvasElement.appendChild(element1);
 
