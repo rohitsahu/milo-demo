@@ -51,7 +51,7 @@ export class selectTheme extends LitElement {
     render() {
         return html`
         <div id="select-theme-container">
-            <h1>Choose your theme</h1>
+            <h1>Choose your template</h1>
             <div id="cards-container">
                 <div id="new-div" @click=${() => this.selectTheme("blank")}>${this.renderSvg()}</div>
                 <div id="product" class="card" @click=${() => this.selectTheme("product")}>

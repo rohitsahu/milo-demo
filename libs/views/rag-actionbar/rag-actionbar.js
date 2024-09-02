@@ -145,9 +145,8 @@ export class Actionbar extends LitElement {
             <x-icon-add></x-icon-add>
           </div>
           <div id="right-buttons">
-            <a style="padding-right: 10px; text-decoration: underline; cursor: pointer;" @click=${this.changeTheme}>Change theme</a>
+            <sp-button variant="secondary" @click=${this.changeTheme}>Cancel</sp-button>
             <sp-button @click=${this.saveCanvas}>Save</sp-button>
-            <sp-button>Publish</sp-button>
           </div>
         </div>
         </sp-theme>
