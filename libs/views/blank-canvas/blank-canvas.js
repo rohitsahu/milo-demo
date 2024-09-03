@@ -27,7 +27,11 @@ export class BlankCanvas extends LitElement{
       else if (url.includes("theme=catalog"))
       {
         this.elements = ["aside_m", "media", "hero-marquee", "aside_l"];
+      } 
+      else if(url.includes("theme=indesign")) {
+        this.elements = [ragcomponent.aside_in, ragcomponent.aside_in_2, ragcomponent.aside_in_3];
       }
+
       this._draggedElementIndex = -1;
       this._draggedElement = null;
       this._offsetX = 0;

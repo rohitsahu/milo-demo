@@ -62,7 +62,17 @@ export class selectTheme extends LitElement {
                     alt="Product Image"/>
                     <h3> Photoshop </h3>
                 </div>
-                <div id="catalog" class="card" @click=${() => this.selectTheme("catalog")}>
+                <div id="product" class="card" @click=${() => this.selectTheme("indesign")}>
+                    <img slot="cover-photo"
+                    src="https://i.postimg.cc/DwGFMXkf/www-adobe-com-in-products-indesign-html-promoid-W6-K8-JLJC-mv-other-1.png"
+                    width="200"
+                    height="200"
+                    alt="Product Image"/>
+                    <h3>InDesign</h3>
+                </div>
+            </div>
+            <div id="cards-container">
+            <div id="catalog" class="card" @click=${() => this.selectTheme("catalog")}>
                     <img slot="cover-photo"
                     src="https://i.postimg.cc/2yZc5J9c/catalog.png"
                     width="200"
@@ -70,8 +80,6 @@ export class selectTheme extends LitElement {
                     alt="Catalog Image"/>
                     <h3> Catalog </h3>
                 </div>
-            </div>
-            <div id="cards-container">
                 <div id="product" class="card" @click=${() => this.selectTheme("illustrator")}>
                     <img slot="cover-photo"
                     src="https://i.postimg.cc/h4ZMX83p/www-adobe-com-products-illustrator-html-promoid-FHRLZ9-BG-mv-other.png"
@@ -79,14 +87,6 @@ export class selectTheme extends LitElement {
                     height="200"
                     alt="Blank Image"/>
                     <h3> Illustrator </h3>
-                </div>
-                <div id="product" class="card" @click=${() => this.selectTheme("express")}>
-                    <img slot="cover-photo"
-                    src="https://i.postimg.cc/NFF4NLL6/www-adobe-com-express-promoid-FHRLZ9-BG-mv-other.png"
-                    width="200"
-                    height="200"
-                    alt="Product Image"/>
-                    <h3>Adobe Express</h3>
                 </div>
                 <div id="catalog" class="card" @click=${() => this.selectTheme("firefly")}>
                     <img slot="cover-photo"

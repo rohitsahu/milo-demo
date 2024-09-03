@@ -1,4 +1,4 @@
-import { aside_m, aside_l, hero_marquee } from "./hero-marquee.js";
+import { aside_m, aside_l, hero_marquee, aside_in, aside_in_2, aside_in_3 } from "./hero-marquee.js";
 import { media } from "./media.js";
 import { layout_3up } from "./layout-3up.js";
 import { text } from "./text.js";
@@ -9,7 +9,10 @@ export const ragcomponent = {
     aside_m : "aside_m",
     media : "media",
     layout_3up : "layout-3up",
-    text: "text"
+    text: "text",
+    aside_in : "aside-indesign",
+    aside_in_2 : "aside-in_2",
+    aside_in_3 : "aside-in_3"
 }
 
 let getComponentMap = () =>  {
@@ -20,6 +23,9 @@ let getComponentMap = () =>  {
     componentToStringMap.set(ragcomponent.media,media());
     componentToStringMap.set(ragcomponent.layout_3up,layout_3up());
     componentToStringMap.set(ragcomponent.text,text());
+    componentToStringMap.set(ragcomponent.aside_in, aside_in());
+    componentToStringMap.set(ragcomponent.aside_in_2, aside_in_2());
+    componentToStringMap.set(ragcomponent.aside_in_3, aside_in_3())
     return componentToStringMap;
 }
 
