@@ -62,8 +62,13 @@ export class Actionbar extends LitElement {
         blankcanvasDom.querySelectorAll("#delete-component").forEach(element => {
           element.remove();
         })
+
+        var immutableBlocks = [];
         blankcanvasDom.querySelectorAll(".canvas-element").forEach(element => {
             section.appendChild(element.children[0].cloneNode(true));
+            if (element.getAttribute('immutable') === 'true') {
+              immutableBlocks.push({ element: element, position: element.getAttribute('orig-index')});
+            }
         });
 
         let blankcanvas = main.querySelector("blank-canvas");
@@ -72,7 +77,7 @@ export class Actionbar extends LitElement {
         console.log(htmlcomp.outerHTML);
 
         try {
-            const out = await WebImporter.html2docx(window.location.href, htmlcomp.outerHTML, null, {   // Also pass the list of unedited md blocks
+            const out = await WebImporter.html2docx(window.location.href, htmlcomp.outerHTML, immutableBlocks, {   // Also pass the list of unedited md blocks
               createDocumentFromString: this.createDocumentFromString,
             });
             console.log(out.md);
