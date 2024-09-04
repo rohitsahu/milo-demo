@@ -41,6 +41,7 @@ export class BlankCanvas extends LitElement{
       this._onDragStart = this._onDragStart.bind(this);
       this._onDragOver = this._onDragOver.bind(this);
       this._onDrop = this._onDrop.bind(this);
+      this.zindex = 100;
     }
 
     renderAlreadyAddedElements() {
@@ -112,6 +113,7 @@ export class BlankCanvas extends LitElement{
       } else {
         element1.appendChild(element);
       }
+      element1.style.setProperty("z-index", this.zindex--);
      
       canvasElement.appendChild(element1);
 
@@ -146,9 +148,7 @@ export class BlankCanvas extends LitElement{
           element1.addEventListener('dragstart', this._onDragStart);
           element1.addEventListener('drop', this._onDrop);
 
-          if(index == 0) {
-            element1.style.setProperty("z-index", 1);
-          }
+          element1.style.setProperty("z-index", this.zindex--);
 
           const component = getComponent(element);
           element1.innerHTML = component.trim();
@@ -190,10 +190,9 @@ export class BlankCanvas extends LitElement{
         element.addEventListener('dragstart', this._onDragStart);
         element.addEventListener('drop', this._onDrop);
 
-        const index = this.shadowRoot.getElementById('blank-canvas-main').childElementCount;
-        if(index == 0) {
-            element.style.setProperty("z-index", 1);
-        }
+        //const index = this.shadowRoot.getElementById('blank-canvas-main').childElementCount;
+        element.style.setProperty("z-index", this.zindex--);
+
         
         const component = getComponent(comp);
         element.innerHTML = component.trim();
@@ -309,15 +308,29 @@ export class BlankCanvas extends LitElement{
 
       updateElementOrder(srcEle, destEle, dropLocation) {
         const parent = destEle.parentNode;
+        const zIdxSrc = srcEle.style.getPropertyValue("z-index");
+        const zIdxDest = destEle.style.getPropertyValue("z-index");
         switch (dropLocation) {
           case 'top':
           case 'top-left':
           case 'top-right':
+            if (parseInt(zIdxDest, 10) > parseInt(zIdxSrc, 10)) {
+                srcEle.style.setProperty("z-index", zIdxDest);
+                destEle.style.setProperty("z-index", (parseInt(zIdxDest, 10) - 1).toString());
+
+            }
             parent.insertBefore(srcEle, destEle);
             break;
           case 'bottom':
           case 'bottom-left':
           case 'bottom-right': {
+            if (parseInt(zIdxDest, 10) < parseInt(zIdxSrc, 10)) {
+                srcEle.style.setProperty("z-index", zIdxDest);
+                destEle.style.setProperty("z-index", (parseInt(zIdxDest, 10) + 1).toString());
+
+            }
+
+            // Insert the source element after the destination element
             parent.insertBefore(srcEle, destEle.nextSibling);
             break;
           }
@@ -410,7 +423,7 @@ export class BlankCanvas extends LitElement{
           });
           link.addEventListener('handle-submit', (event) => {
             link.innerText = event.detail.text;
-            this.disableEditMode(link);
+            this.disableEditMode(link, "link");
           });
         //   link.addEventListener('blur', (event) => {
         //     this.disableEditMode(link);
@@ -432,10 +445,15 @@ export class BlankCanvas extends LitElement{
       this.enableContextualMenu(element)
     }
     
-    disableEditMode(element) {   
+    disableEditMode(element, type = "") {   
         this.contextMenuEnabled = false;  
         //element.contentEditable = false;
-        const toolbar = element.querySelector("#context-menu-div");
+        var toolbar;
+        if (type === "link") {
+            toolbar = element.nextSibling;
+        } else  {
+            toolbar = element.querySelector("#context-menu-div");
+        }
         if (toolbar) {
             toolbar.remove();
         }
@@ -466,8 +484,11 @@ export class BlankCanvas extends LitElement{
       toolbar.appendChild(contextMenu);
       if(elementType==="media")
         element.parentElement.appendChild(toolbar);
-      else
+      else if(elementType==="button") {
+        element.parentNode.insertBefore(toolbar, element.nextSibling);
+      } else {
         element.appendChild(toolbar);
+      }
     }
     
     renderToolbar() {
