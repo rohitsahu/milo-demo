@@ -72,7 +72,7 @@ export class Actionbar extends LitElement {
         console.log(htmlcomp.outerHTML);
 
         try {
-            const out = await WebImporter.html2docx(window.location.href, htmlcomp.outerHTML, null, {
+            const out = await WebImporter.html2docx(window.location.href, htmlcomp.outerHTML, null, {   // Also pass the list of unedited md blocks
               createDocumentFromString: this.createDocumentFromString,
             });
             console.log(out.md);

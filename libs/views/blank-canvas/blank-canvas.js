@@ -42,6 +42,9 @@ export class BlankCanvas extends LitElement{
       this._onDragOver = this._onDragOver.bind(this);
       this._onDrop = this._onDrop.bind(this);
       this.zindex = 100;
+      this.supportedBlocks = ["text", "section", "media", "hero-marquee"];
+      //this.supportedVariants = ["layout-3up", "layout-2up", "layout-1up"];
+
     }
 
     renderAlreadyAddedElements() {
@@ -80,12 +83,19 @@ export class BlankCanvas extends LitElement{
     }
 
     async updated() {
-      let isUpdateComplete = await this.updateComplete;
-      const elem = this.shadowRoot.getElementById("blank-canvas-main");
+      const canvasElements = this.shadowRoot.getElementById("blank-canvas-main");
       this.renderDynamicElements();
-      this.makeParagraphsEditable(elem);
-      this.makeLinksEditable(elem);
-      this.makeMediaSourceEditable(elem);
+      if (canvasElements && canvasElements.children && Array.isArray(this.supportedBlocks)) {
+        Array.from(canvasElements.children).forEach(element => {
+          if (this.supportedBlocks.includes(element.children[0].classList[0])) {
+            element.setAttribute('immutable', 'true');
+          } else {  
+            this.makeElementsEditable(element);
+          }
+        });
+      } else {
+        console.error('canvasElements or supportedBlocks is not defined correctly.');
+      }
   }
 
     // renderComponentFromString(comp) {
@@ -217,10 +227,14 @@ export class BlankCanvas extends LitElement{
           `
         element.appendChild(btn);
 
-        this.makeParagraphsEditable(element);
-        this.makeLinksEditable(element);
-        this.makeMediaSourceEditable(element);
+        this.makeElementsEditable(element);
     }
+
+  makeElementsEditable(element) {
+    this.makeParagraphsEditable(element);
+    this.makeLinksEditable(element);
+    this.makeMediaSourceEditable(element);
+  }
 
     getDropLocation(relativeX, relativeY, halfWidth, halfHeight) {
       let dropLocation;
