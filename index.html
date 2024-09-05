@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Project Swiftstream</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script src="../../../libs/features/spectrum-web-components/dist/theme.js" type="module"></script>
+    <script src="index.js" type="module"></script>
+    <script>
+        getUrl = () => {
+            console.log("get url");
+            return window.location.href
+        }
+    </script>
+    <link rel="stylesheet" href="/libs/styles/styles.css"/>
+    </head>
+    <body>
+         <rag-homepage page="getUrl()"></rag-homepage>
+  </body>
+</html>

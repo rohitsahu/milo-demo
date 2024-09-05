@@ -1,5 +1,7 @@
 /*** Variables ***/
+import { css } from "../deps/lit-all.min.js";
 
+export const style = css`
  :root {
   --global-height-nav: 64px;
   --global-height-breadcrumbs: 33px;
@@ -354,10 +356,9 @@
 }
 
 .con-button2:hover {
-  background-color: var(--color-black);
   border-color: var(--color-black);
-  color: var(--color-white);
   text-decoration: none;
+  color: var(--text-color);
 }
 
 .l-button .con-button,
@@ -370,7 +371,8 @@
 }
 
 .xl-button .con-button,
-.con-button.button-xl {
+.con-button.button-xl,
+.con-button2.button-xl {
   border-radius: 25px;
   font-size: 19px;
   line-height: 24px;
@@ -975,3 +977,4 @@ a.static:hover {
 @media screen and (min-width: 1440px) {
   .con-block.max-width-12-desktop-large .foreground { max-width: 1200px; }
 }
+  `;
