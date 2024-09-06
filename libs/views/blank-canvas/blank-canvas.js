@@ -8,13 +8,14 @@ import { style as mediaStyle} from "../../blocks/media/media.css.js";
 import { styles as sectionMetadatastyle} from "../../blocks/section-metadata/section-metadata.css.js"
 import { style as videoStyle } from "../../blocks/video/video.css.js";
 import { style as textStyle } from "../../blocks/text/text.css.js";
+import { style as accordianStye } from "../../blocks/accordion/accordion.css.js";
 import { ContextMenu } from "../context-menu/context-menu.js";
 
 export class BlankCanvas extends LitElement{
 
     static tag = "blank-canvas";
    
-    static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle, textStyle];
+    static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle, textStyle, accordianStye];
 
     constructor() {
       super();
