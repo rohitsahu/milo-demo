@@ -89,8 +89,8 @@ export class BlankCanvas extends LitElement{
       if (canvasElements && canvasElements.children && Array.isArray(this.supportedBlocks)) {
         var idx = 0;
         Array.from(canvasElements.children).forEach(element => {
-          if (this.supportedBlocks.includes(element.children[0].classList[0])) {
-            element.setAttribute('immutable', 'true');
+          if (!this.supportedBlocks.includes(element.children[0].classList[0])) {
+            element.classList.add("immutable");
             element.setAttribute('orig-index', idx);
           } else {  
             this.makeElementsEditable(element);
