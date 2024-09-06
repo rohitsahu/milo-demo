@@ -1197,7 +1197,10 @@ export function loadActionbar(plainHTML) {
 
   let actionbar = createTag("rag-actionbar");
   actionbar.style = "z-index: 200; position: relative;";
-  actionbar.plainHTML = plainHTML;
+  actionbar.plainHTML = [];
+  plainHTML.forEach(eachDiv => {
+    actionbar.plainHTML.push(eachDiv.cloneNode(true));
+  });
   let parent = document.querySelector("body");
   let header = document.querySelector("header");
   parent.replaceChild(actionbar,header);
