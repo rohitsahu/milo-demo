@@ -1193,17 +1193,18 @@ export function loadToolbar() {
   parent.insertBefore(toolbar,main);
 }
 
-export function loadActionbar() {
+export function loadActionbar(plainHTML) {
 
-  let actionbar = createTag("rag-actionbar");
+  let actionbar = createTag("rag-actionbar",{"plainHTML" : plainHTML});
   actionbar.style = "z-index: 200; position: relative;";
+  actionbar.plainHTML = plainHTML;
   let parent = document.querySelector("body");
   let header = document.querySelector("header");
   parent.replaceChild(actionbar,header);
   parent.style.overflow ="hidden";
 }
 
-export function loadCanvas() {
+export function loadCanvas(plainHTML) {
   let canvas = createTag("blank-canvas");
   let main = document.querySelector("main");
   main.append(canvas);
