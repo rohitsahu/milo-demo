@@ -8,6 +8,12 @@ export class Actionbar extends LitElement {
 
     static styles = style;
 
+    static get properties() {
+      return {
+        plainHTML: { type: Object },
+      };
+    }
+
     constructor() {
       super();
       this.toolbarState = true;
@@ -40,6 +46,18 @@ export class Actionbar extends LitElement {
       }
     }
 
+    processImmutableBlock(element, index) {
+      
+            if (element.getAttribute('immutable') === 'true' || element.classList.contains("immutable")) {
+              //immutableBlocks.push({ element: element, position: element.getAttribute('orig-index')}); // replace element with element's MD 
+              // Replace immutable elements with the plain html;
+           
+              // Extract the first element from the parsed document
+              const newElement = this.plainHTML[index];
+              element.replaceWith(newElement);
+            }
+    }
+
       async saveCanvas() {
         
         let htmlcomp = document.documentElement.cloneNode(true);
@@ -58,17 +76,15 @@ export class Actionbar extends LitElement {
           main.appendChild(section);
         }
 
+        var immutableBlocks = [];
+
         let blankcanvasDom = document.querySelector("blank-canvas").shadowRoot;
         blankcanvasDom.querySelectorAll("#delete-component").forEach(element => {
           element.remove();
         })
-
-        var immutableBlocks = [];
-        blankcanvasDom.querySelectorAll(".canvas-element").forEach(element => {
+        blankcanvasDom.querySelectorAll(".canvas-element").forEach((element,index) => {
             section.appendChild(element.children[0].cloneNode(true));
-            if (element.getAttribute('immutable') === 'true') {
-              immutableBlocks.push({ element: element, position: element.getAttribute('orig-index')}); // replace element with element's MD 
-            }
+            this.processImmutableBlock(element,index);
         });
 
         let blankcanvas = main.querySelector("blank-canvas");

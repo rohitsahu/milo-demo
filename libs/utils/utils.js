@@ -1193,10 +1193,11 @@ export function loadToolbar() {
   parent.insertBefore(toolbar,main);
 }
 
-export function loadActionbar() {
+export function loadActionbar(plainHTML) {
 
   let actionbar = createTag("rag-actionbar");
   actionbar.style = "z-index: 200; position: relative;";
+  actionbar.plainHTML = plainHTML;
   let parent = document.querySelector("body");
   let header = document.querySelector("header");
   parent.replaceChild(actionbar,header);
