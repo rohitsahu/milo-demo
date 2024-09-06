@@ -8,6 +8,12 @@ export class Actionbar extends LitElement {
 
     static styles = style;
 
+    static get properties() {
+      return {
+        plainHTML: { type: Object },
+      };
+    }
+
     constructor() {
       super();
       this.toolbarState = true;
@@ -40,6 +46,16 @@ export class Actionbar extends LitElement {
       }
     }
 
+    processImmutableBlock(element, index) {
+      
+      // Extract the first element from the parsed document
+      const newElement = this.plainHTML[index];
+
+      newElement.classList.add('immutable');
+
+      return newElement;
+    }
+
       async saveCanvas() {
         
         let htmlcomp = document.documentElement.cloneNode(true);
@@ -58,12 +74,19 @@ export class Actionbar extends LitElement {
           main.appendChild(section);
         }
 
+        var immutableBlocks = [];
+
         let blankcanvasDom = document.querySelector("blank-canvas").shadowRoot;
         blankcanvasDom.querySelectorAll("#delete-component").forEach(element => {
           element.remove();
         })
-        blankcanvasDom.querySelectorAll(".canvas-element").forEach(element => {
+
+        blankcanvasDom.querySelectorAll(".canvas-element").forEach((element,index) => {
+          if (element.classList.contains("immutable")) {
+            section.appendChild(this.processImmutableBlock(element,index).cloneNode(true));
+          } else {
             section.appendChild(element.children[0].cloneNode(true));
+          }
         });
 
         let blankcanvas = main.querySelector("blank-canvas");
@@ -72,7 +95,7 @@ export class Actionbar extends LitElement {
         console.log(htmlcomp.outerHTML);
 
         try {
-            const out = await WebImporter.html2docx(window.location.href, htmlcomp.outerHTML, null, {
+            const out = await WebImporter.html2docx(window.location.href, htmlcomp.outerHTML, immutableBlocks, {
               createDocumentFromString: this.createDocumentFromString,
             });
             console.log(out.md);

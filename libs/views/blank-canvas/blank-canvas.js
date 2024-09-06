@@ -8,13 +8,14 @@ import { style as mediaStyle} from "../../blocks/media/media.css.js";
 import { styles as sectionMetadatastyle} from "../../blocks/section-metadata/section-metadata.css.js"
 import { style as videoStyle } from "../../blocks/video/video.css.js";
 import { style as textStyle } from "../../blocks/text/text.css.js";
+import { style as accordianStye } from "../../blocks/accordion/accordion.css.js";
 import { ContextMenu } from "../context-menu/context-menu.js";
 
 export class BlankCanvas extends LitElement{
 
     static tag = "blank-canvas";
    
-    static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle, textStyle];
+    static styles = [style, style1, style2, style3, mediaStyle, sectionMetadatastyle, videoStyle, textStyle, accordianStye];
 
     constructor() {
       super();
@@ -42,6 +43,9 @@ export class BlankCanvas extends LitElement{
       this._onDragOver = this._onDragOver.bind(this);
       this._onDrop = this._onDrop.bind(this);
       this.zindex = 100;
+      this.supportedBlocks = ["text", "section", "media", "hero-marquee"];
+      //this.supportedVariants = ["layout-3up", "layout-2up", "layout-1up"];
+
     }
 
     renderAlreadyAddedElements() {
@@ -80,12 +84,22 @@ export class BlankCanvas extends LitElement{
     }
 
     async updated() {
-      let isUpdateComplete = await this.updateComplete;
-      const elem = this.shadowRoot.getElementById("blank-canvas-main");
+      const canvasElements = this.shadowRoot.getElementById("blank-canvas-main");
       this.renderDynamicElements();
-      this.makeParagraphsEditable(elem);
-      this.makeLinksEditable(elem);
-      this.makeMediaSourceEditable(elem);
+      if (canvasElements && canvasElements.children && Array.isArray(this.supportedBlocks)) {
+        var idx = 0;
+        Array.from(canvasElements.children).forEach(element => {
+          if (!this.supportedBlocks.includes(element.children[0].classList[0])) {
+            element.classList.add("immutable");
+            element.setAttribute('orig-index', idx);
+          } else {  
+            this.makeElementsEditable(element);
+          }
+          idx++;
+        });
+      } else {
+        console.error('canvasElements or supportedBlocks is not defined correctly.');
+      }
   }
 
     // renderComponentFromString(comp) {
@@ -217,10 +231,14 @@ export class BlankCanvas extends LitElement{
           `
         element.appendChild(btn);
 
-        this.makeParagraphsEditable(element);
-        this.makeLinksEditable(element);
-        this.makeMediaSourceEditable(element);
+        this.makeElementsEditable(element);
     }
+
+  makeElementsEditable(element) {
+    this.makeParagraphsEditable(element);
+    this.makeLinksEditable(element);
+    this.makeMediaSourceEditable(element);
+  }
 
     getDropLocation(relativeX, relativeY, halfWidth, halfHeight) {
       let dropLocation;

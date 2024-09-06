@@ -175,11 +175,15 @@ const eagerLoad = (img) => {
     document.close();
     return;
   }
+
+  const cachedPlainHtml = document.querySelectorAll("main > div > div");
+  console.log("plain html :",cachedPlainHtml);
+
   if (getMetadata('template') === '404') window.SAMPLE_PAGEVIEWS_AT_RATE = 'high';
   performance.mark('loadpage');
   setConfig(config);
   loadLana({ clientId: 'milo' });
-  loadActionbar();
+  loadActionbar(cachedPlainHtml);
   await loadArea();
   const canvas = loadCanvas();
   //canvas.renderAlreadyAddedElements();
