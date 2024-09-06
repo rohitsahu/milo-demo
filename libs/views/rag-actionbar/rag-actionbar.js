@@ -47,12 +47,21 @@ export class Actionbar extends LitElement {
     }
 
     processImmutableBlock(element, index) {
-      
-      // Extract the first element from the parsed document
-      const newElement = this.plainHTML[index];
+      // Get the orig-index attribute of the element
+      const origIndex = element.getAttribute('orig-index');
 
-      newElement.classList.add('immutable');
+      let newElement = null;
 
+      // Iterate over the children of this.plainHTML
+      this.plainHTML.forEach(node => {
+          if (node.getAttribute('orig-index') === origIndex) {
+              newElement = node;
+          }
+      });
+
+      if (newElement) {
+        newElement.classList.add('immutable');
+      }
       return newElement;
     }
 

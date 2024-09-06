@@ -1197,10 +1197,18 @@ export function loadActionbar(plainHTML) {
 
   let actionbar = createTag("rag-actionbar");
   actionbar.style = "z-index: 200; position: relative;";
-  actionbar.plainHTML = [];
+  const cachedElements = [];
+  var idx = 0;
   plainHTML.forEach(eachDiv => {
-    actionbar.plainHTML.push(eachDiv.cloneNode(true));
+    const cachedBlock = eachDiv.cloneNode(true);
+    cachedBlock.setAttribute('orig-index', idx++);
+    // Push the cloned node to the cachedElements array
+    cachedElements.push(cachedBlock);
   });
+
+  // Now cachedElements contains independent copies of the original elements
+  actionbar.plainHTML = cachedElements;
+
   let parent = document.querySelector("body");
   let header = document.querySelector("header");
   parent.replaceChild(actionbar,header);

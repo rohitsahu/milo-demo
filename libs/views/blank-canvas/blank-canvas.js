@@ -43,7 +43,7 @@ export class BlankCanvas extends LitElement{
       this._onDragOver = this._onDragOver.bind(this);
       this._onDrop = this._onDrop.bind(this);
       this.zindex = 100;
-      this.supportedBlocks = ["text", "section", "media", "hero-marquee"];
+      this.supportedBlocks = ["text", "section", "media", "hero-marquee", "aside"];
       //this.supportedVariants = ["layout-3up", "layout-2up", "layout-1up"];
 
     }
@@ -87,15 +87,12 @@ export class BlankCanvas extends LitElement{
       const canvasElements = this.shadowRoot.getElementById("blank-canvas-main");
       this.renderDynamicElements();
       if (canvasElements && canvasElements.children && Array.isArray(this.supportedBlocks)) {
-        var idx = 0;
         Array.from(canvasElements.children).forEach(element => {
           if (!this.supportedBlocks.includes(element.children[0].classList[0])) {
             element.classList.add("immutable");
-            element.setAttribute('orig-index', idx);
           } else {  
             this.makeElementsEditable(element);
           }
-          idx++;
         });
       } else {
         console.error('canvasElements or supportedBlocks is not defined correctly.');
@@ -127,6 +124,7 @@ export class BlankCanvas extends LitElement{
       } else {
         element1.appendChild(element);
       }
+      element1.setAttribute('orig-index', 100 - this.zindex);
       element1.style.setProperty("z-index", this.zindex--);
      
       canvasElement.appendChild(element1);
