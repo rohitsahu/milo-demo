@@ -48,19 +48,12 @@ export class Actionbar extends LitElement {
 
     processImmutableBlock(element, index) {
       
-            if (element.getAttribute('immutable') === 'true') {
+            if (element.getAttribute('immutable') === 'true' || element.classList.contains("immutable")) {
               //immutableBlocks.push({ element: element, position: element.getAttribute('orig-index')}); // replace element with element's MD 
               // Replace immutable elements with the plain html;
-              const plainHtml = this.plainHTML[index].outerHTML;
-              
-              // Create a new DOMParser instance
-              const parser = new DOMParser();
-
-              // Parse the plainHtml string into a document
-              const doc = parser.parseFromString(plainHtml, 'text/html');
-
+           
               // Extract the first element from the parsed document
-              const newElement = doc.body.firstChild;
+              const newElement = this.plainHTML[index];
               element.replaceWith(newElement);
             }
     }

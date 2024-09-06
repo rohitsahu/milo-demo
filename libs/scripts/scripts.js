@@ -175,10 +175,9 @@ const eagerLoad = (img) => {
     document.close();
     return;
   }
-  const plainHTML = document.querySelector("main");
-  const divs = plainHTML.querySelectorAll(":scope > div > div")
+
+  const divs = document.querySelectorAll("main > div > div")
   console.log("plain html :",divs);
-  console.log("outer html",plainHTML.outerHTML);
 
   if (getMetadata('template') === '404') window.SAMPLE_PAGEVIEWS_AT_RATE = 'high';
   performance.mark('loadpage');

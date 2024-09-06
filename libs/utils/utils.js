@@ -1195,7 +1195,7 @@ export function loadToolbar() {
 
 export function loadActionbar(plainHTML) {
 
-  let actionbar = createTag("rag-actionbar",{"plainHTML" : plainHTML});
+  let actionbar = createTag("rag-actionbar");
   actionbar.style = "z-index: 200; position: relative;";
   actionbar.plainHTML = plainHTML;
   let parent = document.querySelector("body");
@@ -1204,7 +1204,7 @@ export function loadActionbar(plainHTML) {
   parent.style.overflow ="hidden";
 }
 
-export function loadCanvas(plainHTML) {
+export function loadCanvas() {
   let canvas = createTag("blank-canvas");
   let main = document.querySelector("main");
   main.append(canvas);
