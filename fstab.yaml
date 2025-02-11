@@ -1,2 +1,4 @@
 mountpoints:
-  /: https://adobe-my.sharepoint.com/:f:/r/personal/rosahu_adobe_com/Documents/InnovateX
+  /:
+    url: https://content.da.live/rohitsahu/milo-demo/
+    type: markup
